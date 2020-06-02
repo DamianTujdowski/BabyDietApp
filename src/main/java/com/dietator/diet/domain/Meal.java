@@ -15,10 +15,10 @@ import java.util.Set;
 public class Meal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String designation;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "meal_id")
     private Set<Ingredient> ingredients;
     private double weight;

@@ -17,10 +17,12 @@ import javax.persistence.Id;
 public class Ingredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String designation;
     private int kcal;
+    private boolean isFavourite;
+    private boolean isDisliked;
 
     public Ingredient(String designation, int kcal) {
         this.designation = designation;

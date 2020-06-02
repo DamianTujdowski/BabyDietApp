@@ -15,12 +15,12 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nickname;
     private String password;
     private String email;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "user_id")
     private Set<Baby> babies;
 

@@ -2,13 +2,10 @@ package com.dietator.diet.controller;
 
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.repository.MealRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class MealController {
+class MealController {
 
     private MealRepository mealRepository;
 
@@ -16,13 +13,19 @@ public class MealController {
         this.mealRepository = mealRepository;
     }
 
-    @PostMapping("/addMeal")
+    @PostMapping("/meals")
     public void addMeal(@RequestBody Meal meal) {
         mealRepository.save(meal);
     }
 
-    @GetMapping("/allMeals")
+    @GetMapping("/meals")
     public Iterable<Meal> getAllMeals() {
         return mealRepository.findAll();
+    }
+
+    @GetMapping("/meals/{id}")
+    public Meal showMeal(@PathVariable int id) {
+        return mealRepository.findById(id)
+                .orElseThrow();
     }
 }

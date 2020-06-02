@@ -16,20 +16,20 @@ import java.util.Set;
 public class Baby {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String firstName;
     private LocalDateTime birthDate;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "baby_id")
     private List<Meal> consumedMeals;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "baby_id")
     private List<Drink> consumedDrinks;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "baby_id")
-    private Set<Ingredient> likes;
-//    private Set<Ingredient> dislikes;
+    private Set<Ingredient> ingredients;
+
 
     public Baby(String firstName, LocalDateTime birthDate) {
         this.firstName = firstName;
