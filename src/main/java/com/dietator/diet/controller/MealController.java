@@ -1,31 +1,41 @@
 package com.dietator.diet.controller;
 
 import com.dietator.diet.domain.Meal;
-import com.dietator.diet.repository.MealRepository;
+import com.dietator.diet.service.MealService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
+@AllArgsConstructor
 @RestController
 class MealController {
 
-    private MealRepository mealRepository;
+    private MealService mealService;
 
-    public MealController(MealRepository mealRepository) {
-        this.mealRepository = mealRepository;
-    }
-
-    @PostMapping("/meals")
-    public void addMeal(@RequestBody Meal meal) {
-        mealRepository.save(meal);
+    @GetMapping("/meals/{id}")
+    public Meal getMeal(@PathVariable int id) {
+        return mealService.getMealById(id);
     }
 
     @GetMapping("/meals")
-    public Iterable<Meal> getAllMeals() {
-        return mealRepository.findAll();
+    public Set<Meal> getAllMeals() {
+        return mealService.findAllMeals();
     }
 
-    @GetMapping("/meals/{id}")
-    public Meal showMeal(@PathVariable int id) {
-        return mealRepository.findById(id)
-                .orElseThrow();
+    @PostMapping("/meals")
+    public Meal saveMeal(@RequestBody Meal meal) {
+        return mealService.save(meal);
+    }
+
+    @PutMapping("/meals")
+    public Meal editMeal(@RequestBody Meal meal) {
+        return mealService.editMeal(meal);
+    }
+
+    @DeleteMapping("/meals/{id}")
+    public void deleteMeal(@PathVariable int id) {
+        mealService.deleteMeal(id);
     }
 }

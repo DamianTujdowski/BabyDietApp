@@ -25,9 +25,6 @@ public class Baby {
     private List<Meal> consumedMeals;
     @OneToMany
     @JoinColumn(name = "baby_id")
-    private List<Drink> consumedDrinks;
-    @OneToMany
-    @JoinColumn(name = "baby_id")
     private Set<Ingredient> ingredients;
 
 
