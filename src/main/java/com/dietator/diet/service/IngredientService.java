@@ -2,17 +2,17 @@ package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Ingredient;
 import com.dietator.diet.repository.IngredientRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class IngredientService {
 
-    private IngredientRepository ingredientRepository;
+    private final IngredientRepository ingredientRepository;
 
     public Ingredient findIngredientById(int id) {
         return ingredientRepository.findById(id).orElseThrow();
@@ -30,7 +30,8 @@ public class IngredientService {
     public Ingredient edit(Ingredient ingredient) {
         Ingredient editedIngredient = ingredientRepository.findById(ingredient.getId()).orElseThrow();
         editedIngredient.setDesignation(ingredient.getDesignation());
-        editedIngredient.setKcal(ingredient.getKcal());
+        editedIngredient.setEnergyPer100Grams(ingredient.getEnergyPer100Grams());
+//        editedIngredient.setBaby(ingredient.getBaby());
         editedIngredient.setFavourite(ingredient.isFavourite());
         editedIngredient.setDisliked(ingredient.isDisliked());
         return editedIngredient;

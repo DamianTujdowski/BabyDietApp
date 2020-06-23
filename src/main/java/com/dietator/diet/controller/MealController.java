@@ -2,17 +2,16 @@ package com.dietator.diet.controller;
 
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.service.MealService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
-class MealController {
+public class MealController {
 
-    private MealService mealService;
+    private final MealService mealService;
 
     @GetMapping("/meals/{id}")
     public Meal getMeal(@PathVariable int id) {

@@ -2,18 +2,17 @@ package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.repository.MealRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.Set;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class MealService {
 
-    private MealRepository mealRepository;
+    private final MealRepository mealRepository;
 
     public Set<Meal> findAllMeals() {
         return mealRepository.findAllMeals();
@@ -23,17 +22,23 @@ public class MealService {
         return mealRepository.findById(id).orElseThrow();
     }
 
+
     public Meal save(Meal meal) {
         return mealRepository.save(meal);
     }
 
+    //TODO refactor adding new ingredient
     @Transactional
     public Meal editMeal(Meal meal) {
         Meal editedMeal = mealRepository.findById(meal.getId()).orElseThrow();
         editedMeal.setDesignation(meal.getDesignation());
-        editedMeal.setWeight(meal.getWeight());
-        editedMeal.setKcal(meal.getKcal());
+        editedMeal.setEnergy(meal.getEnergy());
+        editedMeal.setPreparationDescription(meal.getPreparationDescription());
+        editedMeal.setPreparationDuration(meal.getPreparationDuration());
         editedMeal.setConsumptionTime(meal.getConsumptionTime());
+        editedMeal.setIngredients(meal.getIngredients());
+        editedMeal.setMealCategory(meal.getMealCategory());
+        editedMeal.setPreparationDifficulty(meal.getPreparationDifficulty());
         return editedMeal;
     }
 
