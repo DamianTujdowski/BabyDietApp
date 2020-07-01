@@ -24,7 +24,7 @@ public class Ingredient {
 
     private int weightPerMeal;
 
-    //    private Baby baby;
+    //    private Child baby;
 
     private boolean isFavourite;
 

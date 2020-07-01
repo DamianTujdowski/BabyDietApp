@@ -1,7 +1,9 @@
 package com.dietator.diet.controller;
 
 import com.dietator.diet.domain.User;
+import com.dietator.diet.dto.UserDto;
 import com.dietator.diet.service.UserService;
+import com.dietator.diet.utils.UserDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,17 +21,17 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<UserDto> getAllUsers() {
+        return UserDtoMapper.mapToUserDtos(userService.getAllUsers());
     }
 
     @PostMapping("/users")
-    public User saveUser(User user) {
+    public User saveUser(@RequestBody User user) {
         return userService.save(user);
     }
 
     @PutMapping("/users")
-    public User editUser(User user) {
+    public User editUser(@RequestBody User user) {
         return userService.editUser(user);
     }
 

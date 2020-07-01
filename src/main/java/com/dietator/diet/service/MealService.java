@@ -14,14 +14,13 @@ public class MealService {
 
     private final MealRepository mealRepository;
 
-    public Set<Meal> findAllMeals() {
-        return mealRepository.findAllMeals();
-    }
-
     public Meal getMealById(int id) {
         return mealRepository.findById(id).orElseThrow();
     }
 
+    public Set<Meal> findAllMeals() {
+        return mealRepository.findAllMeals();
+    }
 
     public Meal save(Meal meal) {
         return mealRepository.save(meal);

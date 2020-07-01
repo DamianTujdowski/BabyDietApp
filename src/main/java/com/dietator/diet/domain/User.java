@@ -20,5 +20,5 @@ public class User {
     private String email;
     @OneToMany
     @JoinColumn(name = "user_id")
-    private Set<Baby> babies;
+    private Set<Child> children;
 }

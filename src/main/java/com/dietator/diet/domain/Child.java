@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-public class Baby {
+public class Child {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

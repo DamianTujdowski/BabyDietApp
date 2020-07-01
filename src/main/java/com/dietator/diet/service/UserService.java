@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -18,8 +19,8 @@ public class UserService {
         return userRepository.findById(id).orElseThrow();
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public Set<User> getAllUsers() {
+        return userRepository.findAllUsers();
     }
 
     public User save(User user) {
@@ -31,7 +32,7 @@ public class UserService {
         User editedUser = userRepository.findById(user.getId()).orElseThrow();
         editedUser.setNickname(user.getNickname());
         editedUser.setEmail(user.getEmail());
-        editedUser.setBabies(user.getBabies());
+        editedUser.setChildren(user.getChildren());
         return editedUser;
     }
 
