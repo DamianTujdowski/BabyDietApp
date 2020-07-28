@@ -1,6 +1,7 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Child;
+import com.dietator.diet.dto.ChildBasicInfo;
 import com.dietator.diet.repository.ChildRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ public class ChildService {
         return childRepository.findById(id).orElseThrow();
     }
 
-    public List<Child> findAllChildren() {
-        return childRepository.findAll();
+    public List<ChildBasicInfo> findAllChildren() {
+        return childRepository.findAllChildrenBy();
     }
 
     public Child saveChild(Child child) {

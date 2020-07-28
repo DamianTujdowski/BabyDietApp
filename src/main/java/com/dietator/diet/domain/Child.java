@@ -2,6 +2,8 @@ package com.dietator.diet.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,7 +25,7 @@ public class Child {
 
     @OneToMany
     @JoinColumn(name = "baby_id")
-    private List<Meal> consumedMeals;
+    private Set<Meal> consumedMeals;
 
     @OneToMany
     @JoinColumn(name = "baby_id")
