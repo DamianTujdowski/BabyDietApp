@@ -1,10 +1,8 @@
 package com.dietator.diet.controller;
 
 import com.dietator.diet.domain.User;
-import com.dietator.diet.dto.UserBasicInfoDto;
-import com.dietator.diet.dto.UserWithBelongingChildrenDto;
+import com.dietator.diet.projections.UserInfo;
 import com.dietator.diet.service.UserService;
-import com.dietator.diet.utils.UserDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,18 +15,13 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users/{id}")
-    public UserWithBelongingChildrenDto getUserById(@PathVariable int id) {
-        return UserDtoMapper.mapToSingleUserDto(userService.getUserById(id));
+    public UserInfo getUserById(@PathVariable int id) {
+        return userService.getUserById(id);
     }
 
     @GetMapping("/users")
-    public List<UserBasicInfoDto> getAllUsers() {
-        return UserDtoMapper.mapToUserBasicInfoDtos(userService.getAllUsers());
-    }
-
-    @GetMapping("/users/children")
-    public List<UserWithBelongingChildrenDto> getAllUsersWithBelongingChildren() {
-        return UserDtoMapper.mapToUserWithBelongingChildrenDtos(userService.getAllUsers());
+    public List<UserInfo> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @PostMapping("/users")

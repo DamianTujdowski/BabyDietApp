@@ -1,12 +1,13 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.User;
+import com.dietator.diet.projections.UserInfo;
 import com.dietator.diet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Set;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -14,12 +15,12 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User getUserById(int id) {
-        return userRepository.findById(id).orElseThrow();
+    public UserInfo getUserById(int id) {
+        return userRepository.findUserById(id).orElseThrow();
     }
 
-    public Set<User> getAllUsers() {
-        return userRepository.findAllUsers();
+    public List<UserInfo> getAllUsers() {
+        return userRepository.findAllBy();
     }
 
     public User save(User user) {

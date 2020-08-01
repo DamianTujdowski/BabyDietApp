@@ -1,14 +1,12 @@
 package com.dietator.diet.controller;
 
 import com.dietator.diet.domain.Child;
-import com.dietator.diet.dto.ChildBasicInfo;
-import com.dietator.diet.dto.ChildDto;
+import com.dietator.diet.projections.ChildInfo;
 import com.dietator.diet.service.ChildService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,7 +20,7 @@ public class ChildController {
     }
 
     @GetMapping("/children")
-    public List<ChildBasicInfo> findAllChildren() {
+    public List<ChildInfo> findAllChildren() {
         return childService.findAllChildren();
     }
 

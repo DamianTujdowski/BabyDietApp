@@ -1,6 +1,7 @@
 package com.dietator.diet.controller;
 
 import com.dietator.diet.domain.Ingredient;
+import com.dietator.diet.projections.IngredientBasicInfo;
 import com.dietator.diet.service.IngredientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class IngredientController {
     }
 
     @GetMapping("/ingredients")
-    public List<Ingredient> getAllInredients() {
+    public List<IngredientBasicInfo> getAllInredients() {
         return ingredientService.findAll();
     }
 

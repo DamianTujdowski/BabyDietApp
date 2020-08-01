@@ -25,6 +25,7 @@ public class Meal {
 
     private int preparationDuration;
 
+    //TODO consumption time should be a list/another table
     private LocalDateTime consumptionTime;
 
     //TODO repair cascading bug - save/persist does not work, merge works without annotation

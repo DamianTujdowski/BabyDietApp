@@ -5,7 +5,7 @@ import com.dietator.diet.service.MealService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,7 +19,7 @@ public class MealController {
     }
 
     @GetMapping("/meals")
-    public Set<Meal> getAllMeals() {
+    public List<Meal> getAllMeals() {
         return mealService.findAllMeals();
     }
 

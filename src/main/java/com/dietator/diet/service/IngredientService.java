@@ -1,6 +1,7 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Ingredient;
+import com.dietator.diet.projections.IngredientBasicInfo;
 import com.dietator.diet.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ public class IngredientService {
         return ingredientRepository.findById(id).orElseThrow();
     }
 
-    public List<Ingredient> findAll() {
-        return ingredientRepository.findAll();
+    public List<IngredientBasicInfo> findAll() {
+        return ingredientRepository.findAllBy();
     }
 
     public Ingredient save(Ingredient ingredient) {

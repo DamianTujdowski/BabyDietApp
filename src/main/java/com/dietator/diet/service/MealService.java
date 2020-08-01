@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Set;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -18,8 +18,8 @@ public class MealService {
         return mealRepository.findById(id).orElseThrow();
     }
 
-    public Set<Meal> findAllMeals() {
-        return mealRepository.findAllMeals();
+    public List<Meal> findAllMeals() {
+        return mealRepository.findAll();
     }
 
     public Meal save(Meal meal) {

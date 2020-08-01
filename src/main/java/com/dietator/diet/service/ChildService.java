@@ -1,7 +1,7 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Child;
-import com.dietator.diet.dto.ChildBasicInfo;
+import com.dietator.diet.projections.ChildInfo;
 import com.dietator.diet.repository.ChildRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,8 +19,9 @@ public class ChildService {
         return childRepository.findById(id).orElseThrow();
     }
 
-    public List<ChildBasicInfo> findAllChildren() {
-        return childRepository.findAllChildrenBy();
+    //TODO make favourite and dislike ingredients display pairs ingredient name + ingredient favourite or dislike only info
+    public List<ChildInfo> findAllChildren() {
+        return childRepository.findAllBy();
     }
 
     public Child saveChild(Child child) {
