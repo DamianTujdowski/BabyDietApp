@@ -6,6 +6,4 @@ public interface IngredientBasicInfo {
     String getDesignation();
 
     int getEnergyPer100Grams();
-
-    int getWeightPerMeal();
 }

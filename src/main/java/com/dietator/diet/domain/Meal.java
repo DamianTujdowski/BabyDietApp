@@ -25,8 +25,9 @@ public class Meal {
 
     private int preparationDuration;
 
-    //TODO consumption time should be a list/another table
-    private LocalDateTime consumptionTime;
+    @OneToMany
+    @JoinColumn(name = "meal_id")
+    private Set<ConsumptionTime> consumptionTime;
 
     //TODO repair cascading bug - save/persist does not work, merge works without annotation
     @OneToMany

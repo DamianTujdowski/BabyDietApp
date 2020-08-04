@@ -1,6 +1,7 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Meal;
+import com.dietator.diet.projections.MealInfo;
 import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ public class MealService {
         return mealRepository.findById(id).orElseThrow();
     }
 
-    public List<Meal> findAllMeals() {
-        return mealRepository.findAll();
+    public List<MealInfo> findAllMeals() {
+        return mealRepository.findAllBy();
     }
 
     public Meal save(Meal meal) {

@@ -3,7 +3,9 @@ package com.dietator.diet.projections;
 import com.dietator.diet.domain.MealCategory;
 import com.dietator.diet.domain.PreparationDifficulty;
 
-public interface MealBasicInfo {
+import java.util.Set;
+
+public interface MealInfo {
     int getId();
 
     String getDesignation();
@@ -11,6 +13,8 @@ public interface MealBasicInfo {
     int getEnergy();
 
     int getPreparationDuration();
+
+    Set<IngredientBasicInfo> getIngredients();
 
     MealCategory getMealCategory();
 

@@ -10,7 +10,7 @@ public interface ChildInfo {
 
     LocalDateTime getBirthDate();
 
-    Set<MealBasicInfo> getConsumedMeals();
+    Set<MealInfo> getConsumedMeals();
 
     Set<IngredientBasicInfo> getFavouriteAndDislikedIngredients();
 }
