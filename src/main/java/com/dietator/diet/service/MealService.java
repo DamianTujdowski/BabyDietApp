@@ -15,7 +15,7 @@ public class MealService {
 
     private final MealRepository mealRepository;
 
-    public Meal getMealById(int id) {
+    public Meal getMealById(Long id) {
         return mealRepository.findById(id).orElseThrow();
     }
 
@@ -42,7 +42,7 @@ public class MealService {
         return editedMeal;
     }
 
-    public void deleteMeal(int id) {
+    public void deleteMeal(Long id) {
         mealRepository.deleteById(id);
     }
 }
