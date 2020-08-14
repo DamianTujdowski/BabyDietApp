@@ -15,7 +15,7 @@ public class ChildController {
     private final ChildService childService;
 
     @GetMapping("/children/{id}")
-    public Child getChildById(@PathVariable int id) {
+    public Child getChildById(@PathVariable long id) {
         return childService.getChildById(id);
     }
 
@@ -35,7 +35,7 @@ public class ChildController {
     }
 
     @DeleteMapping("/children/{id}")
-    public void deleteChild(@PathVariable int id) {
+    public void deleteChild(@PathVariable long id) {
         childService.deleteChild(id);
     }
 }

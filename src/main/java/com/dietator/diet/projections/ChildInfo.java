@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 public interface ChildInfo {
-    int getId();
+    long getId();
 
     String getFirstName();
 

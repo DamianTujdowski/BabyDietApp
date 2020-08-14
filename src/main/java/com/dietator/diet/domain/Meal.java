@@ -1,21 +1,26 @@
 package com.dietator.diet.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Meal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private String designation;
 
@@ -43,4 +48,22 @@ public class Meal {
     @Enumerated(EnumType.STRING)
     @Column(length = 6)
     private PreparationDifficulty preparationDifficulty;
+
+    public Meal(Meal mealToClone) {
+        this.designation = mealToClone.designation;
+        this.energy = mealToClone.energy;
+        this.preparationDescription = mealToClone.preparationDescription;
+        this.preparationDuration = mealToClone.preparationDuration;
+        this.consumptionTime = mealToClone.consumptionTime
+                .stream()
+                .map(ConsumptionTime::new)
+                .collect(Collectors.toSet());
+        this.ingredients = mealToClone.ingredients
+                .stream()
+                .map(Ingredient::new)
+                .collect(Collectors.toSet());
+        this.mealCategory = mealToClone.mealCategory;
+        this.preparationDifficulty = mealToClone.preparationDifficulty;
+    }
+
 }

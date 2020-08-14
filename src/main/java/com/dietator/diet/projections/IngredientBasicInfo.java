@@ -1,7 +1,7 @@
 package com.dietator.diet.projections;
 
 public interface IngredientBasicInfo {
-    int getId();
+    long getId();
 
     String getDesignation();
 

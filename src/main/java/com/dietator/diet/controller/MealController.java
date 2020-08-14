@@ -15,7 +15,7 @@ public class MealController {
     private final MealService mealService;
 
     @GetMapping("/meals/{id}")
-    public Meal getMeal(@PathVariable Long id) {
+    public Meal getMeal(@PathVariable long id) {
         return mealService.getMealById(id);
     }
 
@@ -35,7 +35,7 @@ public class MealController {
     }
 
     @DeleteMapping("/meals/{id}")
-    public void deleteMeal(@PathVariable Long id) {
+    public void deleteMeal(@PathVariable long id) {
         mealService.deleteMeal(id);
     }
 }

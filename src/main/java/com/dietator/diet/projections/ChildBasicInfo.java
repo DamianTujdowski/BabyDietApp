@@ -3,7 +3,7 @@ package com.dietator.diet.projections;
 import java.time.LocalDateTime;
 
 public interface ChildBasicInfo {
-    int getId();
+    long getId();
 
     String getFirstName();
 

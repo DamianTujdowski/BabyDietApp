@@ -15,7 +15,7 @@ public class IngredientService {
 
     private final IngredientRepository ingredientRepository;
 
-    public Ingredient findIngredientById(int id) {
+    public Ingredient findIngredientById(long id) {
         return ingredientRepository.findById(id).orElseThrow();
     }
 
@@ -38,7 +38,7 @@ public class IngredientService {
         return editedIngredient;
     }
 
-    public void delete(int id) {
+    public void delete(long id) {
         ingredientRepository.deleteById(id);
     }
 }

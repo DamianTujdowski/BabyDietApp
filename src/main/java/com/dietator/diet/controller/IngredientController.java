@@ -15,7 +15,7 @@ public class IngredientController {
     private final IngredientService ingredientService;
 
     @GetMapping("/ingredients/{id}")
-    public Ingredient getIngredient(@PathVariable int id) {
+    public Ingredient getIngredient(@PathVariable long id) {
         return ingredientService.findIngredientById(id);
     }
 
@@ -35,7 +35,7 @@ public class IngredientController {
     }
 
     @DeleteMapping("/ingredients/{id}")
-    public void deleteIngredient(@PathVariable int id) {
+    public void deleteIngredient(@PathVariable long id) {
         ingredientService.delete(id);
     }
 

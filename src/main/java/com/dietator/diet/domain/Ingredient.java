@@ -1,6 +1,7 @@
 package com.dietator.diet.domain;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,12 +12,13 @@ import javax.persistence.Id;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @Entity
 public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String designation;
 
@@ -27,4 +29,12 @@ public class Ingredient {
     private boolean isFavourite;
 
     private boolean isDisliked;
+
+    public Ingredient(Ingredient ingredientToClone) {
+        this.designation = ingredientToClone.designation;
+        this.energyPer100Grams = ingredientToClone.energyPer100Grams;
+        this.weightPerMeal = ingredientToClone.weightPerMeal;
+        this.isFavourite = ingredientToClone.isFavourite;
+        this.isDisliked = ingredientToClone.isDisliked;
+    }
 }

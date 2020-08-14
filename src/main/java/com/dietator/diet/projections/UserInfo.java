@@ -3,7 +3,7 @@ package com.dietator.diet.projections;
 import java.util.Set;
 
 public interface UserInfo {
-    int getId();
+    long getId();
 
     String getNickname();
 

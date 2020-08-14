@@ -6,7 +6,7 @@ import com.dietator.diet.domain.PreparationDifficulty;
 import java.util.Set;
 
 public interface MealInfo {
-    int getId();
+    long getId();
 
     String getDesignation();
 

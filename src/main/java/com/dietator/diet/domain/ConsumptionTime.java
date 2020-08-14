@@ -1,5 +1,6 @@
 package com.dietator.diet.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,12 +12,17 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @Entity
 public class ConsumptionTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private LocalDateTime consumptionTime;
+
+    public ConsumptionTime(ConsumptionTime timeToClone) {
+        this.consumptionTime = timeToClone.consumptionTime;
+    }
 }

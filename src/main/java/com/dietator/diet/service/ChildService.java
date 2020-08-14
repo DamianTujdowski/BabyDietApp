@@ -20,7 +20,7 @@ public class ChildService {
     private final ChildRepository childRepository;
     private final MealRepository mealRepository;
 
-    public Child getChildById(int id) {
+    public Child getChildById(long id) {
         return childRepository.findById(id).orElseThrow();
     }
 
@@ -49,16 +49,20 @@ public class ChildService {
         return editedChild;
     }
 
-    public void deleteChild(int id) {
+    public void deleteChild(long id) {
         childRepository.deleteById(id);
     }
 
     private void cloneMeal(Meal meal) {
         if (meal.getEnergy() > 200){
-            Meal clonedMeal = new Meal();
-            BeanUtils.copyProperties(meal, clonedMeal, "id");
+            Meal clonedMeal = new Meal(meal);
+//            BeanUtils.copyProperties(meal, clonedMeal, "id");
 //            clonedMeal.setId(null);
             mealRepository.save(clonedMeal);
         }
+    }
+
+    public Meal cloneM(Meal meal) {
+        return new Meal(meal);
     }
 }

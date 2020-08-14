@@ -15,7 +15,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserInfo getUserById(int id) {
+    public UserInfo getUserById(long id) {
         return userRepository.findUserById(id).orElseThrow();
     }
 
@@ -36,7 +36,7 @@ public class UserService {
         return editedUser;
     }
 
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         userRepository.deleteById(id);
     }
 }
