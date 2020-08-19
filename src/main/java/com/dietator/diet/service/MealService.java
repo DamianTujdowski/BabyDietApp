@@ -27,7 +27,7 @@ public class MealService {
         return mealRepository.save(meal);
     }
 
-    //TODO refactor adding new ingredient
+    //TODO refactor adding new objects to collections
     @Transactional
     public Meal editMeal(Meal meal) {
         Meal editedMeal = mealRepository.findById(meal.getId()).orElseThrow();
@@ -39,6 +39,7 @@ public class MealService {
         editedMeal.setIngredients(meal.getIngredients());
         editedMeal.setMealCategory(meal.getMealCategory());
         editedMeal.setPreparationDifficulty(meal.getPreparationDifficulty());
+        editedMeal.setPrePrepared(meal.isPrePrepared());
         return editedMeal;
     }
 

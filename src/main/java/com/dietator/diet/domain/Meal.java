@@ -1,13 +1,8 @@
 package com.dietator.diet.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.Cascade;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,6 +44,8 @@ public class Meal {
     @Column(length = 6)
     private PreparationDifficulty preparationDifficulty;
 
+    private boolean isPrePrepared;
+
     public Meal(Meal mealToClone) {
         this.designation = mealToClone.designation;
         this.energy = mealToClone.energy;
@@ -64,6 +61,6 @@ public class Meal {
                 .collect(Collectors.toSet());
         this.mealCategory = mealToClone.mealCategory;
         this.preparationDifficulty = mealToClone.preparationDifficulty;
+        this.isPrePrepared = mealToClone.isPrePrepared;
     }
-
 }

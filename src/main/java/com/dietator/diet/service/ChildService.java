@@ -6,7 +6,6 @@ import com.dietator.diet.projections.ChildInfo;
 import com.dietator.diet.repository.ChildRepository;
 import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -54,7 +53,7 @@ public class ChildService {
     }
 
     private void cloneMeal(Meal meal) {
-        if (meal.getEnergy() > 200){
+        if (meal.isPrePrepared()){
             Meal clonedMeal = new Meal(meal);
 //            BeanUtils.copyProperties(meal, clonedMeal, "id");
 //            clonedMeal.setId(null);
