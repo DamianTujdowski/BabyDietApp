@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -24,26 +25,21 @@ public class ChildService {
     }
 
     //TODO make favourite and dislike ingredients display pairs ingredient name + ingredient favourite or dislike only info
-
     public List<ChildInfo> findAllChildren() {
         return childRepository.findAllBy();
     }
 
-    @Transactional
     public Child saveChild(Child child) {
-        Set<Meal> childMeals = child.getConsumedMeals();
-        childMeals.forEach(this::cloneMeal);
-// test if is working
-        child.setConsumedMeals(childMeals);
         return childRepository.save(child);
     }
 
+    //TODO refactor cloning meals - add new method instead of iterating over meals set
     @Transactional
     public Child editChild(Child child) {
         Child editedChild = childRepository.findById(child.getId()).orElseThrow();
         editedChild.setFirstName(child.getFirstName());
         editedChild.setBirthDate(child.getBirthDate());
-        editedChild.setConsumedMeals(child.getConsumedMeals());
+        editedChild.setConsumedMeals(clonePrePreparedMeals(child.getConsumedMeals()));
         editedChild.setFavouriteAndDislikedIngredients(child.getFavouriteAndDislikedIngredients());
         return editedChild;
     }
@@ -52,16 +48,15 @@ public class ChildService {
         childRepository.deleteById(id);
     }
 
-    private void cloneMeal(Meal meal) {
-        if (meal.isPrePrepared()){
-            Meal clonedMeal = new Meal(meal);
-//            BeanUtils.copyProperties(meal, clonedMeal, "id");
-//            clonedMeal.setId(null);
-            mealRepository.save(clonedMeal);
-        }
+    private Set<Meal> clonePrePreparedMeals(Set<Meal> consumedMeals) {
+        return consumedMeals
+                .stream()
+                .map(this::cloneAndSave)
+                .collect(Collectors.toSet());
     }
 
-    public Meal cloneM(Meal meal) {
-        return new Meal(meal);
+    //TODO check if saving meal can be done by Hibernate dirty check, or by @transactional annotation
+    private Meal cloneAndSave(Meal meal) {
+        return meal.isPrePrepared() ? mealRepository.save(new Meal(meal)) : meal;
     }
 }

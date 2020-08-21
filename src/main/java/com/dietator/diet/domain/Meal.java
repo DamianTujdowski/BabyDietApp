@@ -61,6 +61,6 @@ public class Meal {
                 .collect(Collectors.toSet());
         this.mealCategory = mealToClone.mealCategory;
         this.preparationDifficulty = mealToClone.preparationDifficulty;
-        this.isPrePrepared = mealToClone.isPrePrepared;
+        this.isPrePrepared = false;
     }
 }

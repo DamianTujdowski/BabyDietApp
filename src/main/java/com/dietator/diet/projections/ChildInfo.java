@@ -1,6 +1,6 @@
 package com.dietator.diet.projections;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Set;
 
 public interface ChildInfo {
@@ -8,7 +8,7 @@ public interface ChildInfo {
 
     String getFirstName();
 
-    LocalDateTime getBirthDate();
+    LocalDate getBirthDate();
 
     Set<MealBasicInfo> getConsumedMeals();
 

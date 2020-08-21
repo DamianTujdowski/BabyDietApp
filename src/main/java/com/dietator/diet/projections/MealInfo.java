@@ -19,4 +19,6 @@ public interface MealInfo {
     MealCategory getMealCategory();
 
     PreparationDifficulty getPreparationDifficulty();
+
+    boolean isPrePrepared();
 }
