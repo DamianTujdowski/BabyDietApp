@@ -4,6 +4,7 @@ import com.dietator.diet.domain.Child;
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.projections.ChildInfo;
 import com.dietator.diet.repository.ChildRepository;
+import com.dietator.diet.repository.IngredientRepository;
 import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class ChildService {
 
     private final ChildRepository childRepository;
     private final MealRepository mealRepository;
+    private final IngredientRepository ingredientRepository;
 
     public Child getChildById(long id) {
         return childRepository.findById(id).orElseThrow();
@@ -55,8 +57,9 @@ public class ChildService {
                 .collect(Collectors.toSet());
     }
 
-    //TODO check if saving meal can be done by Hibernate dirty check, or by @transactional annotation
     private Meal cloneAndSave(Meal meal) {
-        return meal.isPrePrepared() ? mealRepository.save(new Meal(meal)) : meal;
+        Meal clonedMeal = new Meal(meal);
+        clonedMeal.getIngredients().forEach(ingredientRepository::save);
+        return meal.isPrePrepared() ? mealRepository.save(clonedMeal) : meal;
     }
 }
