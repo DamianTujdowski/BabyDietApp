@@ -16,7 +16,7 @@ public class MealController {
 
     @GetMapping("/meals/{id}")
     public Meal getMeal(@PathVariable long id) {
-        return mealService.getMealById(id);
+        return mealService.findMealById(id);
     }
 
     @GetMapping("/meals")

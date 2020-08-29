@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -25,11 +26,11 @@ public class Child {
     private LocalDate birthDate;
 
     @OneToMany
-    @JoinColumn(name = "baby_id")
+    @JoinColumn(name = "child_id")
     private Set<Meal> consumedMeals;
 
     @OneToMany
-    @JoinColumn(name = "baby_id")
+    @JoinColumn(name = "child_id")
     private Set<Ingredient> favouriteAndDislikedIngredients;
 
 }

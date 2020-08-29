@@ -1,8 +1,10 @@
 package com.dietator.diet.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,15 +27,12 @@ public class Meal {
 
     private int preparationDuration;
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "meal_id")
     private Set<ConsumptionTime> consumptionTime;
 
-    //TODO repair cascading bug - save/persist does not work, merge works without annotation
     @OneToMany
     @JoinColumn(name = "meal_id")
-//    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-//    @Column(insertable = false, updatable = false)
     private Set<Ingredient> ingredients;
 
     @Enumerated(EnumType.STRING)
@@ -51,16 +50,24 @@ public class Meal {
         this.energy = mealToClone.energy;
         this.preparationDescription = mealToClone.preparationDescription;
         this.preparationDuration = mealToClone.preparationDuration;
-        this.consumptionTime = mealToClone.consumptionTime
-                .stream()
-                .map(ConsumptionTime::new)
-                .collect(Collectors.toSet());
-        this.ingredients = mealToClone.ingredients
-                .stream()
-                .map(Ingredient::new)
-                .collect(Collectors.toSet());
+        this.consumptionTime = cloneConsumptionTime(mealToClone);
+        this.ingredients = cloneIngredients(mealToClone);
         this.mealCategory = mealToClone.mealCategory;
         this.preparationDifficulty = mealToClone.preparationDifficulty;
         this.isPrePrepared = false;
+    }
+
+    private Set<ConsumptionTime> cloneConsumptionTime(Meal mealToClone) {
+        return mealToClone.consumptionTime
+                .stream()
+                .map(ConsumptionTime::new)
+                .collect(Collectors.toSet());
+    }
+
+    private Set<Ingredient> cloneIngredients(Meal mealToClone) {
+        return mealToClone.ingredients
+                .stream()
+                .map(Ingredient::new)
+                .collect(Collectors.toSet());
     }
 }
