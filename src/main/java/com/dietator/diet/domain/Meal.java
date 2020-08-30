@@ -1,10 +1,8 @@
 package com.dietator.diet.domain;
 
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,25 +41,17 @@ public class Meal {
     @Column(length = 6)
     private PreparationDifficulty preparationDifficulty;
 
-    private boolean isPrePrepared;
+    private boolean isPreDefined;
 
     public Meal(Meal mealToClone) {
         this.designation = mealToClone.designation;
         this.energy = mealToClone.energy;
         this.preparationDescription = mealToClone.preparationDescription;
         this.preparationDuration = mealToClone.preparationDuration;
-        this.consumptionTime = cloneConsumptionTime(mealToClone);
         this.ingredients = cloneIngredients(mealToClone);
         this.mealCategory = mealToClone.mealCategory;
         this.preparationDifficulty = mealToClone.preparationDifficulty;
-        this.isPrePrepared = false;
-    }
-
-    private Set<ConsumptionTime> cloneConsumptionTime(Meal mealToClone) {
-        return mealToClone.consumptionTime
-                .stream()
-                .map(ConsumptionTime::new)
-                .collect(Collectors.toSet());
+        this.isPreDefined = false;
     }
 
     private Set<Ingredient> cloneIngredients(Meal mealToClone) {
