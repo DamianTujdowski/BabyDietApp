@@ -1,10 +1,10 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Child;
+import com.dietator.diet.domain.Ingredient;
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.projections.ChildInfo;
 import com.dietator.diet.repository.ChildRepository;
-import com.dietator.diet.repository.ConsumptionTimeRepository;
 import com.dietator.diet.repository.IngredientRepository;
 import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,9 +23,8 @@ public class ChildService {
     private final ChildRepository childRepository;
     private final MealRepository mealRepository;
     private final IngredientRepository ingredientRepository;
-    private final ConsumptionTimeRepository consumptionTimeRepository;
 
-    public Child getChildById(long id) {
+    public Child findById(long id) {
         return childRepository.findById(id).orElseThrow();
     }
 
@@ -37,14 +37,15 @@ public class ChildService {
         return childRepository.save(child);
     }
 
-    //TODO refactor cloning meals - add new method instead of iterating over meals set
     @Transactional
     public Child editChild(Child child) {
         Child editedChild = childRepository.findById(child.getId()).orElseThrow();
         editedChild.setFirstName(child.getFirstName());
         editedChild.setBirthDate(child.getBirthDate());
-        editedChild.setConsumedMeals(clonePrePreparedMeals(child.getConsumedMeals()));
-        editedChild.setFavouriteAndDislikedIngredients(child.getFavouriteAndDislikedIngredients());
+        editedChild.getConsumedMeals()
+                .addAll(Objects.requireNonNull(clonePreDefinedMeals(filterNewMeals(child.getConsumedMeals(), editedChild.getConsumedMeals()))));
+        editedChild.getFavouriteAndDislikedIngredients()
+                .addAll(Objects.requireNonNull(clonePreDefinedIngredients(filterNewIngredients(child.getFavouriteAndDislikedIngredients(), editedChild.getFavouriteAndDislikedIngredients()))));
         return editedChild;
     }
 
@@ -52,17 +53,41 @@ public class ChildService {
         childRepository.deleteById(id);
     }
 
-    private Set<Meal> clonePrePreparedMeals(Set<Meal> consumedMeals) {
-        return consumedMeals
+    private Set<Ingredient> filterNewIngredients(Set<Ingredient> ingredientsFromUser, Set<Ingredient> ingredientsFromDb) {
+        ingredientsFromUser.removeAll(ingredientsFromDb);
+        return ingredientsFromUser;
+    }
+
+    private Set<Meal> filterNewMeals(Set<Meal> consumedMealsFromUser, Set<Meal> consumedMealsFromDb) {
+        consumedMealsFromUser.removeAll(consumedMealsFromDb);
+        return consumedMealsFromUser;
+    }
+
+    private Set<Ingredient> clonePreDefinedIngredients(Set<Ingredient> favouriteAndDislikedIngredients) {
+        return favouriteAndDislikedIngredients
                 .stream()
-                .map(this::cloneAndSave)
+                .map(this::cloneAndSaveIngredient)
                 .collect(Collectors.toSet());
     }
 
-    private Meal cloneAndSave(Meal meal) {
+    private Ingredient cloneAndSaveIngredient(Ingredient ingredient) {
+        return ingredient.isPreDefined() ? ingredientRepository.save(new Ingredient(ingredient)) : ingredient;
+    }
+
+    private Set<Meal> clonePreDefinedMeals(Set<Meal> consumedMeals) {
+        return consumedMeals
+                .stream()
+                .map(this::cloneAndSaveMeal)
+                .collect(Collectors.toSet());
+    }
+
+    private Meal cloneAndSaveMeal(Meal meal) {
         Meal clonedMeal = new Meal(meal);
-        clonedMeal.getIngredients().forEach(ingredientRepository::save);
-        clonedMeal.getConsumptionTime().forEach(consumptionTimeRepository::save);
-        return meal.isPrePrepared() ? mealRepository.save(clonedMeal) : meal;
+        if (meal.isPreDefined()) {
+            clonedMeal.getIngredients().forEach(ingredientRepository::save);
+            return mealRepository.save(clonedMeal);
+        } else {
+            return meal;
+        }
     }
 }
