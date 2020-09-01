@@ -1,11 +1,11 @@
 package com.dietator.diet.projections;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public interface ChildBasicInfo {
     long getId();
 
     String getFirstName();
 
-    LocalDateTime getBirthDate();
+    LocalDate getBirthDate();
 }

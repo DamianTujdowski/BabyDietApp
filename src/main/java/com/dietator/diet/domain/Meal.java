@@ -29,7 +29,7 @@ public class Meal {
     @JoinColumn(name = "meal_id")
     private Set<ConsumptionTime> consumptionTime;
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "meal_id")
     private Set<Ingredient> ingredients;
 

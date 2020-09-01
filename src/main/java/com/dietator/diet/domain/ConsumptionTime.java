@@ -1,9 +1,6 @@
 package com.dietator.diet.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Entity
 public class ConsumptionTime {
 
@@ -23,8 +21,4 @@ public class ConsumptionTime {
     private long id;
 
     private LocalDateTime consumptionTime;
-
-    public ConsumptionTime(ConsumptionTime timeToClone) {
-        this.consumptionTime = timeToClone.consumptionTime;
-    }
 }

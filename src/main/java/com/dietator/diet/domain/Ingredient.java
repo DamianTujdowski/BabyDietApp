@@ -32,11 +32,14 @@ public class Ingredient {
 
     private boolean isDisliked;
 
+    private boolean isPreDefined;
+
     public Ingredient(Ingredient ingredientToClone) {
         this.designation = ingredientToClone.designation;
         this.energyPer100Grams = ingredientToClone.energyPer100Grams;
         this.weightPerMeal = ingredientToClone.weightPerMeal;
         this.isFavourite = ingredientToClone.isFavourite;
         this.isDisliked = ingredientToClone.isDisliked;
+        this.isPreDefined = false;
     }
 }

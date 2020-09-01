@@ -18,7 +18,7 @@ public class User {
     private String nickname;
     private String password;
     private String email;
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "user_id")
     private Set<Child> children;
 }

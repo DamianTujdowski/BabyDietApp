@@ -16,7 +16,7 @@ public class ChildController {
 
     @GetMapping("/children/{id}")
     public Child getChildById(@PathVariable long id) {
-        return childService.getChildById(id);
+        return childService.findById(id);
     }
 
     @GetMapping("/children")

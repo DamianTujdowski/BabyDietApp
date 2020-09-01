@@ -25,11 +25,11 @@ public class Child {
 
     private LocalDate birthDate;
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "child_id")
     private Set<Meal> consumedMeals;
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "child_id")
     private Set<Ingredient> favouriteAndDislikedIngredients;
 

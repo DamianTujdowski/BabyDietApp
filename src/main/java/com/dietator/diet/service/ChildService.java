@@ -1,28 +1,25 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Child;
-import com.dietator.diet.domain.Ingredient;
-import com.dietator.diet.domain.Meal;
 import com.dietator.diet.projections.ChildInfo;
 import com.dietator.diet.repository.ChildRepository;
-import com.dietator.diet.repository.IngredientRepository;
-import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
+
+import static com.dietator.diet.utils.IngredientPersistenceUtils.clonePreDefinedIngredients;
+import static com.dietator.diet.utils.IngredientPersistenceUtils.filterNewIngredients;
+import static com.dietator.diet.utils.MealPersistenceUtils.clonePreDefinedMeals;
+import static com.dietator.diet.utils.MealPersistenceUtils.filterNewMeals;
 
 @RequiredArgsConstructor
 @Service
 public class ChildService {
 
     private final ChildRepository childRepository;
-    private final MealRepository mealRepository;
-    private final IngredientRepository ingredientRepository;
 
     public Child findById(long id) {
         return childRepository.findById(id).orElseThrow();
@@ -53,41 +50,5 @@ public class ChildService {
         childRepository.deleteById(id);
     }
 
-    private Set<Ingredient> filterNewIngredients(Set<Ingredient> ingredientsFromUser, Set<Ingredient> ingredientsFromDb) {
-        ingredientsFromUser.removeAll(ingredientsFromDb);
-        return ingredientsFromUser;
-    }
 
-    private Set<Meal> filterNewMeals(Set<Meal> consumedMealsFromUser, Set<Meal> consumedMealsFromDb) {
-        consumedMealsFromUser.removeAll(consumedMealsFromDb);
-        return consumedMealsFromUser;
-    }
-
-    private Set<Ingredient> clonePreDefinedIngredients(Set<Ingredient> favouriteAndDislikedIngredients) {
-        return favouriteAndDislikedIngredients
-                .stream()
-                .map(this::cloneAndSaveIngredient)
-                .collect(Collectors.toSet());
-    }
-
-    private Ingredient cloneAndSaveIngredient(Ingredient ingredient) {
-        return ingredient.isPreDefined() ? ingredientRepository.save(new Ingredient(ingredient)) : ingredient;
-    }
-
-    private Set<Meal> clonePreDefinedMeals(Set<Meal> consumedMeals) {
-        return consumedMeals
-                .stream()
-                .map(this::cloneAndSaveMeal)
-                .collect(Collectors.toSet());
-    }
-
-    private Meal cloneAndSaveMeal(Meal meal) {
-        Meal clonedMeal = new Meal(meal);
-        if (meal.isPreDefined()) {
-            clonedMeal.getIngredients().forEach(ingredientRepository::save);
-            return mealRepository.save(clonedMeal);
-        } else {
-            return meal;
-        }
-    }
 }

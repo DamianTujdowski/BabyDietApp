@@ -20,5 +20,5 @@ public interface MealInfo {
 
     PreparationDifficulty getPreparationDifficulty();
 
-    boolean isPrePrepared();
+    boolean isPreDefined();
 }
