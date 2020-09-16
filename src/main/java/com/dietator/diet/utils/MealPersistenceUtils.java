@@ -12,16 +12,19 @@ public class MealPersistenceUtils {
     private static MealRepository mealRepository;
     private static IngredientRepository ingredientRepository;
 
-    public static Set<Meal> filterNewMeals(Set<Meal> consumedMealsFromUser, Set<Meal> consumedMealsFromDb) {
-        consumedMealsFromUser.removeAll(consumedMealsFromDb);
-        return consumedMealsFromUser;
+    private MealPersistenceUtils() {
     }
 
-    public static Set<Meal> clonePreDefinedMeals(Set<Meal> consumedMeals) {
-        return consumedMeals
+    public static Set<Meal> clonePreDefinedMeals(Set<Meal> consumedMealsFromUser, Set<Meal> consumedMealsFromDb) {
+        return filterNewMeals(consumedMealsFromUser, consumedMealsFromDb)
                 .stream()
                 .map(MealPersistenceUtils::cloneAndSaveMeal)
                 .collect(Collectors.toSet());
+    }
+
+    private static Set<Meal> filterNewMeals(Set<Meal> consumedMealsFromUser, Set<Meal> consumedMealsFromDb) {
+        consumedMealsFromUser.removeAll(consumedMealsFromDb);
+        return consumedMealsFromUser;
     }
 
     private static Meal cloneAndSaveMeal(Meal meal) {

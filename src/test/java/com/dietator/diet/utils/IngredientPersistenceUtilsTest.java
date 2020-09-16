@@ -4,8 +4,9 @@ import com.dietator.diet.domain.Ingredient;
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.domain.MealCategory;
 import com.dietator.diet.domain.PreparationDifficulty;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,14 +14,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.dietator.diet.utils.IngredientPersistenceUtils.clonePreDefinedIngredients;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 class IngredientPersistenceUtilsTest {
 
     private Meal mealFromDb, mealFromClient;
     private Set<Ingredient> noIngredients, twoIngredients, fourIngredients;
 
-    @BeforeEach
+    @BeforeAll
     public void init() {
         Ingredient potato = new Ingredient(1L, "potato", 340, 180, false, false, false);
         Ingredient cucumber = new Ingredient(2L, "cucumber", 150, 100, true, false, false);
@@ -63,8 +65,8 @@ class IngredientPersistenceUtilsTest {
         scl.removeAll(sdb);
         Set<Ingredient> emptySet = new HashSet<>();
         //when
-        mealFromDb.getIngredients().addAll(emptySet);
-//        mealFromDb.getIngredients().addAll(clonePreDefinedIngredients(mealFromClient.getIngredients(), mealFromDb.getIngredients()));
+//        mealFromDb.getIngredients().addAll(emptySet);
+        mealFromDb.getIngredients().addAll(clonePreDefinedIngredients(mealFromClient.getIngredients(), mealFromDb.getIngredients()));
         //then
         assertEquals(4, mealFromDb.getIngredients().size());
     }

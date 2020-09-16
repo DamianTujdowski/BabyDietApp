@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.dietator.diet.utils.IngredientPersistenceUtils.clonePreDefinedIngredients;
-import static com.dietator.diet.utils.IngredientPersistenceUtils.filterNewIngredients;
 import static com.dietator.diet.utils.MealPersistenceUtils.clonePreDefinedMeals;
-import static com.dietator.diet.utils.MealPersistenceUtils.filterNewMeals;
 
 @RequiredArgsConstructor
 @Service
@@ -40,9 +38,9 @@ public class ChildService {
         editedChild.setFirstName(child.getFirstName());
         editedChild.setBirthDate(child.getBirthDate());
         editedChild.getConsumedMeals()
-                .addAll(Objects.requireNonNull(clonePreDefinedMeals(filterNewMeals(child.getConsumedMeals(), editedChild.getConsumedMeals()))));
+                .addAll(Objects.requireNonNull(clonePreDefinedMeals(child.getConsumedMeals(), editedChild.getConsumedMeals())));
         editedChild.getFavouriteAndDislikedIngredients()
-                .addAll(Objects.requireNonNull(clonePreDefinedIngredients(filterNewIngredients(child.getFavouriteAndDislikedIngredients(), editedChild.getFavouriteAndDislikedIngredients()))));
+                .addAll(Objects.requireNonNull(clonePreDefinedIngredients(child.getFavouriteAndDislikedIngredients(), editedChild.getFavouriteAndDislikedIngredients())));
         return editedChild;
     }
 
