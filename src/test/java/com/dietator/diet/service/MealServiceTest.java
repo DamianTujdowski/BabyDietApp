@@ -5,7 +5,6 @@ import com.dietator.diet.repository.MealRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -23,16 +22,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 class MealServiceTest {
 
     @InjectMocks
     private MealService mealService;
     @Mock
     private MealRepository mealRepositoryMock;
-    private Meal noIngredientMealFromDb, potatoCocumberMealFromClient, twoIngredientMealFromDb, fourIngredientMealFromClient, fourIngredientMealFromDb, carrotSugarMealFromClient;
+    private  Meal noIngredientNoConTimesMealFromDb, potatoCucumberBeforeAfternoonMealFromClient,
+            twoIngredientTwoConTimesMealFromDb, fourIngredientFourConTimesMealFromClient,
+            fourIngredientFourConTimesMealFromDb, carrotSugarAfterAfternoonMealFromClient;
 
-    @BeforeAll
+    @BeforeEach
     public void init() {
         Ingredient potato = new Ingredient(1L, "potato", 340, 180, false, false, false);
         Ingredient cucumber = new Ingredient(2L, "cucumber", 150, 100, true, false, false);
@@ -44,37 +44,40 @@ class MealServiceTest {
         ConsumptionTime morning = new ConsumptionTime(1, LocalDateTime.of(2020, Month.APRIL, 13, 10, 40));
         ConsumptionTime afternoon = new ConsumptionTime(2, LocalDateTime.of(2020, Month.APRIL, 13, 15, 18));
         ConsumptionTime evening = new ConsumptionTime(3, LocalDateTime.of(2020, Month.APRIL, 13, 19, 5));
-        Set<ConsumptionTime> consumptionTimes = Stream.of(morning, afternoon, evening).collect(Collectors.toSet());
-        noIngredientMealFromDb = new Meal(5L, "burrito", 800, "roll cake",
+        ConsumptionTime lateEvening = new ConsumptionTime(3, LocalDateTime.of(2020, Month.APRIL, 13, 21, 15));
+        Set<ConsumptionTime> twoTimesBeforeAfternoon = Stream.of(morning, afternoon).collect(Collectors.toSet());
+        Set<ConsumptionTime> twoTimesAfterAfternoon = Stream.of(evening, lateEvening).collect(Collectors.toSet());
+        Set<ConsumptionTime> fourTimes = Stream.of(morning, afternoon, evening, lateEvening).collect(Collectors.toSet());
+        noIngredientNoConTimesMealFromDb = new Meal(5L, "burrito", 800, "roll cake",
                 10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false);
-        potatoCocumberMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false);
-        carrotSugarMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), carrotSugar, MealCategory.DINNER, PreparationDifficulty.EASY, false);
-        twoIngredientMealFromDb = new Meal(5L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false);
-        fourIngredientMealFromDb = new Meal(5L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false);
-        fourIngredientMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false);
+        potatoCucumberBeforeAfternoonMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
+                10, twoTimesBeforeAfternoon, potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false);
+        carrotSugarAfterAfternoonMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
+                10, twoTimesAfterAfternoon, carrotSugar, MealCategory.DINNER, PreparationDifficulty.EASY, false);
+        twoIngredientTwoConTimesMealFromDb = new Meal(5L, "burrito", 800, "roll cake",
+                10, twoTimesAfterAfternoon, potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false);
+        fourIngredientFourConTimesMealFromDb = new Meal(5L, "burrito", 800, "roll cake",
+                10, fourTimes, fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false);
+        fourIngredientFourConTimesMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
+                10, fourTimes, fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false);
     }
 
     @Test
-    public void whenAddingIngredientsToMealWithEmptyIngredientsSet_shouldAddAllIngredients() {
+    public void whenEditingMealWithNoIngredients_shouldAddAllIngredients() {
         //given
-        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(noIngredientMealFromDb));
+        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(noIngredientNoConTimesMealFromDb));
         //when
-        Meal editedMeal = mealService.editMeal(potatoCocumberMealFromClient);
+        Meal editedMeal = mealService.editMeal(potatoCucumberBeforeAfternoonMealFromClient);
         //then
         assertEquals(2, editedMeal.getIngredients().size());
     }
 
     @Test
-    public void whenEditingMeal_shouldAddOnlyNewIngredientsToMealWhichHasIngredientsAlready() {
+    public void whenEditingMealWhichHasIngredientsAlready_shouldAddOnlyNewIngredients() {
         //given
-        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(twoIngredientMealFromDb));
+        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(twoIngredientTwoConTimesMealFromDb));
         //when
-        Meal editedMeal = mealService.editMeal(fourIngredientMealFromClient);
+        Meal editedMeal = mealService.editMeal(fourIngredientFourConTimesMealFromClient);
         //then
         assertEquals(4, editedMeal.getIngredients().size());
     }
@@ -82,9 +85,9 @@ class MealServiceTest {
     @Test
     public void whenEditingMeal_shouldAddAllIngredients_ifClientAndDatabaseMealHaveNoCommonIngredients() {
         //given
-        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(carrotSugarMealFromClient));
+        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(carrotSugarAfterAfternoonMealFromClient));
         //when
-        Meal editedMeal = mealService.editMeal(potatoCocumberMealFromClient);
+        Meal editedMeal = mealService.editMeal(potatoCucumberBeforeAfternoonMealFromClient);
         //then
         assertEquals(4, editedMeal.getIngredients().size());
     }
@@ -92,11 +95,51 @@ class MealServiceTest {
     @Test
     public void whenEditingMeal_shouldNotAddIngredientsIfThereAreNoNewIngredients() {
         //given
-        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(fourIngredientMealFromDb));
+        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(fourIngredientFourConTimesMealFromDb));
         //when
-        Meal editedMeal = mealService.editMeal(fourIngredientMealFromClient);
+        Meal editedMeal = mealService.editMeal(fourIngredientFourConTimesMealFromClient);
         //then
         assertEquals(4, editedMeal.getIngredients().size());
+    }
+
+    @Test
+    public void whenEditingMealWithNoConsumptionTimes_shouldAddAllConsumptionTimes() {
+        //given
+        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(noIngredientNoConTimesMealFromDb));
+        //when
+        Meal editedMeal = mealService.editMeal(carrotSugarAfterAfternoonMealFromClient);
+        //then
+        assertEquals(2, editedMeal.getConsumptionTime().size());
+    }
+
+    @Test
+    public void whenEditingMealWhichHasConTimesAlready_shouldAddOnlyNewConTimes() {
+        //given
+        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(twoIngredientTwoConTimesMealFromDb));
+        //when
+        Meal editedMeal = mealService.editMeal(fourIngredientFourConTimesMealFromDb);
+        //then
+        assertEquals(4, editedMeal.getConsumptionTime().size());
+    }
+
+    @Test
+    public void whenEditingMeal_shouldAddAllConsumptionTimes_ifClientAndDatabaseMealHaveNoCommonConsumptionTimes() {
+        //given
+        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(carrotSugarAfterAfternoonMealFromClient));
+        //when
+        Meal editedMeal = mealService.editMeal(potatoCucumberBeforeAfternoonMealFromClient);
+        //then
+        assertEquals(4, editedMeal.getConsumptionTime().size());
+    }
+
+    @Test
+    public void whenEditingMeal_shouldNotAddConsumptionTimesIfThereAreNoNewConsumptionTimes() {
+        //given
+        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(fourIngredientFourConTimesMealFromDb));
+        //when
+        Meal editedMeal = mealService.editMeal(fourIngredientFourConTimesMealFromClient);
+        //then
+        assertEquals(4, editedMeal.getConsumptionTime().size());
     }
 
 }

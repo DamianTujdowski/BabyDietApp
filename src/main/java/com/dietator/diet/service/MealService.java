@@ -1,11 +1,11 @@
 package com.dietator.diet.service;
 
+import com.dietator.diet.domain.ConsumptionTime;
 import com.dietator.diet.domain.Ingredient;
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.projections.MealInfo;
 import com.dietator.diet.repository.IngredientRepository;
 import com.dietator.diet.repository.MealRepository;
-import com.dietator.diet.utils.IngredientPersistenceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.dietator.diet.utils.ConsumptionTimePersistenceUtils.filterNewConsumptionTimes;
 
 @RequiredArgsConstructor
 @Service
@@ -44,8 +42,7 @@ public class MealService {
         editedMeal.setEnergy(meal.getEnergy());
         editedMeal.setPreparationDescription(meal.getPreparationDescription());
         editedMeal.setPreparationDuration(meal.getPreparationDuration());
-        editedMeal.getConsumptionTime()
-                .addAll(Objects.requireNonNull(filterNewConsumptionTimes(meal.getConsumptionTime(), editedMeal.getConsumptionTime())));
+        editedMeal.getConsumptionTime().addAll(Objects.requireNonNull(meal.getConsumptionTime()));
         editedMeal.getIngredients()
                 .addAll(Objects.requireNonNull(copyPreDefinedIngredients(meal.getIngredients(), editedMeal.getIngredients())));
         editedMeal.setMealCategory(meal.getMealCategory());
