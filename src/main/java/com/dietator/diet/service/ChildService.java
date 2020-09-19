@@ -3,7 +3,8 @@ package com.dietator.diet.service;
 import com.dietator.diet.domain.Child;
 import com.dietator.diet.projections.ChildInfo;
 import com.dietator.diet.repository.ChildRepository;
-import com.dietator.diet.utils.IngredientCopyingService;
+import com.dietator.diet.utils.PredefinedIngredientCopyingService;
+import com.dietator.diet.utils.PredefinedMealCopyingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 
-import static com.dietator.diet.utils.MealPersistenceUtils.clonePreDefinedMeals;
 
 @RequiredArgsConstructor
 @Service
@@ -19,7 +19,9 @@ public class ChildService {
 
     private final ChildRepository childRepository;
 
-    private final IngredientCopyingService ingredientCopyingService;
+    private final PredefinedMealCopyingService mealCopyingService;
+
+    private final PredefinedIngredientCopyingService predefinedIngredientCopyingService;
 
     public Child findById(long id) {
         return childRepository.findById(id).orElseThrow();
@@ -40,9 +42,9 @@ public class ChildService {
         editedChild.setFirstName(child.getFirstName());
         editedChild.setBirthDate(child.getBirthDate());
         editedChild.getConsumedMeals()
-                .addAll(Objects.requireNonNull(clonePreDefinedMeals(child.getConsumedMeals(), editedChild.getConsumedMeals())));
+                .addAll(Objects.requireNonNull(mealCopyingService.copyPreDefinedMeals(child.getConsumedMeals(), editedChild.getConsumedMeals())));
         editedChild.getFavouriteAndDislikedIngredients()
-                .addAll(Objects.requireNonNull(ingredientCopyingService.clonePreDefinedIngredients(child.getFavouriteAndDislikedIngredients(),
+                .addAll(Objects.requireNonNull(predefinedIngredientCopyingService.copyPreDefinedIngredients(child.getFavouriteAndDislikedIngredients(),
                         editedChild.getFavouriteAndDislikedIngredients())));
         return editedChild;
     }
@@ -50,6 +52,5 @@ public class ChildService {
     public void deleteChild(long id) {
         childRepository.deleteById(id);
     }
-
 
 }

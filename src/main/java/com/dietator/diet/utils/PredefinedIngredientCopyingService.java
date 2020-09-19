@@ -2,29 +2,33 @@ package com.dietator.diet.utils;
 
 import com.dietator.diet.domain.Ingredient;
 import com.dietator.diet.repository.IngredientRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class IngredientCopyingService {
+@RequiredArgsConstructor
+public class PredefinedIngredientCopyingService {
 
-    private IngredientRepository ingredientRepository;
+    private final IngredientRepository ingredientRepository;
 
-    public Set<Ingredient> clonePreDefinedIngredients(Set<Ingredient> clientIngredients, Set<Ingredient> dbIngredients) {
+    public Set<Ingredient> copyPreDefinedIngredients(Set<Ingredient> clientIngredients, Set<Ingredient> dbIngredients) {
         return removeCommonIngredients(clientIngredients, dbIngredients)
                 .stream()
-                .map(this::cloneAndSaveIngredient)
+                .map(this::copyAndSaveIngredient)
                 .collect(Collectors.toSet());
     }
 
     private Set<Ingredient> removeCommonIngredients(Set<Ingredient> clientIngredients, Set<Ingredient> dbIngredients) {
-        clientIngredients.removeAll(dbIngredients);
-        return clientIngredients;
+        Set<Ingredient> newIngredients = new HashSet<>(clientIngredients);
+        newIngredients.removeAll(dbIngredients);
+        return newIngredients;
     }
 
-    private Ingredient cloneAndSaveIngredient(Ingredient ingredient) {
+    private Ingredient copyAndSaveIngredient(Ingredient ingredient) {
         return ingredient.isPreDefined() ? ingredientRepository.save(new Ingredient(ingredient)) : ingredient;
     }
 
