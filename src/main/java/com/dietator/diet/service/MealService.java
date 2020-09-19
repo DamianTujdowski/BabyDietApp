@@ -6,6 +6,7 @@ import com.dietator.diet.domain.Meal;
 import com.dietator.diet.projections.MealInfo;
 import com.dietator.diet.repository.IngredientRepository;
 import com.dietator.diet.repository.MealRepository;
+import com.dietator.diet.utils.IngredientCopyingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,8 @@ import java.util.stream.Collectors;
 public class MealService {
 
     private final MealRepository mealRepository;
-    private final IngredientRepository ingredientRepository;
+    
+    private final IngredientCopyingService ingredientCopyingService;
 
     public Meal findMealById(long id) {
         return mealRepository.findById(id).orElseThrow();
@@ -44,7 +46,7 @@ public class MealService {
         editedMeal.setPreparationDuration(meal.getPreparationDuration());
         editedMeal.getConsumptionTime().addAll(Objects.requireNonNull(meal.getConsumptionTime()));
         editedMeal.getIngredients()
-                .addAll(Objects.requireNonNull(copyPreDefinedIngredients(meal.getIngredients(), editedMeal.getIngredients())));
+                .addAll(Objects.requireNonNull(ingredientCopyingService.clonePreDefinedIngredients(meal.getIngredients(), editedMeal.getIngredients())));
         editedMeal.setMealCategory(meal.getMealCategory());
         editedMeal.setPreparationDifficulty(meal.getPreparationDifficulty());
         return editedMeal;
@@ -54,21 +56,21 @@ public class MealService {
         mealRepository.deleteById(id);
     }
 
-    private Set<Ingredient> copyPreDefinedIngredients(Set<Ingredient> clientIngredients, Set<Ingredient> dbIngredients) {
-        return removeCommonIngredients(clientIngredients, dbIngredients)
-                .stream()
-                .map(this::copyAndSaveIngredient)
-                .collect(Collectors.toSet());
-    }
-
-    private Set<Ingredient> removeCommonIngredients(Set<Ingredient> clientIngredients, Set<Ingredient> dbIngredients) {
-        Set<Ingredient> newIngredients = new HashSet<>(clientIngredients);
-        newIngredients.removeAll(dbIngredients);
-        return newIngredients;
-    }
-
-    private Ingredient copyAndSaveIngredient(Ingredient ingredient) {
-        return ingredient.isPreDefined() ? ingredientRepository.save(new Ingredient(ingredient)) : ingredient;
-    }
+//    private Set<Ingredient> copyPreDefinedIngredients(Set<Ingredient> clientIngredients, Set<Ingredient> dbIngredients) {
+//        return removeCommonIngredients(clientIngredients, dbIngredients)
+//                .stream()
+//                .map(this::copyAndSaveIngredient)
+//                .collect(Collectors.toSet());
+//    }
+//
+//    private Set<Ingredient> removeCommonIngredients(Set<Ingredient> clientIngredients, Set<Ingredient> dbIngredients) {
+//        Set<Ingredient> newIngredients = new HashSet<>(clientIngredients);
+//        newIngredients.removeAll(dbIngredients);
+//        return newIngredients;
+//    }
+//
+//    private Ingredient copyAndSaveIngredient(Ingredient ingredient) {
+//        return ingredient.isPreDefined() ? ingredientRepository.save(new Ingredient(ingredient)) : ingredient;
+//    }
 
 }
