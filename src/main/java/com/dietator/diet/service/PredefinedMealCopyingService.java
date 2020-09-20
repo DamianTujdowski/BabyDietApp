@@ -1,4 +1,4 @@
-package com.dietator.diet.utils;
+package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.repository.IngredientRepository;

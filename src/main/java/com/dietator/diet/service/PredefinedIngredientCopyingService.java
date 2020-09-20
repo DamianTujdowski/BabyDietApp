@@ -1,4 +1,4 @@
-package com.dietator.diet.utils;
+package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Ingredient;
 import com.dietator.diet.repository.IngredientRepository;
@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class PredefinedIngredientCopyingService {
 
     private final IngredientRepository ingredientRepository;

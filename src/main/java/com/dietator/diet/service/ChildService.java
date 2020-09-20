@@ -3,8 +3,6 @@ package com.dietator.diet.service;
 import com.dietator.diet.domain.Child;
 import com.dietator.diet.projections.ChildInfo;
 import com.dietator.diet.repository.ChildRepository;
-import com.dietator.diet.utils.PredefinedIngredientCopyingService;
-import com.dietator.diet.utils.PredefinedMealCopyingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

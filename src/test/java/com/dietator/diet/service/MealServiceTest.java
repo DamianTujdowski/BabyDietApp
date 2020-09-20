@@ -2,7 +2,6 @@ package com.dietator.diet.service;
 
 import com.dietator.diet.domain.*;
 import com.dietator.diet.repository.MealRepository;
-import com.dietator.diet.utils.PredefinedIngredientCopyingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +19,6 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.Mockito.when;
 
@@ -50,7 +48,7 @@ class MealServiceTest {
         Set<Ingredient> potatoCucumber = Stream.of(potato, cucumber).collect(Collectors.toSet());
         Set<Ingredient> carrotSugar = Stream.of(carrot, sugar).collect(Collectors.toSet());
         Set<Ingredient> fourIngredients = Stream.of(potato, cucumber, carrot, sugar).collect(Collectors.toSet());
-        Set<Ingredient> fourIngredientsWithOnePredefined = Stream.of(potato, cucumber, carrotPredefined, sugarPredefined).collect(Collectors.toSet());
+        Set<Ingredient> fourIngredientsWithTwoPredefined = Stream.of(potato, cucumber, carrotPredefined, sugarPredefined).collect(Collectors.toSet());
         ConsumptionTime morning = new ConsumptionTime(1, LocalDateTime.of(2020, Month.APRIL, 13, 10, 40));
         ConsumptionTime afternoon = new ConsumptionTime(2, LocalDateTime.of(2020, Month.APRIL, 13, 15, 18));
         ConsumptionTime evening = new ConsumptionTime(3, LocalDateTime.of(2020, Month.APRIL, 13, 19, 5));
@@ -71,7 +69,7 @@ class MealServiceTest {
         fourIngredientFourConTimesMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
                 10, fourTimes, fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false);
         fourIngredientMealWithTwoPredefinedIngredientsFromClient = new Meal(5L, "burrito", 800, "roll cake",
-                10, fourTimes, fourIngredientsWithOnePredefined, MealCategory.DINNER, PreparationDifficulty.EASY, false);
+                10, fourTimes, fourIngredientsWithTwoPredefined, MealCategory.DINNER, PreparationDifficulty.EASY, false);
     }
 
     @Test
@@ -210,6 +208,7 @@ class MealServiceTest {
                 10, new HashSet<>(), mealTwoIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false);
         Meal mealTwoFromDb = new Meal(2L, "burrito", 800, "roll cake",
                 10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false);
+
         when(mealRepositoryMock.findById(1L)).thenReturn(Optional.of(mealOneFromDb));
         Set<Ingredient> mealOneEditedIngredients = mealOne.getIngredients()
                 .stream()
@@ -217,6 +216,7 @@ class MealServiceTest {
                 .collect(Collectors.toSet());
         when(predefinedIngredientCopyingService.copyPreDefinedIngredients(anySet(), anySet()))
                 .thenReturn(mealOneEditedIngredients);
+
         when(mealRepositoryMock.findById(2L)).thenReturn(Optional.of(mealTwoFromDb));
         Set<Ingredient> mealTwoEditedIngredients = mealTwo.getIngredients()
                 .stream()
