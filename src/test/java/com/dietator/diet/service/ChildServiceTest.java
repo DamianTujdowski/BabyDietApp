@@ -60,7 +60,6 @@ class ChildServiceTest {
         secondTwoMealsTwoIngredientsChild = new Child(1, "Zosia", LocalDate.of(2019, 6, 26), mealThreeFourSet, ingredientsThreeFourSet);
         twoMealsChildFromClient = new Child(1, "Zosia", LocalDate.of(2019, 6, 26), mealOneTwoSet, ingredientsOneTwoSet);
         fourMealsChildFromClient = new Child(1, "Zosia", LocalDate.of(2019, 6, 26), fourMealsSet, fourIngredientsSet);
-//        twoMealsChildFromClient = new Child(2, "Marek", LocalDate.of(2019, 3, 14), meals, ingredients);
     }
 
     @Test
