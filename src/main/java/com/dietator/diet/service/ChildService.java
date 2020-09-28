@@ -1,6 +1,7 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Child;
+import com.dietator.diet.error.ChildNotFoundException;
 import com.dietator.diet.projections.ChildInfo;
 import com.dietator.diet.repository.ChildRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 
 @RequiredArgsConstructor
@@ -22,10 +24,9 @@ public class ChildService {
     private final PredefinedIngredientCopyingService predefinedIngredientCopyingService;
 
     public Child findById(long id) {
-        return childRepository.findById(id).orElseThrow();
+        return childRepository.findById(id).orElseThrow(() -> new ChildNotFoundException(id));
     }
 
-    //TODO make favourite and dislike ingredients display pairs ingredient name + ingredient favourite or dislike only info
     public List<ChildInfo> findAllChildren() {
         return childRepository.findAllBy();
     }
@@ -40,9 +41,9 @@ public class ChildService {
         editedChild.setFirstName(child.getFirstName());
         editedChild.setBirthDate(child.getBirthDate());
         editedChild.getConsumedMeals()
-                .addAll(Objects.requireNonNull(mealCopyingService.copyPreDefinedMeals(child.getConsumedMeals(), editedChild.getConsumedMeals())));
+                .addAll(requireNonNull(mealCopyingService.copyPreDefinedMeals(child.getConsumedMeals(), editedChild.getConsumedMeals())));
         editedChild.getFavouriteAndDislikedIngredients()
-                .addAll(Objects.requireNonNull(predefinedIngredientCopyingService.copyPreDefinedIngredients(child.getFavouriteAndDislikedIngredients(),
+                .addAll(requireNonNull(predefinedIngredientCopyingService.copyPreDefinedIngredients(child.getFavouriteAndDislikedIngredients(),
                         editedChild.getFavouriteAndDislikedIngredients())));
         return editedChild;
     }
