@@ -1,6 +1,7 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.ConsumptionTime;
+import com.dietator.diet.error.EntityNotFoundException;
 import com.dietator.diet.repository.ConsumptionTimeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class ConsumptionTimeService {
     }
 
     public ConsumptionTime findConsumptionTimeById(long id) {
-        return consumptionTimeRepository.findById(id).orElseThrow();
+        return consumptionTimeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ConsumptionTime.class, id));
     }
 
     public List<ConsumptionTime> findAll() {

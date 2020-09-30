@@ -1,6 +1,7 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Ingredient;
+import com.dietator.diet.error.EntityNotFoundException;
 import com.dietator.diet.projections.IngredientBasicInfo;
 import com.dietator.diet.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class IngredientService {
     private final IngredientRepository ingredientRepository;
 
     public Ingredient findIngredientById(long id) {
-        return ingredientRepository.findById(id).orElseThrow();
+        return ingredientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Ingredient.class, id));
     }
 
     public List<IngredientBasicInfo> findAll() {
@@ -32,7 +33,6 @@ public class IngredientService {
         Ingredient editedIngredient = ingredientRepository.findById(ingredient.getId()).orElseThrow();
         editedIngredient.setDesignation(ingredient.getDesignation());
         editedIngredient.setEnergyPer100Grams(ingredient.getEnergyPer100Grams());
-//        editedIngredient.setBaby(ingredient.getBaby());
         editedIngredient.setFavourite(ingredient.isFavourite());
         editedIngredient.setDisliked(ingredient.isDisliked());
         return editedIngredient;

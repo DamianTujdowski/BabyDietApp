@@ -1,6 +1,7 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Meal;
+import com.dietator.diet.error.EntityNotFoundException;
 import com.dietator.diet.projections.MealInfo;
 import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class MealService {
     private final PredefinedIngredientCopyingService predefinedIngredientCopyingService;
 
     public Meal findMealById(long id) {
-        return mealRepository.findById(id).orElseThrow();
+        return mealRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Meal.class, id));
     }
 
     public List<MealInfo> findAllMeals() {

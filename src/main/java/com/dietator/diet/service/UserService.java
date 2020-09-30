@@ -2,6 +2,7 @@ package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Child;
 import com.dietator.diet.domain.User;
+import com.dietator.diet.error.EntityNotFoundException;
 import com.dietator.diet.projections.UserInfo;
 import com.dietator.diet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserInfo getUserById(long id) {
-        return userRepository.findUserById(id).orElseThrow();
+        return userRepository.findUserById(id).orElseThrow(() -> new EntityNotFoundException(User.class, id));
     }
 
     public List<UserInfo> getAllUsers() {
