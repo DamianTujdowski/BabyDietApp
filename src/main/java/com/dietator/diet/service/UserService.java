@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static java.util.Objects.*;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -33,10 +35,11 @@ public class UserService {
 
     @Transactional
     public User editUser(User user) {
-        User editedUser = userRepository.findById(user.getId()).orElseThrow();
+        User editedUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new EntityNotFoundException(User.class, user.getId()));
         editedUser.setNickname(user.getNickname());
         editedUser.setEmail(user.getEmail());
-        editedUser.getChildren().addAll(Objects.requireNonNull(filterNewChildren(user.getChildren(), editedUser.getChildren())));
+        editedUser.getChildren().addAll(requireNonNull(filterNewChildren(user.getChildren(), editedUser.getChildren())));
         return editedUser;
     }
 

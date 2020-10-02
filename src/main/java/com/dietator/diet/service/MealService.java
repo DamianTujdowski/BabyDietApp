@@ -11,6 +11,8 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.Objects.*;
+
 @RequiredArgsConstructor
 @Service
 public class MealService {
@@ -33,14 +35,15 @@ public class MealService {
 
     @Transactional
     public Meal editMeal(Meal meal) {
-        Meal editedMeal = mealRepository.findById(meal.getId()).orElseThrow();
+        Meal editedMeal = mealRepository.findById(meal.getId())
+                .orElseThrow(() -> new EntityNotFoundException(Meal.class, meal.getId()));
         editedMeal.setDesignation(meal.getDesignation());
         editedMeal.setEnergy(meal.getEnergy());
         editedMeal.setPreparationDescription(meal.getPreparationDescription());
         editedMeal.setPreparationDuration(meal.getPreparationDuration());
-        editedMeal.getConsumptionTime().addAll(Objects.requireNonNull(meal.getConsumptionTime()));
+        editedMeal.getConsumptionTime().addAll(requireNonNull(meal.getConsumptionTime()));
         editedMeal.getIngredients()
-                .addAll(Objects.requireNonNull(predefinedIngredientCopyingService.copyPreDefinedIngredients(meal.getIngredients(), editedMeal.getIngredients())));
+                .addAll(requireNonNull(predefinedIngredientCopyingService.copyPreDefinedIngredients(meal.getIngredients(), editedMeal.getIngredients())));
         editedMeal.setMealCategory(meal.getMealCategory());
         editedMeal.setPreparationDifficulty(meal.getPreparationDifficulty());
         return editedMeal;

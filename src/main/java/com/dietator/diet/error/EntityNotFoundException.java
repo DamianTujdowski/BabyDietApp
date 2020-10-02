@@ -1,7 +1,5 @@
 package com.dietator.diet.error;
 
-import java.util.Arrays;
-
 public class EntityNotFoundException extends RuntimeException {
 
     public EntityNotFoundException(Class entityClass, long id) {

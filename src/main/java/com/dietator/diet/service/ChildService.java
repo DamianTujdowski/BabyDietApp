@@ -37,7 +37,8 @@ public class ChildService {
 
     @Transactional
     public Child editChild(Child child) {
-        Child editedChild = childRepository.findById(child.getId()).orElseThrow();
+        Child editedChild = childRepository.findById(child.getId())
+                .orElseThrow(() -> new EntityNotFoundException(Child.class, child.getId()));
         editedChild.setFirstName(child.getFirstName());
         editedChild.setBirthDate(child.getBirthDate());
         editedChild.getConsumedMeals()

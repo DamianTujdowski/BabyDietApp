@@ -30,7 +30,8 @@ public class IngredientService {
 
     @Transactional
     public Ingredient edit(Ingredient ingredient) {
-        Ingredient editedIngredient = ingredientRepository.findById(ingredient.getId()).orElseThrow();
+        Ingredient editedIngredient = ingredientRepository.findById(ingredient.getId())
+                .orElseThrow(() -> new EntityNotFoundException(Ingredient.class, ingredient.getId()));
         editedIngredient.setDesignation(ingredient.getDesignation());
         editedIngredient.setEnergyPer100Grams(ingredient.getEnergyPer100Grams());
         editedIngredient.setFavourite(ingredient.isFavourite());
