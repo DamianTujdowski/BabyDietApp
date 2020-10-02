@@ -13,6 +13,8 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException exception, WebRequest request) {
-        return handleExceptionInternal(exception, exception.getMessage(), HttpHeaders.EMPTY, HttpStatus.NOT_FOUND, request);
+        ApiError error = new ApiError(HttpStatus.NOT_FOUND, exception.getMessage(), exception.getClass().getSimpleName(), request.getContextPath());
+        return new ResponseEntity<>(error, new HttpHeaders(), error.getStatus());
+//        return handleExceptionInternal(exception, error, HttpHeaders.EMPTY, HttpStatus.NOT_FOUND, request);
     }
 }
