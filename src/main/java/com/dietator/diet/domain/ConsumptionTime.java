@@ -21,6 +21,5 @@ public class ConsumptionTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime consumptionTime;
 }

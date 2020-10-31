@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.QueryHint;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ChildRepository extends JpaRepository<Child, Long> {
@@ -16,4 +17,6 @@ public interface ChildRepository extends JpaRepository<Child, Long> {
     @QueryHints(@QueryHint(name = "hibernate.query.passDistinctThrough", value = "false"))
     @Query("select distinct c from Child c left join fetch c.consumedMeals m")
     List<ChildInfo> findAllBy();
+
+    Optional<ChildInfo> findChildById(long id);
 }

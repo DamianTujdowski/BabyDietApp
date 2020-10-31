@@ -23,8 +23,8 @@ public class ChildService {
 
     private final PredefinedIngredientCopyingService predefinedIngredientCopyingService;
 
-    public Child findById(long id) {
-        return childRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Child.class, id));
+    public ChildInfo findById(long id) {
+        return childRepository.findChildById(id).orElseThrow(() -> new EntityNotFoundException(Child.class, id));
     }
 
     public List<ChildInfo> findAllChildren() {
