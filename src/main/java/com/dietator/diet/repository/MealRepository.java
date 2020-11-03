@@ -19,8 +19,8 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
     @Query("select distinct m from Meal m left join fetch m.ingredients")
     List<MealInfo> findAllBy();
 
-    @Query("SELECT m.designation AS designation, COUNT() AS consumptionsCount FROM Meal m " +
-            "RIGHT JOIN ConsumptionTime ct GROUP BY m.id ORDER BY consumptionsCount ASC")
-    List<MealConsumptionsCount> countMealsByConsumpitonsCount();
+    @Query("SELECT m.designation AS designation, COUNT(m.id) AS consumptionsCount FROM Meal m " +
+            "RIGHT JOIN m.consumptionTimes GROUP BY m.id ORDER BY consumptionsCount ASC")
+    List<MealConsumptionsCount> countMealConsumptionsCount();
 
 }

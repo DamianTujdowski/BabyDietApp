@@ -14,6 +14,6 @@ public class StatisticsService {
     private final MealRepository mealRepository;
 
     public List<MealConsumptionsCount> getMealConsumptionsCount() {
-        return mealRepository.countMealsByConsumpitonsCount();
+        return mealRepository.countMealConsumptionsCount();
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Objects;
 
 import static java.util.Objects.*;
 
@@ -41,7 +40,7 @@ public class MealService {
         editedMeal.setEnergy(meal.getEnergy());
         editedMeal.setPreparationDescription(meal.getPreparationDescription());
         editedMeal.setPreparationDuration(meal.getPreparationDuration());
-        editedMeal.getConsumptionTime().addAll(requireNonNull(meal.getConsumptionTime()));
+        editedMeal.getConsumptionTimes().addAll(requireNonNull(meal.getConsumptionTimes()));
         editedMeal.getIngredients()
                 .addAll(requireNonNull(predefinedIngredientCopyingService.copyPreDefinedIngredients(meal.getIngredients(), editedMeal.getIngredients())));
         editedMeal.setMealCategory(meal.getMealCategory());

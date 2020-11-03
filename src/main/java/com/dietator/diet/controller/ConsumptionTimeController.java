@@ -13,17 +13,17 @@ public class ConsumptionTimeController {
 
     private final ConsumptionTimeService consumptionTimeService;
 
-    @GetMapping(value = "/consumptionTime/{id}")
+    @GetMapping(value = "/consumptionTimes/{id}")
     public ConsumptionTime getConsumptionTime(@PathVariable long id) {
         return consumptionTimeService.findConsumptionTimeById(id);
     }
 
-    @GetMapping("/consumptionTime")
+    @GetMapping("/consumptionTimes")
     public List<ConsumptionTime> getAllConsumptionTimes() {
         return consumptionTimeService.findAll();
     }
 
-    @PostMapping("/consumptionTime")
+    @PostMapping("/consumptionTimes")
     public ConsumptionTime save(@RequestBody ConsumptionTime consumptionTime) {
         return consumptionTimeService.save(consumptionTime);
     }
