@@ -28,7 +28,7 @@ public class Meal {
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "meal_id")
-    private Set<ConsumptionTime> consumptionTime;
+    private Set<ConsumptionTime> consumptionTimes;
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "meal_id")

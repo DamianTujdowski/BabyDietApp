@@ -1,4 +1,4 @@
-package com.dietator.diet.projections;
+package com.dietator.diet.projections.statistics_projections;
 
 public interface MealConsumptionsCount {
 
