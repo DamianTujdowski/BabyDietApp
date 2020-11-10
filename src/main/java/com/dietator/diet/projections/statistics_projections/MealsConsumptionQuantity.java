@@ -1,6 +1,6 @@
 package com.dietator.diet.projections.statistics_projections;
 
-public interface MealConsumptionsCount {
+public interface MealsConsumptionQuantity {
 
     String getDesignation();
 

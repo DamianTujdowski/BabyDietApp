@@ -1,6 +1,6 @@
 package com.dietator.diet.projections.statistics_projections;
 
-public interface MealConsumptionsNumber {
+public interface AllConsumedMealsNumber {
 
     long getConsumptionsNumber();
 

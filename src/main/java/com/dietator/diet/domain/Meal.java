@@ -44,6 +44,23 @@ public class Meal {
 
     private boolean isPreDefined;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Child child;
+
+    //TODO add child field to tests
+    public Meal(long id, String designation, int energy, String preparationDescription, int preparationDuration, Set<ConsumptionTime> consumptionTimes, Set<Ingredient> ingredients, MealCategory mealCategory, PreparationDifficulty preparationDifficulty, boolean isPreDefined) {
+        this.id = id;
+        this.designation = designation;
+        this.energy = energy;
+        this.preparationDescription = preparationDescription;
+        this.preparationDuration = preparationDuration;
+        this.consumptionTimes = consumptionTimes;
+        this.ingredients = ingredients;
+        this.mealCategory = mealCategory;
+        this.preparationDifficulty = preparationDifficulty;
+        this.isPreDefined = isPreDefined;
+    }
+
     public Meal(Meal mealToClone) {
         this.designation = mealToClone.designation;
         this.energy = mealToClone.energy;

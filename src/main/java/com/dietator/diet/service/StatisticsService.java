@@ -1,8 +1,7 @@
 package com.dietator.diet.service;
 
-import com.dietator.diet.projections.statistics_projections.MealConsumptionsCount;
-import com.dietator.diet.projections.statistics_projections.MealConsumptionsNumber;
-import com.dietator.diet.repository.ConsumptionTimeRepository;
+import com.dietator.diet.projections.statistics_projections.MealsConsumptionQuantity;
+import com.dietator.diet.projections.statistics_projections.AllConsumedMealsNumber;
 import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,13 +13,12 @@ import java.util.List;
 public class StatisticsService {
 
     private final MealRepository mealRepository;
-    private final ConsumptionTimeRepository consumptionTimeRepository;
 
-    public List<MealConsumptionsCount> getMealConsumptionsCount() {
-        return mealRepository.countMealsConsumptions();
+    public List<MealsConsumptionQuantity> getMealsConsumptionQuantity(long id) {
+        return mealRepository.getMealsConsumptionQuantity(id);
     }
 
-    public MealConsumptionsNumber getMealConsumptionsNumber() {
-        return consumptionTimeRepository.getMealConsumptionsNumber();
+    public AllConsumedMealsNumber getAllConsumedMealsNumber(long id) {
+        return mealRepository.getAllConsumedMealsNumber(id);
     }
 }
