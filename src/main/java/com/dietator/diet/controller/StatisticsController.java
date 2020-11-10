@@ -1,7 +1,6 @@
 package com.dietator.diet.controller;
 
 import com.dietator.diet.projections.statistics_projections.MealsConsumptionQuantity;
-import com.dietator.diet.projections.statistics_projections.AllConsumedMealsNumber;
 import com.dietator.diet.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +21,7 @@ public class StatisticsController {
     }
 
     @GetMapping("/stats/meals-number/{id}")
-    public AllConsumedMealsNumber getAllConsumedMealsNumber(@PathVariable long id) {
+    public long getAllConsumedMealsNumber(@PathVariable long id) {
         return statisticsService.getAllConsumedMealsNumber(id);
     }
 }

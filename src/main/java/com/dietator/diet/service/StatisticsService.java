@@ -1,7 +1,6 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.projections.statistics_projections.MealsConsumptionQuantity;
-import com.dietator.diet.projections.statistics_projections.AllConsumedMealsNumber;
 import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ public class StatisticsService {
         return mealRepository.getMealsConsumptionQuantity(id);
     }
 
-    public AllConsumedMealsNumber getAllConsumedMealsNumber(long id) {
+    public long getAllConsumedMealsNumber(long id) {
         return mealRepository.getAllConsumedMealsNumber(id);
     }
 }

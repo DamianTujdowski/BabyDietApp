@@ -24,7 +24,6 @@ public class Child {
     private LocalDate birthDate;
 
     @OneToMany(mappedBy = "child", orphanRemoval = true)
-//    @JoinColumn(name = "child_id")
     private Set<Meal> consumedMeals;
 
     @OneToMany(orphanRemoval = true)

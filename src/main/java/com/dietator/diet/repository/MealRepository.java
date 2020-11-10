@@ -2,7 +2,6 @@ package com.dietator.diet.repository;
 
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.projections.MealInfo;
-import com.dietator.diet.projections.statistics_projections.AllConsumedMealsNumber;
 import com.dietator.diet.projections.statistics_projections.MealsConsumptionQuantity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,6 +26,6 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
 
     @Query("SELECT COUNT(m.id) AS consumptionsNumber FROM Meal m " +
             "RIGHT JOIN m.consumptionTimes WHERE m.child.id = :id")
-    AllConsumedMealsNumber getAllConsumedMealsNumber(@Param("id") long id);
+    long getAllConsumedMealsNumber(@Param("id") long id);
 
 }
