@@ -5,6 +5,7 @@ import com.dietator.diet.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,9 +16,11 @@ public class StatisticsController {
 
     private final StatisticsService statisticsService;
 
-    @GetMapping("/stats/meals/{id}")
-    public List<MealsConsumptionQuantity> getMealsConsumptionQuantity(@PathVariable long id) {
-        return statisticsService.getMealsConsumptionQuantity(id);
+    @GetMapping("/stats/meals/")
+    public List<MealsConsumptionQuantity> getMealsConsumptionQuantity(@RequestParam long id,
+                                                                      @RequestParam int page,
+                                                                      @RequestParam(defaultValue = "10") int pageSize) {
+        return statisticsService.getMealsConsumptionQuantity(id, page, pageSize);
     }
 
     @GetMapping("/stats/meals-number/{id}")
