@@ -23,7 +23,8 @@ public class Child {
 
     private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "child", orphanRemoval = true)
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "childId")
     private Set<Meal> consumedMeals;
 
     @OneToMany(orphanRemoval = true)

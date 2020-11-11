@@ -44,8 +44,7 @@ public class Meal {
 
     private boolean isPreDefined;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Child child;
+    private long childId;
 
     //TODO add child field to tests
     public Meal(long id, String designation, int energy, String preparationDescription, int preparationDuration, Set<ConsumptionTime> consumptionTimes, Set<Ingredient> ingredients, MealCategory mealCategory, PreparationDifficulty preparationDifficulty, boolean isPreDefined) {

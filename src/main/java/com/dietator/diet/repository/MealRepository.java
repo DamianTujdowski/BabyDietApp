@@ -21,11 +21,11 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
     List<MealInfo> findAllBy();
 
     @Query("SELECT m.designation AS designation, COUNT(m.id) AS consumptionsCount FROM Meal m " +
-            "RIGHT JOIN m.consumptionTimes WHERE m.child.id = :id GROUP BY m.id ORDER BY consumptionsCount ASC")
+            "RIGHT JOIN m.consumptionTimes WHERE m.childId = :id GROUP BY m.id ORDER BY consumptionsCount ASC")
     List<MealsConsumptionQuantity> getMealsConsumptionQuantity(@Param("id") long id);
 
     @Query("SELECT COUNT(m.id) AS consumptionsNumber FROM Meal m " +
-            "RIGHT JOIN m.consumptionTimes WHERE m.child.id = :id")
+            "RIGHT JOIN m.consumptionTimes WHERE m.childId = :id")
     long getAllConsumedMealsNumber(@Param("id") long id);
 
 }
