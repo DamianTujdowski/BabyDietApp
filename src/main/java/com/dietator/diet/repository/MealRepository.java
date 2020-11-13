@@ -2,6 +2,7 @@ package com.dietator.diet.repository;
 
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.projections.MealInfo;
+import com.dietator.diet.projections.statistics_projections.ConsumedMealsNumberAndDailyAverage;
 import com.dietator.diet.projections.statistics_projections.MealsConsumptionQuantity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,12 +22,20 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
     @Query("SELECT DISTINCT m FROM Meal m LEFT JOIN FETCH m.ingredients")
     List<MealInfo> findAllBy();
 
-    @Query("SELECT m.designation AS designation, COUNT(m.id) AS consumptionsCount FROM Meal m " +
-            "RIGHT JOIN m.consumptionTimes WHERE m.childId = :id GROUP BY m.id ORDER BY consumptionsCount ASC")
+    @Query("SELECT m.designation AS designation," +
+            "COUNT(m.id) AS consumptionsQuantity " +
+            "FROM Meal m " +
+            "RIGHT JOIN m.consumptionTimes " +
+            "WHERE m.childId = :id " +
+            "GROUP BY m.id")
     List<MealsConsumptionQuantity> getMealsConsumptionQuantity(@Param("id") long id, Pageable page);
 
-    @Query("SELECT COUNT(m.id) AS consumptionsNumber FROM Meal m " +
-            "RIGHT JOIN m.consumptionTimes WHERE m.childId = :id")
-    long getAllConsumedMealsNumber(@Param("id") long id);
+    @Query(value = "SELECT COUNT(*) as consumedMealsNumber, " +
+            "COUNT(*) / COUNT(DISTINCT DATE(consumption_time)) as mealsPerDayAverage " +
+            "FROM consumption_time t " +
+            "LEFT JOIN meal m ON t.meal_id = m.id " +
+            "WHERE m.child_id = :id",
+            nativeQuery = true)
+    ConsumedMealsNumberAndDailyAverage getConsumedMealsNumberAndDailyAverage(@Param("id") long id);
 
 }

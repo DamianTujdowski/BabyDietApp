@@ -1,8 +1,10 @@
 package com.dietator.diet.controller;
 
+import com.dietator.diet.projections.statistics_projections.ConsumedMealsNumberAndDailyAverage;
 import com.dietator.diet.projections.statistics_projections.MealsConsumptionQuantity;
 import com.dietator.diet.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,12 +21,13 @@ public class StatisticsController {
     @GetMapping("/stats/meals/")
     public List<MealsConsumptionQuantity> getMealsConsumptionQuantity(@RequestParam long id,
                                                                       @RequestParam int page,
-                                                                      @RequestParam(defaultValue = "10") int pageSize) {
-        return statisticsService.getMealsConsumptionQuantity(id, page, pageSize);
+                                                                      @RequestParam(defaultValue = "10") int pageSize,
+                                                                      @RequestParam Sort.Direction direction) {
+        return statisticsService.getMealsConsumptionQuantity(id, page, pageSize, direction);
     }
 
     @GetMapping("/stats/meals-number/{id}")
-    public long getAllConsumedMealsNumber(@PathVariable long id) {
-        return statisticsService.getAllConsumedMealsNumber(id);
+    public ConsumedMealsNumberAndDailyAverage getConsumedMealsNumberAndDailyAverage(@PathVariable long id) {
+        return statisticsService.getConsumedMealsNumberAndDailyAverage(id);
     }
 }

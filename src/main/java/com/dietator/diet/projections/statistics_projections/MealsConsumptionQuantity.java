@@ -4,5 +4,5 @@ public interface MealsConsumptionQuantity {
 
     String getDesignation();
 
-    Long getConsumptionsCount();
+    Long getConsumptionsQuantity();
 }
