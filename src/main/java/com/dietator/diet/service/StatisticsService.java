@@ -2,6 +2,7 @@ package com.dietator.diet.service;
 
 import com.dietator.diet.projections.statistics_projections.ConsumedMealsNumberAndDailyAverage;
 import com.dietator.diet.projections.statistics_projections.MealsConsumptionQuantity;
+import com.dietator.diet.projections.statistics_projections.MealsPerDifficultyNumber;
 import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -25,5 +26,9 @@ public class StatisticsService {
 
     public ConsumedMealsNumberAndDailyAverage getConsumedMealsNumberAndDailyAverage(long id) {
         return mealRepository.getConsumedMealsNumberAndDailyAverage(id);
+    }
+
+    public List<MealsPerDifficultyNumber> getMealsPerDifficultyNumber(long id) {
+        return mealRepository.getMealsPerDifficultyNumber(id);
     }
 }
