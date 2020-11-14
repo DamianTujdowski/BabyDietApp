@@ -2,6 +2,7 @@ package com.dietator.diet.controller;
 
 import com.dietator.diet.projections.statistics_projections.ConsumedMealsNumberAndDailyAverage;
 import com.dietator.diet.projections.statistics_projections.MealsConsumptionQuantity;
+import com.dietator.diet.projections.statistics_projections.MealsPerCategoryNumber;
 import com.dietator.diet.projections.statistics_projections.MealsPerDifficultyNumber;
 import com.dietator.diet.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
@@ -35,4 +36,11 @@ public class StatisticsController {
     public List<MealsPerDifficultyNumber> getMealsPerDifficultyNumber(@RequestParam long id) {
         return statisticsService.getMealsPerDifficultyNumber(id);
     }
+
+    @GetMapping("/stats/meals/category/")
+    public List<MealsPerCategoryNumber> getMealsPerCategoryNumber(@RequestParam long id) {
+        return statisticsService.getMealsPerCategoryNumber(id);
+    }
+
+
 }

@@ -2,6 +2,7 @@ package com.dietator.diet.service;
 
 import com.dietator.diet.projections.statistics_projections.ConsumedMealsNumberAndDailyAverage;
 import com.dietator.diet.projections.statistics_projections.MealsConsumptionQuantity;
+import com.dietator.diet.projections.statistics_projections.MealsPerCategoryNumber;
 import com.dietator.diet.projections.statistics_projections.MealsPerDifficultyNumber;
 import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,10 @@ public class StatisticsService {
 
     private final MealRepository mealRepository;
 
-    public List<MealsConsumptionQuantity> getMealsConsumptionQuantity(long id, int page, int pageSize, Sort.Direction direction) {
+    public List<MealsConsumptionQuantity> getMealsConsumptionQuantity(long id, int pageNumber, int pageSize, Sort.Direction direction) {
         return mealRepository.getMealsConsumptionQuantity(
                 id,
-                PageRequest.of(page, pageSize, Sort.by(direction, "consumptionsQuantity"))
+                PageRequest.of(pageNumber, pageSize, Sort.by(direction, "consumptionsQuantity"))
         );
     }
 
@@ -30,5 +31,9 @@ public class StatisticsService {
 
     public List<MealsPerDifficultyNumber> getMealsPerDifficultyNumber(long id) {
         return mealRepository.getMealsPerDifficultyNumber(id);
+    }
+
+    public List<MealsPerCategoryNumber> getMealsPerCategoryNumber(long id) {
+        return mealRepository.getMealsPerCategoryNumber(id);
     }
 }

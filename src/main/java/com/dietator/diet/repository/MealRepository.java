@@ -4,6 +4,7 @@ import com.dietator.diet.domain.Meal;
 import com.dietator.diet.projections.MealInfo;
 import com.dietator.diet.projections.statistics_projections.ConsumedMealsNumberAndDailyAverage;
 import com.dietator.diet.projections.statistics_projections.MealsConsumptionQuantity;
+import com.dietator.diet.projections.statistics_projections.MealsPerCategoryNumber;
 import com.dietator.diet.projections.statistics_projections.MealsPerDifficultyNumber;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -50,4 +51,12 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
             "ORDER BY mealsNumber DESC")
     List<MealsPerDifficultyNumber> getMealsPerDifficultyNumber(@Param("id") long id);
 
+    @Query("SELECT m.mealCategory AS category, " +
+            "COUNT (m.id) AS mealsNumber " +
+            "FROM Meal m " +
+            "RIGHT JOIN m.consumptionTimes " +
+            "WHERE m.childId = :id " +
+            "GROUP BY m.mealCategory " +
+            "ORDER BY mealsNumber DESC")
+    List<MealsPerCategoryNumber> getMealsPerCategoryNumber(@Param("id") long id);
 }
