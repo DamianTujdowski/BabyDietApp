@@ -4,5 +4,5 @@ public interface ConsumedMealsNumberAndDailyAverage {
 
     int getConsumedMealsNumber();
 
-    double getMealsPerDayAverage();
+    double getmealsDailyAverage();
 }

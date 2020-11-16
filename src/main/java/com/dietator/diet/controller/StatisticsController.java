@@ -1,9 +1,6 @@
 package com.dietator.diet.controller;
 
-import com.dietator.diet.projections.statistics_projections.ConsumedMealsNumberAndDailyAverage;
-import com.dietator.diet.projections.statistics_projections.MealsConsumptionQuantity;
-import com.dietator.diet.projections.statistics_projections.MealsPerCategoryNumber;
-import com.dietator.diet.projections.statistics_projections.MealsPerDifficultyNumber;
+import com.dietator.diet.projections.statistics_projections.*;
 import com.dietator.diet.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -40,6 +37,30 @@ public class StatisticsController {
     @GetMapping("/stats/meals/category/")
     public List<MealsPerCategoryNumber> getMealsPerCategoryNumber(@RequestParam long id) {
         return statisticsService.getMealsPerCategoryNumber(id);
+    }
+
+    @GetMapping("/stats/calories/")
+    public List<MealsConsumedCalories> getMealsConsumedCalories(@RequestParam long id,
+                                                                @RequestParam int page,
+                                                                @RequestParam(defaultValue = "10") int pageSize,
+                                                                @RequestParam Sort.Direction direction) {
+        return statisticsService.getMealsConsumedCalories(id, page, pageSize, direction);
+    }
+
+    @GetMapping("/stats/calories/sum")
+    public ConsumedCaloriesSumWithDailyAverage getConsumedCaloriesSumWithDailyAverage(@RequestParam long id) {
+        return statisticsService.getConsumedCaloriesSumWithDailyAverage(id);
+    }
+
+
+    @GetMapping("/stats/time/")
+    public TimeSpentCookingSum getTimeSpentCookingSum(@RequestParam long id) {
+        return statisticsService.getTimeSpentCookingSum(id);
+    }
+
+    @GetMapping("/stats/grams/")
+    public ConsumedGramsSumWithDailyAverage getConsumedGramsSumWithDailyAverage(@RequestParam long id) {
+        return statisticsService.getConsumedGramsSumWithDailyAverage(id);
     }
 
 
