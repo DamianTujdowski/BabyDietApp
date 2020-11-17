@@ -57,4 +57,5 @@ public class StatisticsService {
     public ConsumedGramsSumWithDailyAverage getConsumedGramsSumWithDailyAverage(long id) {
         return mealRepository.countConsumedGramsSumWithDailyAverage(id).orElseThrow();
     }
+
 }
