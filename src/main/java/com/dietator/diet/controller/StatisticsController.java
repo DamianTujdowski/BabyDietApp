@@ -18,10 +18,10 @@ public class StatisticsController {
 
     @GetMapping("/stats/meals/")
     public List<MealsConsumptionQuantity> getMealsConsumptionQuantity(@RequestParam long id,
-                                                                      @RequestParam int page,
+                                                                      @RequestParam int pageNumber,
                                                                       @RequestParam(defaultValue = "10") int pageSize,
                                                                       @RequestParam Sort.Direction direction) {
-        return statisticsService.getMealsConsumptionQuantity(id, page, pageSize, direction);
+        return statisticsService.getMealsConsumptionQuantity(id, pageNumber, pageSize, direction);
     }
 
     @GetMapping("/stats/meals-number/")
@@ -41,10 +41,17 @@ public class StatisticsController {
 
     @GetMapping("/stats/calories/")
     public List<MealsConsumedCalories> getMealsConsumedCalories(@RequestParam long id,
-                                                                @RequestParam int page,
+                                                                @RequestParam int pageNumber,
                                                                 @RequestParam(defaultValue = "10") int pageSize,
                                                                 @RequestParam Sort.Direction direction) {
-        return statisticsService.getMealsConsumedCalories(id, page, pageSize, direction);
+        return statisticsService.getMealsConsumedCalories(id, pageNumber, pageSize, direction);
+    }
+
+    @GetMapping("/stats/calories/average")
+    public List<DailyConsumedCalories> getDailyConsumedCalories(@RequestParam long id,
+                                                                @RequestParam int pageNumber,
+                                                                @RequestParam(defaultValue = "10") int pageSize) {
+        return statisticsService.getDailyConsumedCalories(id, pageNumber, pageSize);
     }
 
     @GetMapping("/stats/calories/sum")

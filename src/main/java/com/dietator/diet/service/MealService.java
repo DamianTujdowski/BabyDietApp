@@ -24,8 +24,8 @@ public class MealService {
         return mealRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Meal.class, id));
     }
 
-    public List<MealInfo> findAllMeals() {
-        return mealRepository.findAllBy();
+    public List<MealInfo> findAllMeals(long id) {
+        return mealRepository.findAllById(id);
     }
 
     public Meal save(Meal meal) {

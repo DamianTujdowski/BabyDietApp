@@ -58,4 +58,9 @@ public class StatisticsService {
         return mealRepository.countConsumedGramsSumWithDailyAverage(id).orElseThrow();
     }
 
+    public List<DailyConsumedCalories> getDailyConsumedCalories(long id, int pageNumber, int pageSize) {
+        return mealRepository.countDailyConsumedCalories(id,
+                PageRequest.of(pageNumber, pageSize)
+        );
+    }
 }

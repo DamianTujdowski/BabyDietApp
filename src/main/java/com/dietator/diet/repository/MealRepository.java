@@ -21,8 +21,10 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
     @QueryHints(@QueryHint(name = "hibernate.query.passDistinctThrough", value = "false"))
     @Query("SELECT DISTINCT m " +
             "FROM Meal m " +
-            "LEFT JOIN FETCH m.ingredients")
-    List<MealInfo> findAllBy();
+            "LEFT JOIN FETCH m.ingredients " +
+            "RIGHT JOIN FETCH m.consumptionTimes " +
+            "WHERE m.childId = :id")
+    List<MealInfo> findAllById(@Param("id") long id);
 
     @Query("SELECT m.designation AS designation," +
             "COUNT(m.id) AS consumptionsQuantity " +
@@ -66,10 +68,18 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
             "GROUP BY m.id")
     List<MealsConsumedCalories> countMealsConsumedCalories(@Param("id") long id, Pageable page);
 
-
-    //calories per day order by date
-
-    //calories per day order by calories sum
+    @Query(value = "SELECT DATE(t.consumption_time) AS consumptionDate, " +
+            "SUM(m.energy) AS dailyCaloriesSum " +
+            "FROM meal m " +
+            "RIGHT JOIN consumption_time t ON m.id = t.meal_id " +
+            "WHERE m.child_id = :id " +
+            "GROUP BY consumptionDate " +
+            "ORDER BY dailyCaloriesSum DESC",
+            countQuery = "SELECT COUNT(DISTINCT DATE(t.consumption_time)) " +
+                    "FROM meal m " +
+                    "RIGHT JOIN consumption_time t ON m.id = t.meal_id",
+            nativeQuery = true)
+    List<DailyConsumedCalories> countDailyConsumedCalories(@Param("id") long id, Pageable pageable);
 
     @Query(value = "SELECT SUM(m.energy) AS consumedCaloriesSum, " +
             "SUM(m.energy) / COUNT(*) AS consumedCaloriesDailyAverage " +
@@ -79,7 +89,9 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
             nativeQuery = true)
     ConsumedCaloriesSumWithDailyAverage countConsumedCaloriesSumWithDailyAverage(@Param("id") long id);
 
-    //time spent on cooking per day
+    // grams consumed per day
+
+    //TODO repair error while there is no id in DB
 
     @Query(value = "SELECT SUM(m.preparation_duration) AS preparationDurationOverallSum, " +
             "SUM(m.preparation_duration) / COUNT(DISTINCT DATE(consumption_time)) AS preparationDurationDailyAverage " +
@@ -89,9 +101,8 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
             nativeQuery = true)
     TimeSpentCookingSum countTimeSpentCookingSum(@Param("id") long id);
 
-    // grams consumed per day
+    //time spent on cooking per day
 
-    //TODO repair error while there is no id in DB
     @Query(value = "SELECT SUM(i.weight_per_meal) AS consumedGramsOverallSum, " +
             "SUM(i.weight_per_meal) / COUNT(DISTINCT DATE(t.consumption_time)) AS consumedGramsDailyAverage " +
             "FROM meal m " +
@@ -100,5 +111,4 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
             "WHERE m.child_id = :id",
             nativeQuery = true)
     Optional<ConsumedGramsSumWithDailyAverage> countConsumedGramsSumWithDailyAverage(@Param("id") long id);
-
 }

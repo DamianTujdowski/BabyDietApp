@@ -1,5 +1,6 @@
 package com.dietator.diet.projections;
 
+import com.dietator.diet.domain.ConsumptionTime;
 import com.dietator.diet.domain.MealCategory;
 import com.dietator.diet.domain.PreparationDifficulty;
 
@@ -16,9 +17,13 @@ public interface MealInfo {
 
     Set<IngredientBasicInfo> getIngredients();
 
+    Set<ConsumptionTime> getConsumptionTimes();
+
     MealCategory getMealCategory();
 
     PreparationDifficulty getPreparationDifficulty();
 
     boolean isPreDefined();
+
+    long getChildId();
 }

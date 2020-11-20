@@ -20,8 +20,8 @@ public class MealController {
     }
 
     @GetMapping("/meals")
-    public List<MealInfo> getAllMeals() {
-        return mealService.findAllMeals();
+    public List<MealInfo> getAllMeals(@RequestParam long id) {
+        return mealService.findAllMeals(id);
     }
 
     @PostMapping("/meals")
