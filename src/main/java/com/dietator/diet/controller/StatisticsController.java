@@ -47,27 +47,42 @@ public class StatisticsController {
         return statisticsService.getMealsConsumedCalories(id, pageNumber, pageSize, direction);
     }
 
-    @GetMapping("/stats/calories/average")
+    @GetMapping("/stats/calories/daily/")
     public List<DailyConsumedCalories> getDailyConsumedCalories(@RequestParam long id,
                                                                 @RequestParam int pageNumber,
                                                                 @RequestParam(defaultValue = "10") int pageSize) {
         return statisticsService.getDailyConsumedCalories(id, pageNumber, pageSize);
     }
 
-    @GetMapping("/stats/calories/sum")
+    @GetMapping("/stats/calories/sum/")
     public ConsumedCaloriesSumWithDailyAverage getConsumedCaloriesSumWithDailyAverage(@RequestParam long id) {
         return statisticsService.getConsumedCaloriesSumWithDailyAverage(id);
     }
 
 
-    @GetMapping("/stats/time/")
-    public TimeSpentCookingSum getTimeSpentCookingSum(@RequestParam long id) {
-        return statisticsService.getTimeSpentCookingSum(id);
+    @GetMapping("/stats/grams/daily/")
+    public List<DailyConsumedGrams> getDailyConsumedGrams(@RequestParam long id,
+                                                          @RequestParam int pageNumber,
+                                                          @RequestParam(defaultValue = "10") int pageSize) {
+        return statisticsService.getDailyConsumedGrams(id, pageNumber, pageSize);
     }
 
-    @GetMapping("/stats/grams/")
+    @GetMapping("/stats/grams/sum/")
     public ConsumedGramsSumWithDailyAverage getConsumedGramsSumWithDailyAverage(@RequestParam long id) {
         return statisticsService.getConsumedGramsSumWithDailyAverage(id);
+    }
+
+    @GetMapping("/stats/time/daily/")
+    public List<DailyCookingTime> getDailyCookingTime(@RequestParam long id,
+                                                      @RequestParam int pageNumber,
+                                                      @RequestParam(defaultValue = "10") int pageSize) {
+        return statisticsService.getDailyCookingTime(id, pageNumber, pageSize);
+    }
+
+
+    @GetMapping("/stats/time/sum/")
+    public TimeSpentCookingSum getTimeSpentCookingSum(@RequestParam long id) {
+        return statisticsService.getTimeSpentCookingSum(id);
     }
 
 

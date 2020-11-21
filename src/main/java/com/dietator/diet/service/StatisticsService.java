@@ -15,6 +15,8 @@ public class StatisticsService {
 
     private final MealRepository mealRepository;
 
+    //TODO secure before number page smaller than zero
+
     public List<MealsConsumptionQuantity> getMealsConsumptionQuantity(long id,
                                                                       int pageNumber,
                                                                       int pageSize,
@@ -63,4 +65,17 @@ public class StatisticsService {
                 PageRequest.of(pageNumber, pageSize)
         );
     }
+
+    public List<DailyConsumedGrams> getDailyConsumedGrams(long id, int pageNumber, int pageSize) {
+        return mealRepository.countDailyConsumedGrams(id,
+                PageRequest.of(pageNumber, pageSize)
+        );
+    }
+
+    public List<DailyCookingTime> getDailyCookingTime(long id, int pageNumber, int pageSize) {
+        return mealRepository.countDailyCookingTime(id,
+                PageRequest.of(pageNumber, pageSize)
+        );
+    }
+
 }

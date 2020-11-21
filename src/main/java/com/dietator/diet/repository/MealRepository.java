@@ -89,17 +89,21 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
             nativeQuery = true)
     ConsumedCaloriesSumWithDailyAverage countConsumedCaloriesSumWithDailyAverage(@Param("id") long id);
 
-    // grams consumed per day
+    @Query(value = "SELECT DATE(t.consumption_time) AS consumptionDate, " +
+            "SUM(i.weight_per_meal) AS dailyConsumedGrams  " +
+            "FROM meal m " +
+            "LEFT JOIN ingredient i ON m.id = i.meal_id " +
+            "RIGHT JOIN consumption_time t ON m.id = t.meal_id " +
+            "WHERE m.child_id = :id " +
+            "GROUP BY consumptionDate " +
+            "ORDER BY dailyConsumedGrams DESC",
+            countQuery = "SELECT COUNT(DISTINCT DATE(t.consumption_time)) " +
+                    "FROM meal m " +
+                    "RIGHT JOIN consumption_time t ON m.id = t.meal_id",
+            nativeQuery = true)
+    List<DailyConsumedGrams> countDailyConsumedGrams(@Param("id") long id, Pageable pageable);
 
     //TODO repair error while there is no id in DB
-
-    @Query(value = "SELECT SUM(m.preparation_duration) AS preparationDurationOverallSum, " +
-            "SUM(m.preparation_duration) / COUNT(DISTINCT DATE(consumption_time)) AS preparationDurationDailyAverage " +
-            "FROM meal m " +
-            "RIGHT JOIN consumption_time t ON m.id = t.meal_id " +
-            "WHERE m.child_id = :id",
-            nativeQuery = true)
-    TimeSpentCookingSum countTimeSpentCookingSum(@Param("id") long id);
 
     //time spent on cooking per day
 
@@ -111,4 +115,25 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
             "WHERE m.child_id = :id",
             nativeQuery = true)
     Optional<ConsumedGramsSumWithDailyAverage> countConsumedGramsSumWithDailyAverage(@Param("id") long id);
+
+    @Query(value = "SELECT DATE(t.consumption_time) AS consumptionDate, " +
+            "SUM(m.preparation_duration) AS dailyCookingTime " +
+            "FROM meal m " +
+            "RIGHT JOIN consumption_time t ON m.id = t.meal_id " +
+            "WHERE m.child_id = :id " +
+            "GROUP BY consumptionDate " +
+            "ORDER BY dailyCookingTime DESC",
+            countQuery = "SELECT COUNT(DISTINCT DATE(t.consumption_time)) " +
+                    "FROM meal m " +
+                    "RIGHT JOIN consumption_time t ON m.id = t.meal_id",
+            nativeQuery = true)
+    List<DailyCookingTime> countDailyCookingTime(@Param("id") long id, Pageable pageable);
+
+    @Query(value = "SELECT SUM(m.preparation_duration) AS preparationDurationOverallSum, " +
+            "SUM(m.preparation_duration) / COUNT(DISTINCT DATE(consumption_time)) AS preparationDurationDailyAverage " +
+            "FROM meal m " +
+            "RIGHT JOIN consumption_time t ON m.id = t.meal_id " +
+            "WHERE m.child_id = :id",
+            nativeQuery = true)
+    TimeSpentCookingSum countTimeSpentCookingSum(@Param("id") long id);
 }
