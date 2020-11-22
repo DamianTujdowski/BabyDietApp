@@ -56,20 +56,20 @@ class MealServiceTest {
         Set<ConsumptionTime> twoTimesBeforeAfternoon = Stream.of(morning, afternoon).collect(Collectors.toSet());
         Set<ConsumptionTime> twoTimesAfterAfternoon = Stream.of(evening, lateEvening).collect(Collectors.toSet());
         Set<ConsumptionTime> fourTimes = Stream.of(morning, afternoon, evening, lateEvening).collect(Collectors.toSet());
-        noIngredientNoConTimesMealFromDb = new Meal(5L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false);
+        noIngredientNoConTimesMealFromDb = new Meal(5L, "burrito", 0, "roll cake",
+                10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
         potatoCucumberBeforeAfternoonMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
-                10, twoTimesBeforeAfternoon, potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false);
-        carrotSugarAfterAfternoonMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
-                10, twoTimesAfterAfternoon, carrotSugar, MealCategory.DINNER, PreparationDifficulty.EASY, false);
-        twoIngredientTwoConTimesMealFromDb = new Meal(5L, "burrito", 800, "roll cake",
-                10, twoTimesAfterAfternoon, potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false);
-        fourIngredientFourConTimesMealFromDb = new Meal(5L, "burrito", 800, "roll cake",
-                10, fourTimes, fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false);
+                10, twoTimesBeforeAfternoon, potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+        carrotSugarAfterAfternoonMealFromClient = new Meal(5L, "burrito", 113, "roll cake",
+                10, twoTimesAfterAfternoon, carrotSugar, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+        twoIngredientTwoConTimesMealFromDb = new Meal(5L, "burrito", 762, "roll cake",
+                10, twoTimesAfterAfternoon, potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+        fourIngredientFourConTimesMealFromDb = new Meal(5L, "burrito", 875, "roll cake",
+                10, fourTimes, fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
         fourIngredientFourConTimesMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
-                10, fourTimes, fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false);
+                10, fourTimes, fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
         fourIngredientMealWithTwoPredefinedIngredientsFromClient = new Meal(5L, "burrito", 800, "roll cake",
-                10, fourTimes, fourIngredientsWithTwoPredefined, MealCategory.DINNER, PreparationDifficulty.EASY, false);
+                10, fourTimes, fourIngredientsWithTwoPredefined, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
     }
 
     @Test
@@ -125,7 +125,7 @@ class MealServiceTest {
         //when
         Meal editedMeal = mealService.editMeal(carrotSugarAfterAfternoonMealFromClient);
         //then
-        assertEquals(2, editedMeal.getConsumptionTime().size());
+        assertEquals(2, editedMeal.getConsumptionTimes().size());
     }
 
     @Test
@@ -135,7 +135,7 @@ class MealServiceTest {
         //when
         Meal editedMeal = mealService.editMeal(fourIngredientFourConTimesMealFromDb);
         //then
-        assertEquals(4, editedMeal.getConsumptionTime().size());
+        assertEquals(4, editedMeal.getConsumptionTimes().size());
     }
 
     @Test
@@ -145,7 +145,7 @@ class MealServiceTest {
         //when
         Meal editedMeal = mealService.editMeal(potatoCucumberBeforeAfternoonMealFromClient);
         //then
-        assertEquals(4, editedMeal.getConsumptionTime().size());
+        assertEquals(4, editedMeal.getConsumptionTimes().size());
     }
 
     @Test
@@ -155,7 +155,7 @@ class MealServiceTest {
         //when
         Meal editedMeal = mealService.editMeal(fourIngredientFourConTimesMealFromClient);
         //then
-        assertEquals(4, editedMeal.getConsumptionTime().size());
+        assertEquals(4, editedMeal.getConsumptionTimes().size());
     }
 
     @Test
@@ -171,7 +171,7 @@ class MealServiceTest {
         //when
         Meal editedMeal = mealService.editMeal(fourIngredientMealWithTwoPredefinedIngredientsFromClient);
         //then
-        assertEquals(4, editedMeal.getConsumptionTime().size());
+        assertEquals(4, editedMeal.getConsumptionTimes().size());
     }
 
     @Test
@@ -200,14 +200,14 @@ class MealServiceTest {
         Ingredient carrot = new Ingredient(3L, "carrotPredefined", 98, 70, true, false, true);
         Set<Ingredient> mealOneIngredients = Stream.of(carrot).collect(Collectors.toSet());
         Meal mealOne = new Meal(1L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), mealOneIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false);
+                10, new HashSet<>(), mealOneIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
         Meal mealOneFromDb = new Meal(1L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false);
+                10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
         Set<Ingredient> mealTwoIngredients = Stream.of(carrot).collect(Collectors.toSet());
         Meal mealTwo = new Meal(2L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), mealTwoIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false);
+                10, new HashSet<>(), mealTwoIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
         Meal mealTwoFromDb = new Meal(2L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false);
+                10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
 
         when(mealRepositoryMock.findById(1L)).thenReturn(Optional.of(mealOneFromDb));
         Set<Ingredient> mealOneEditedIngredients = mealOne.getIngredients()
@@ -242,5 +242,15 @@ class MealServiceTest {
                 .get();
         //then
         assertNotEquals(mealOneIngredientDesignation, mealTwoIngredientDesignation);
+    }
+
+    @Test
+    public void whenAddingNewIngredientsToMeal_shouldUpdateMealsEnergyValue() {
+        //given
+        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(twoIngredientTwoConTimesMealFromDb));
+        //when
+        Meal editedMeal = mealService.editMeal(fourIngredientFourConTimesMealFromDb);
+        //then
+        assertEquals(875, editedMeal.getEnergy());
     }
 }

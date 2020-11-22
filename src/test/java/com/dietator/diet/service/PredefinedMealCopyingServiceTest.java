@@ -47,11 +47,11 @@ class PredefinedMealCopyingServiceTest {
         Set<Ingredient> ingredientsThreeFourSet = Stream.of(ingredientThree, ingredientFour).collect(Collectors.toSet());
         Set<Ingredient> fourIngredientsSet = Stream.of(ingredientOne, ingredientTwo, ingredientThree, ingredientFour).collect(Collectors.toSet());
         predefined = new Meal(1, "predefined meal", 420, "chop chop amd put in pot",
-                10, new HashSet<>(), ingredientsOneTwoSet, MealCategory.BREAKFAST, PreparationDifficulty.EASY, true);
+                10, new HashSet<>(), ingredientsOneTwoSet, MealCategory.BREAKFAST, PreparationDifficulty.EASY, true, 1);
         mealThree = new Meal(3, "meal three", 420, "chop chop slowly and precisely",
-                24, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false);
+                24, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
         mealFour = new Meal(4, "meal four", 420, "chop chop slowly and precisely",
-                24, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false);
+                24, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
         onePredefinedMeal = Stream.of(predefined).collect(Collectors.toSet());
         mealThreeFourSet = Stream.of(mealThree, mealFour).collect(Collectors.toSet());
 

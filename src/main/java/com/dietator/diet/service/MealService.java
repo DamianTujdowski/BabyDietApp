@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static java.util.Objects.*;
+import static java.util.Objects.requireNonNull;
 
 @RequiredArgsConstructor
 @Service
@@ -38,12 +38,14 @@ public class MealService {
         Meal editedMeal = mealRepository.findById(meal.getId())
                 .orElseThrow(() -> new EntityNotFoundException(Meal.class, meal.getId()));
         editedMeal.setDesignation(meal.getDesignation());
-        editedMeal.setEnergy(sumIngredientsEnergy(meal));
+        editedMeal.setEnergy(sumIngredientsEnergy(meal, editedMeal));
         editedMeal.setPreparationDescription(meal.getPreparationDescription());
         editedMeal.setPreparationDuration(meal.getPreparationDuration());
         editedMeal.getConsumptionTimes().addAll(requireNonNull(meal.getConsumptionTimes()));
         editedMeal.getIngredients()
-                .addAll(requireNonNull(predefinedIngredientCopyingService.copyPreDefinedIngredients(meal.getIngredients(), editedMeal.getIngredients())));
+                .addAll(requireNonNull(predefinedIngredientCopyingService.copyPreDefinedIngredients(meal.getIngredients(),
+                        editedMeal.getIngredients()))
+                );
         editedMeal.setMealCategory(meal.getMealCategory());
         editedMeal.setPreparationDifficulty(meal.getPreparationDifficulty());
         return editedMeal;
@@ -53,7 +55,8 @@ public class MealService {
         mealRepository.deleteById(id);
     }
 
-    private int sumIngredientsEnergy(Meal meal) {
+    private int sumIngredientsEnergy(Meal meal, Meal editedMeal) {
+        meal.getIngredients().addAll(editedMeal.getIngredients());
         return meal.getIngredients()
                 .stream()
                 .mapToInt(this::getEnergyPerMeal)
@@ -61,7 +64,7 @@ public class MealService {
     }
 
     private int getEnergyPerMeal(Ingredient ingredient) {
-        return ingredient.getWeightPerMeal() / 100 * ingredient.getEnergyPer100Grams();
+        return (int) Math.round(ingredient.getWeightPerMeal() / 100.0 * ingredient.getEnergyPer100Grams());
     }
 
 }

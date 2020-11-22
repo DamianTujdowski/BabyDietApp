@@ -25,7 +25,7 @@ class MealTest {
         ConsumptionTime evening = new ConsumptionTime(3, LocalDateTime.of(2020, Month.APRIL, 13, 19, 5));
         Set<ConsumptionTime> consumptionTimes = Stream.of(morning, afternoon, evening).collect(Collectors.toSet());
         meal = new Meal(1L, "vegetable salad", 420, "chop chop amd put in pot",
-                10, consumptionTimes, ingredients, MealCategory.BREAKFAST, PreparationDifficulty.EASY, true);
+                10, consumptionTimes, ingredients, MealCategory.BREAKFAST, PreparationDifficulty.EASY, true, 1);
         clonedMeal = new Meal(meal);
     }
 

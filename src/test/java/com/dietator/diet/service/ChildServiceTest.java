@@ -45,13 +45,13 @@ class ChildServiceTest {
         Set<Ingredient> ingredientsThreeFourSet = Stream.of(ingredientThree, ingredientFour).collect(Collectors.toSet());
         Set<Ingredient> fourIngredientsSet = Stream.of(ingredientOne, ingredientTwo, ingredientThree, ingredientFour).collect(Collectors.toSet());
         Meal mealOne = new Meal(1, "meal one", 420, "chop chop amd put in pot",
-                10, new HashSet<>(), new HashSet<>(), MealCategory.BREAKFAST, PreparationDifficulty.EASY, false);
+                10, new HashSet<>(), new HashSet<>(), MealCategory.BREAKFAST, PreparationDifficulty.EASY, false, 1);
         Meal mealTwo = new Meal(2, "meal two", 420, "chop chop very fast",
-                15, new HashSet<>(), new HashSet<>(), MealCategory.SUPPER, PreparationDifficulty.EASY, false);
+                15, new HashSet<>(), new HashSet<>(), MealCategory.SUPPER, PreparationDifficulty.EASY, false, 1);
         Meal mealThree = new Meal(3, "meal three", 420, "chop chop slowly and precisely",
-                24, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false);
+                24, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
         Meal mealFour = new Meal(4, "meal four", 420, "chop chop slowly and precisely",
-                24, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false);
+                24, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
         Set<Meal> mealOneTwoSet = Stream.of(mealOne, mealTwo).collect(Collectors.toSet());
         Set<Meal> mealThreeFourSet = Stream.of(mealThree, mealFour).collect(Collectors.toSet());
         Set<Meal> fourMealsSet = Stream.of(mealOne, mealTwo, mealThree, mealFour).collect(Collectors.toSet());
