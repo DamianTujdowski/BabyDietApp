@@ -15,7 +15,8 @@ public class StatisticsService {
 
     private final MealRepository mealRepository;
 
-    //TODO secure before number page smaller than zero
+    //TODO secure if number page is smaller than zero
+    //TODO repair error while there is no id in DB
 
     public List<MealsConsumptionQuantity> getMealsConsumptionQuantity(long id,
                                                                       int pageNumber,
@@ -27,43 +28,48 @@ public class StatisticsService {
         );
     }
 
-    public ConsumedMealsNumberAndDailyAverage getConsumedMealsNumberAndDailyAverage(long id) {
+    public ConsumedMealsNumberAndDailyAverage getConsumedMealsQuantityWithDailyAverage(long id) {
         return mealRepository.countConsumedMealsNumberAndDailyAverage(id);
     }
 
-    public List<MealsPerDifficultyNumber> getMealsPerDifficultyNumber(long id) {
+    public List<MealsPerDifficultyNumber> getMealsPerDifficultyQuantity(long id) {
         return mealRepository.countMealsPerDifficultyNumber(id);
     }
 
-    public List<MealsPerCategoryNumber> getMealsPerCategoryNumber(long id) {
+    public List<MealsPerCategoryNumber> getMealsPerCategoryQuantity(long id) {
         return mealRepository.countMealsPerCategoryNumber(id);
     }
 
-    public List<MealsConsumedCalories> getMealsConsumedCalories(long id,
-                                                                int pageNumber,
-                                                                int pageSize,
-                                                                Sort.Direction direction) {
+    public List<MealsConsumedCalories> getMealsConsumedCaloriesSum(long id,
+                                                                   int pageNumber,
+                                                                   int pageSize,
+                                                                   Sort.Direction direction) {
         return mealRepository.countMealsConsumedCalories(id,
                 PageRequest.of(pageNumber, pageSize, Sort.by(direction, "caloriesSum"))
         );
-    }
-
-    public TimeSpentCookingSum getTimeSpentCookingSum(long id) {
-        return mealRepository.countTimeSpentCookingSum(id);
-    }
-
-    public ConsumedCaloriesSumWithDailyAverage getConsumedCaloriesSumWithDailyAverage(long id) {
-        return mealRepository.countConsumedCaloriesSumWithDailyAverage(id);
-    }
-
-    public ConsumedGramsSumWithDailyAverage getConsumedGramsSumWithDailyAverage(long id) {
-        return mealRepository.countConsumedGramsSumWithDailyAverage(id).orElseThrow();
     }
 
     public List<DailyConsumedCalories> getDailyConsumedCalories(long id, int pageNumber, int pageSize) {
         return mealRepository.countDailyConsumedCalories(id,
                 PageRequest.of(pageNumber, pageSize)
         );
+    }
+
+    public ConsumedCaloriesSumWithDailyAverage getConsumedCaloriesSumWithDailyAverage(long id) {
+        return mealRepository.countConsumedCaloriesSumWithDailyAverage(id);
+    }
+
+    public List<MealsConsumedGrams> getMealsConsumedGramsSum(long id,
+                                                             int pageNumber,
+                                                             int pageSize,
+                                                             Sort.Direction direction) {
+        return mealRepository.countMealsConsumedGrams(id,
+                PageRequest.of(pageNumber, pageSize, Sort.by(direction, "gramsSum"))
+        );
+    }
+
+    public ConsumedGramsSumWithDailyAverage getConsumedGramsSumWithDailyAverage(long id) {
+        return mealRepository.countConsumedGramsSumWithDailyAverage(id).orElseThrow();
     }
 
     public List<DailyConsumedGrams> getDailyConsumedGrams(long id, int pageNumber, int pageSize) {
@@ -77,5 +83,10 @@ public class StatisticsService {
                 PageRequest.of(pageNumber, pageSize)
         );
     }
+
+    public TimeSpentCookingSum getTimeSpentCookingSum(long id) {
+        return mealRepository.countTimeSpentCookingSum(id);
+    }
+
 
 }

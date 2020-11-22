@@ -89,6 +89,15 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
             nativeQuery = true)
     ConsumedCaloriesSumWithDailyAverage countConsumedCaloriesSumWithDailyAverage(@Param("id") long id);
 
+    @Query("SELECT m.designation AS designation, " +
+            "SUM (i.weightPerMeal) AS gramsSum " +
+            "FROM Meal m " +
+            "LEFT JOIN m.ingredients i " +
+            "RIGHT JOIN m.consumptionTimes " +
+            "WHERE m.childId = :id " +
+            "GROUP BY m.id")
+    List<MealsConsumedGrams> countMealsConsumedGrams(@Param("id") long id, Pageable pageable);
+
     @Query(value = "SELECT DATE(t.consumption_time) AS consumptionDate, " +
             "SUM(i.weight_per_meal) AS dailyConsumedGrams  " +
             "FROM meal m " +
@@ -102,10 +111,6 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
                     "RIGHT JOIN consumption_time t ON m.id = t.meal_id",
             nativeQuery = true)
     List<DailyConsumedGrams> countDailyConsumedGrams(@Param("id") long id, Pageable pageable);
-
-    //TODO repair error while there is no id in DB
-
-    //time spent on cooking per day
 
     @Query(value = "SELECT SUM(i.weight_per_meal) AS consumedGramsOverallSum, " +
             "SUM(i.weight_per_meal) / COUNT(DISTINCT DATE(t.consumption_time)) AS consumedGramsDailyAverage " +

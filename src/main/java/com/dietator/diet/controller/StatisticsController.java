@@ -25,26 +25,26 @@ public class StatisticsController {
     }
 
     @GetMapping("/stats/meals-number/")
-    public ConsumedMealsNumberAndDailyAverage getConsumedMealsNumberAndDailyAverage(@RequestParam long id) {
-        return statisticsService.getConsumedMealsNumberAndDailyAverage(id);
+    public ConsumedMealsNumberAndDailyAverage getConsumedMealsQuantityAndDailyAverage(@RequestParam long id) {
+        return statisticsService.getConsumedMealsQuantityWithDailyAverage(id);
     }
 
     @GetMapping("/stats/meals/difficulty/")
-    public List<MealsPerDifficultyNumber> getMealsPerDifficultyNumber(@RequestParam long id) {
-        return statisticsService.getMealsPerDifficultyNumber(id);
+    public List<MealsPerDifficultyNumber> getMealsPerDifficultyQuantity(@RequestParam long id) {
+        return statisticsService.getMealsPerDifficultyQuantity(id);
     }
 
     @GetMapping("/stats/meals/category/")
-    public List<MealsPerCategoryNumber> getMealsPerCategoryNumber(@RequestParam long id) {
-        return statisticsService.getMealsPerCategoryNumber(id);
+    public List<MealsPerCategoryNumber> getMealsPerCategoryQuantity(@RequestParam long id) {
+        return statisticsService.getMealsPerCategoryQuantity(id);
     }
 
     @GetMapping("/stats/calories/")
-    public List<MealsConsumedCalories> getMealsConsumedCalories(@RequestParam long id,
+    public List<MealsConsumedCalories> getMealsConsumedCaloriesSum(@RequestParam long id,
                                                                 @RequestParam int pageNumber,
                                                                 @RequestParam(defaultValue = "10") int pageSize,
                                                                 @RequestParam Sort.Direction direction) {
-        return statisticsService.getMealsConsumedCalories(id, pageNumber, pageSize, direction);
+        return statisticsService.getMealsConsumedCaloriesSum(id, pageNumber, pageSize, direction);
     }
 
     @GetMapping("/stats/calories/daily/")
@@ -59,6 +59,13 @@ public class StatisticsController {
         return statisticsService.getConsumedCaloriesSumWithDailyAverage(id);
     }
 
+    @GetMapping("/stats/grams/")
+    public List<MealsConsumedGrams> getMealsConsumedGrams(@RequestParam long id,
+                                                          @RequestParam int pageNumber,
+                                                          @RequestParam(defaultValue = "10") int pageSize,
+                                                          @RequestParam Sort.Direction direction){
+        return statisticsService.getMealsConsumedGramsSum(id, pageNumber, pageSize, direction);
+    }
 
     @GetMapping("/stats/grams/daily/")
     public List<DailyConsumedGrams> getDailyConsumedGrams(@RequestParam long id,
@@ -79,11 +86,9 @@ public class StatisticsController {
         return statisticsService.getDailyCookingTime(id, pageNumber, pageSize);
     }
 
-
     @GetMapping("/stats/time/sum/")
     public TimeSpentCookingSum getTimeSpentCookingSum(@RequestParam long id) {
         return statisticsService.getTimeSpentCookingSum(id);
     }
-
 
 }

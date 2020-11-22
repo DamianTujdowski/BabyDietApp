@@ -1,5 +1,6 @@
 package com.dietator.diet.service;
 
+import com.dietator.diet.domain.Ingredient;
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.error.EntityNotFoundException;
 import com.dietator.diet.projections.MealInfo;
@@ -37,7 +38,7 @@ public class MealService {
         Meal editedMeal = mealRepository.findById(meal.getId())
                 .orElseThrow(() -> new EntityNotFoundException(Meal.class, meal.getId()));
         editedMeal.setDesignation(meal.getDesignation());
-        editedMeal.setEnergy(meal.getEnergy());
+        editedMeal.setEnergy(sumIngredientsEnergy(meal));
         editedMeal.setPreparationDescription(meal.getPreparationDescription());
         editedMeal.setPreparationDuration(meal.getPreparationDuration());
         editedMeal.getConsumptionTimes().addAll(requireNonNull(meal.getConsumptionTimes()));
@@ -50,6 +51,17 @@ public class MealService {
 
     public void deleteMeal(long id) {
         mealRepository.deleteById(id);
+    }
+
+    private int sumIngredientsEnergy(Meal meal) {
+        return meal.getIngredients()
+                .stream()
+                .mapToInt(this::getEnergyPerMeal)
+                .sum();
+    }
+
+    private int getEnergyPerMeal(Ingredient ingredient) {
+        return ingredient.getWeightPerMeal() / 100 * ingredient.getEnergyPer100Grams();
     }
 
 }
