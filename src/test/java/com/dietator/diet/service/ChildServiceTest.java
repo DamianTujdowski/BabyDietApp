@@ -37,10 +37,10 @@ class ChildServiceTest {
 
     @BeforeEach
     public void init() {
-        Ingredient ingredientOne = new Ingredient(1L, "potato", 340, 180, false, false, false);
-        Ingredient ingredientTwo = new Ingredient(2L, "cucumber", 150, 100, true, false, false);
-        Ingredient ingredientThree = new Ingredient(3L, "carrot", 98, 70, true, false, false);
-        Ingredient ingredientFour = new Ingredient(4L, "sugar", 315, 14, false, false, false);
+        Ingredient ingredientOne = new Ingredient(1L, "potato", 340, 180, false, false, false, null);
+        Ingredient ingredientTwo = new Ingredient(2L, "cucumber", 150, 100, true, false, false, null);
+        Ingredient ingredientThree = new Ingredient(3L, "carrot", 98, 70, true, false, false, null);
+        Ingredient ingredientFour = new Ingredient(4L, "sugar", 315, 14, false, false, false, null);
         Set<Ingredient> ingredientsOneTwoSet = Stream.of(ingredientOne, ingredientTwo).collect(Collectors.toSet());
         Set<Ingredient> ingredientsThreeFourSet = Stream.of(ingredientThree, ingredientFour).collect(Collectors.toSet());
         Set<Ingredient> fourIngredientsSet = Stream.of(ingredientOne, ingredientTwo, ingredientThree, ingredientFour).collect(Collectors.toSet());

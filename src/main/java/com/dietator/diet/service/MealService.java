@@ -38,7 +38,7 @@ public class MealService {
         Meal editedMeal = mealRepository.findById(meal.getId())
                 .orElseThrow(() -> new EntityNotFoundException(Meal.class, meal.getId()));
         editedMeal.setDesignation(meal.getDesignation());
-        editedMeal.setEnergy(sumIngredientsEnergy(meal, editedMeal));
+        editedMeal.setEnergy(countMealEnergy(meal, editedMeal));
         editedMeal.setPreparationDescription(meal.getPreparationDescription());
         editedMeal.setPreparationDuration(meal.getPreparationDuration());
         editedMeal.getConsumptionTimes().addAll(requireNonNull(meal.getConsumptionTimes()));
@@ -52,18 +52,25 @@ public class MealService {
     }
 
     public void deleteMeal(long id) {
+        checkIfExists(id);
         mealRepository.deleteById(id);
     }
 
-    private int sumIngredientsEnergy(Meal meal, Meal editedMeal) {
+    private void checkIfExists(long id) {
+        if (!mealRepository.existsById(id)) {
+            throw new EntityNotFoundException(Meal.class, id);
+        }
+    }
+
+    private int countMealEnergy(Meal meal, Meal editedMeal) {
         meal.getIngredients().addAll(editedMeal.getIngredients());
         return meal.getIngredients()
                 .stream()
-                .mapToInt(this::getEnergyPerMeal)
+                .mapToInt(this::countEnergyPerMeal)
                 .sum();
     }
 
-    private int getEnergyPerMeal(Ingredient ingredient) {
+    private int countEnergyPerMeal(Ingredient ingredient) {
         return (int) Math.round(ingredient.getWeightPerMeal() / 100.0 * ingredient.getEnergyPer100Grams());
     }
 

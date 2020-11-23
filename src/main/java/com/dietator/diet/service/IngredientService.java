@@ -1,20 +1,25 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Ingredient;
+import com.dietator.diet.domain.Meal;
 import com.dietator.diet.error.EntityNotFoundException;
 import com.dietator.diet.projections.IngredientBasicInfo;
 import com.dietator.diet.repository.IngredientRepository;
+import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
 public class IngredientService {
 
     private final IngredientRepository ingredientRepository;
+
+    private final MealRepository mealRepository;
 
     public Ingredient findIngredientById(long id) {
         return ingredientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Ingredient.class, id));
@@ -39,7 +44,32 @@ public class IngredientService {
         return editedIngredient;
     }
 
+    @Transactional
     public void delete(long id) {
+        updateMealEnergyValue(id);
         ingredientRepository.deleteById(id);
+    }
+
+    private void updateMealEnergyValue(long id) {
+        Ingredient toDelete = findIngredientById(id);
+        Meal meal = findMealById(toDelete.getMealId());
+        Set<Ingredient> ingredients = meal.getIngredients();
+        ingredients.remove(toDelete);
+        meal.setEnergy(countMealEnergy(ingredients));
+    }
+
+    private Meal findMealById(long id) {
+        return mealRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Meal.class, id));
+    }
+
+    private int countMealEnergy(Set<Ingredient> ingredients) {
+        return ingredients
+                .stream()
+                .mapToInt(this::countEnergyPerMeal)
+                .sum();
+    }
+
+    private int countEnergyPerMeal(Ingredient ingredient) {
+        return (int) Math.round(ingredient.getWeightPerMeal() / 100.0 * ingredient.getEnergyPer100Grams());
     }
 }

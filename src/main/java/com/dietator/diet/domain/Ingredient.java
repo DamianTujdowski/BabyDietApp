@@ -3,10 +3,7 @@ package com.dietator.diet.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -31,6 +28,9 @@ public class Ingredient {
     private boolean isDisliked;
 
     private boolean isPreDefined;
+
+    @Column(name = "meal_id")
+    private Long mealId;
 
     public Ingredient(Ingredient ingredientToClone) {
         this.designation = ingredientToClone.designation;

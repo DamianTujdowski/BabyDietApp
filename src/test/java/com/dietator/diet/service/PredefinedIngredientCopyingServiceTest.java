@@ -35,10 +35,10 @@ class PredefinedIngredientCopyingServiceTest {
 
     @BeforeEach
     public void init() {
-        ingredientOne = new Ingredient(1L, "potato", 340, 180, false, false, true);
-        ingredientTwo = new Ingredient(2L, "cucumber", 150, 100, true, false, true);
-        ingredientThree = new Ingredient(3L, "carrot", 98, 70, true, false, false);
-        ingredientFour = new Ingredient(4L, "sugar", 315, 14, false, false, false);
+        ingredientOne = new Ingredient(1L, "potato", 340, 180, false, false, true, null);
+        ingredientTwo = new Ingredient(2L, "cucumber", 150, 100, true, false, true, null);
+        ingredientThree = new Ingredient(3L, "carrot", 98, 70, true, false, false, 1L);
+        ingredientFour = new Ingredient(4L, "sugar", 315, 14, false, false, false, 1L);
         ingredientsOneTwoSet = Stream.of(ingredientOne, ingredientTwo).collect(Collectors.toSet());
         ingredientsThreeFourSet = Stream.of(ingredientThree, ingredientFour).collect(Collectors.toSet());
         fourIngredientsSet = Stream.of(ingredientOne, ingredientTwo, ingredientThree, ingredientFour).collect(Collectors.toSet());
