@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class PredefinedIngredientCopyingService {
+class PredefinedIngredientCopyingService {
 
     private final IngredientRepository ingredientRepository;
 
-    public Set<Ingredient> copyPreDefinedIngredients(Set<Ingredient> clientIngredients, Set<Ingredient> dbIngredients) {
+    Set<Ingredient> copyPreDefinedIngredients(Set<Ingredient> clientIngredients, Set<Ingredient> dbIngredients) {
         return removeCommonIngredients(clientIngredients, dbIngredients)
                 .stream()
                 .map(this::copyAndSaveIngredient)

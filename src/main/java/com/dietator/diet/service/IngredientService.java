@@ -41,6 +41,7 @@ public class IngredientService {
         editedIngredient.setEnergyPer100Grams(ingredient.getEnergyPer100Grams());
         editedIngredient.setFavourite(ingredient.isFavourite());
         editedIngredient.setDisliked(ingredient.isDisliked());
+        updateMealEnergyValue(editedIngredient.getId());
         return editedIngredient;
     }
 
@@ -48,6 +49,22 @@ public class IngredientService {
     public void delete(long id) {
         updateMealEnergyValue(id);
         ingredientRepository.deleteById(id);
+    }
+
+    private void updateMealEnergyValueEditedIng(long id) {
+        Ingredient edited = findIngredientById(id);
+        Meal meal = findMealById(edited.getMealId());
+        Set<Ingredient> ingredients = meal.getIngredients();
+        updateIngredients(ingredients, edited);
+        meal.setEnergy(countMealEnergy(ingredients));
+    }
+
+    private void updateIngredients(Set<Ingredient> ingredients, Ingredient edited) {
+        ingredients.forEach(ingredient -> {
+            if (ingredient.getId() == edited.getId()) {
+                ingredient.setEnergyPer100Grams(edited.getEnergyPer100Grams());
+            }
+        });
     }
 
     private void updateMealEnergyValue(long id) {

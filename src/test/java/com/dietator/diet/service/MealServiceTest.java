@@ -244,13 +244,4 @@ class MealServiceTest {
         assertNotEquals(mealOneIngredientDesignation, mealTwoIngredientDesignation);
     }
 
-    @Test
-    public void whenAddingNewIngredientsToMeal_shouldUpdateMealsEnergyValue() {
-        //given
-        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(twoIngredientTwoConTimesMealFromDb));
-        //when
-        Meal editedMeal = mealService.editMeal(carrotSugarAfterAfternoonMealFromClient);
-        //then
-        assertEquals(875, editedMeal.getEnergy());
-    }
 }
