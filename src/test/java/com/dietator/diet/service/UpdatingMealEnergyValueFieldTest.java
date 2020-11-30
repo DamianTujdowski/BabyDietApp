@@ -17,25 +17,20 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UpdatingMealEnergyValueFieldTest {
 
     @InjectMocks
-    private IngredientService ingredientService;
+    private MealEnergyValueUpdater mealEnergyUpdater;
     @Mock
-    private IngredientRepository ingredientRepositoryMock;
+    private IngredientRepository ingredientRepository;
+    @Mock
+    private MealRepository mealRepository;
 
-    @InjectMocks
-    private MealService mealService;
-    @Mock
-    private MealRepository mealRepositoryMock;
-    @Mock
-    private PredefinedIngredientCopyingService predefinedIngredientCopyingServiceMock;
-
-    private Meal twoIngredientTwoConTimesMealFromDb, fourIngredientFourConTimesMealFromDb,
-            carrotSugarAfterAfternoonMealFromClient;
+    private Meal potatoCucumberMeal, fourIngredientFourConTimesMealFromDb,
+            carrotSugarMeal;
 
     private Ingredient potato, potatoFromClient, potatoFromDb;
 
@@ -50,64 +45,67 @@ public class UpdatingMealEnergyValueFieldTest {
         Set<Ingredient> potatoCucumber = Stream.of(potato, cucumber).collect(Collectors.toSet());
         Set<Ingredient> carrotSugar = Stream.of(carrot, sugar).collect(Collectors.toSet());
         Set<Ingredient> fourIngredients = Stream.of(potato, cucumber, carrot, sugar).collect(Collectors.toSet());
-        carrotSugarAfterAfternoonMealFromClient = new Meal(5L, "burrito", 113, "roll cake",
+        carrotSugarMeal = new Meal(4L, "burrito", 113, "roll cake",
                 10, new HashSet<>(), carrotSugar, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
-        twoIngredientTwoConTimesMealFromDb = new Meal(5L, "burrito", 762, "roll cake",
+        potatoCucumberMeal = new Meal(5L, "burrito", 762, "roll cake",
                 10, new HashSet<>(), potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
-        fourIngredientFourConTimesMealFromDb = new Meal(5L, "burrito", 0, "roll cake",
+        fourIngredientFourConTimesMealFromDb = new Meal(6L, "burrito", 0, "roll cake",
                 10, new HashSet<>(), fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
     }
 
     @Test
-    public void whenNotChangingIngredients_shouldNotChangeMealEnergyValue() {
+    public void whenNotChangingIngredientsEnergyOrWeightPerMeal_shouldNotChangeMealEnergyValue() {
         //given
-        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(twoIngredientTwoConTimesMealFromDb));
+        when(mealRepository.findById(5L)).thenReturn(Optional.of(potatoCucumberMeal));
+        Meal editedMeal = potatoCucumberMeal;
         //when
-        Meal editedMeal = mealService.editMeal(twoIngredientTwoConTimesMealFromDb);
+        mealEnergyUpdater.updateMealEnergyValue(potato);
         //then
         assertEquals(762, editedMeal.getEnergy());
     }
 
     @Test
+    public void whenDeletingIngredient_ShouldUpdateMealEnergyValue() {
+        //given
+        when(ingredientRepository.findById(1L)).thenReturn(Optional.of(potato));
+        when(mealRepository.findById(5L)).thenReturn(Optional.of(potatoCucumberMeal));
+        Meal editedMeal = potatoCucumberMeal;
+        //when
+        mealEnergyUpdater.updateMealEnergyValue(1);
+        //then
+        assertEquals(150, editedMeal.getEnergy());
+    }
+
+    //TODO implement
+    @Test
     public void whenAddingNewIngredientsToMeal_shouldUpdateMealEnergyValue() {
         //given
-        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(twoIngredientTwoConTimesMealFromDb));
+        when(mealRepository.findById(5L)).thenReturn(Optional.of(potatoCucumberMeal));
         //when
-        Meal editedMeal = mealService.editMeal(carrotSugarAfterAfternoonMealFromClient);
+        Meal editedMeal = carrotSugarMeal;
         //then
         assertEquals(875, editedMeal.getEnergy());
     }
 
+    //TODO implement
     @Test
     public void whenMealFromDBContainsCommonIngredientsWithMealFromClient_andItsEnergyValueIsZero_shouldUpdateMealEnergyValue() {
         //given
-        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(twoIngredientTwoConTimesMealFromDb));
+        when(mealRepository.findById(5L)).thenReturn(Optional.of(potatoCucumberMeal));
         //when
-        Meal editedMeal = mealService.editMeal(fourIngredientFourConTimesMealFromDb);
+        Meal editedMeal = fourIngredientFourConTimesMealFromDb;
         //then
         assertEquals(875, editedMeal.getEnergy());
-    }
-
-    @Test
-    public void whenDeletingIngredient_ShouldUpdateMealEnergyValue() {
-        //given
-        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(twoIngredientTwoConTimesMealFromDb));
-        when(ingredientRepositoryMock.findById(1L)).thenReturn(Optional.of(potato));
-        Meal editedMeal = twoIngredientTwoConTimesMealFromDb;
-        //when
-        ingredientService.delete(1);
-        //then
-        assertEquals(150, editedMeal.getEnergy());
     }
 
     @Test
     public void whenUpdatingIngredientEnergyPer100Grams_shouldUpdateMealEnergyValue() {
         //given
-        when(ingredientRepositoryMock.findById(1L)).thenReturn(Optional.of(potatoFromDb));
-        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(twoIngredientTwoConTimesMealFromDb));
-        Meal meal = twoIngredientTwoConTimesMealFromDb;
+        when(ingredientRepository.findById(1L)).thenReturn(Optional.of(potatoFromDb));
+        when(mealRepository.findById(5L)).thenReturn(Optional.of(potatoCucumberMeal));
+        Meal meal = potatoCucumberMeal;
         //when
-        ingredientService.edit(potatoFromClient);
+
         //then
         assertEquals(1050, meal.getEnergy());
     }

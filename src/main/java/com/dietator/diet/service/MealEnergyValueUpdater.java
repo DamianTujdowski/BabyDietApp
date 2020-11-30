@@ -12,16 +12,24 @@ import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
-public class MealEnergyValueUpdater {
+class MealEnergyValueUpdater {
 
     private final MealRepository mealRepository;
     private final IngredientRepository ingredientRepository;
 
-    private void updateMealEnergyValue(Ingredient editedIngredient) {
+    int countMealEnergyValue(Meal meal, Meal editedMeal) {
+        meal.getIngredients().addAll(editedMeal.getIngredients());
+        return meal.getIngredients()
+                .stream()
+                .mapToInt(this::countEnergyPerMeal)
+                .sum();
+    }
+
+    void updateMealEnergyValue(Ingredient editedIngredient) {
         Meal meal = findById(editedIngredient.getMealId());
         Set<Ingredient> ingredients = meal.getIngredients();
         updateIngredientEnergy(ingredients, editedIngredient);
-        meal.setEnergy(countMealEnergy(ingredients));
+        meal.setEnergy(countMealEnergyValue(ingredients));
     }
 
     private void updateIngredientEnergy(Set<Ingredient> ingredients, Ingredient editedIngredient) {
@@ -32,19 +40,19 @@ public class MealEnergyValueUpdater {
         }
     }
 
-    private void updateMealEnergyValue(long id) {
+    void updateMealEnergyValue(long id) {
         Ingredient toDelete = findIngredientById(id);
         Meal meal = findById(toDelete.getMealId());
         Set<Ingredient> ingredients = meal.getIngredients();
         ingredients.remove(toDelete);
-        meal.setEnergy(countMealEnergy(ingredients));
+        meal.setEnergy(countMealEnergyValue(ingredients));
     }
 
     private Meal findById(long id) {
         return mealRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Meal.class, id));
     }
 
-    private int countMealEnergy(Set<Ingredient> ingredients) {
+    private int countMealEnergyValue(Set<Ingredient> ingredients) {
         return ingredients
                 .stream()
                 .mapToInt(this::countEnergyPerMeal)
@@ -55,7 +63,7 @@ public class MealEnergyValueUpdater {
         return (int) Math.round(ingredient.getWeightPerMeal() / 100.0 * ingredient.getEnergyPer100Grams());
     }
 
-    public Ingredient findIngredientById(long id) {
+    private Ingredient findIngredientById(long id) {
         return ingredientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Ingredient.class, id));
     }
 }

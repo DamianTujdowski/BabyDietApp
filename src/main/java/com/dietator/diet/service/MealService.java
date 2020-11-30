@@ -1,6 +1,5 @@
 package com.dietator.diet.service;
 
-import com.dietator.diet.domain.Ingredient;
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.error.EntityNotFoundException;
 import com.dietator.diet.projections.MealInfo;
@@ -21,6 +20,8 @@ public class MealService {
 
     private final PredefinedIngredientCopyingService predefinedIngredientCopyingService;
 
+    private final MealEnergyValueUpdater energyValueUpdater;
+
     public Meal findMealById(long id) {
         return mealRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Meal.class, id));
     }
@@ -38,7 +39,7 @@ public class MealService {
         Meal editedMeal = mealRepository.findById(meal.getId())
                 .orElseThrow(() -> new EntityNotFoundException(Meal.class, meal.getId()));
         editedMeal.setDesignation(meal.getDesignation());
-        editedMeal.setEnergy(countMealEnergy(meal, editedMeal));
+        editedMeal.setEnergy(energyValueUpdater.countMealEnergyValue(meal, editedMeal));
         editedMeal.setPreparationDescription(meal.getPreparationDescription());
         editedMeal.setPreparationDuration(meal.getPreparationDuration());
         editedMeal.getConsumptionTimes().addAll(requireNonNull(meal.getConsumptionTimes()));
@@ -60,18 +61,6 @@ public class MealService {
         if (!mealRepository.existsById(id)) {
             throw new EntityNotFoundException(Meal.class, id);
         }
-    }
-
-    private int countMealEnergy(Meal meal, Meal editedMeal) {
-        meal.getIngredients().addAll(editedMeal.getIngredients());
-        return meal.getIngredients()
-                .stream()
-                .mapToInt(this::countEnergyPerMeal)
-                .sum();
-    }
-
-    private int countEnergyPerMeal(Ingredient ingredient) {
-        return (int) Math.round(ingredient.getWeightPerMeal() / 100.0 * ingredient.getEnergyPer100Grams());
     }
 
 }
