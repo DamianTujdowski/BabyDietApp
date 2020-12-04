@@ -4,6 +4,7 @@ import com.dietator.diet.domain.Ingredient;
 import com.dietator.diet.error.EntityNotFoundException;
 import com.dietator.diet.projections.IngredientBasicInfo;
 import com.dietator.diet.repository.IngredientRepository;
+import com.dietator.diet.utils.MealEnergyValueUpdater;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

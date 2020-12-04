@@ -3,6 +3,7 @@ package com.dietator.diet.service;
 import com.dietator.diet.domain.*;
 import com.dietator.diet.repository.IngredientRepository;
 import com.dietator.diet.repository.MealRepository;
+import com.dietator.diet.utils.MealEnergyValueUpdater;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

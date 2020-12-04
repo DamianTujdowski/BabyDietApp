@@ -1,4 +1,4 @@
-package com.dietator.diet.service;
+package com.dietator.diet.utils;
 
 import com.dietator.diet.domain.Ingredient;
 import com.dietator.diet.domain.Meal;
@@ -6,18 +6,18 @@ import com.dietator.diet.error.EntityNotFoundException;
 import com.dietator.diet.repository.IngredientRepository;
 import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
 @RequiredArgsConstructor
-@Service
-class MealEnergyValueUpdater {
+@Component
+public class MealEnergyValueUpdater {
 
     private final MealRepository mealRepository;
     private final IngredientRepository ingredientRepository;
 
-    int countMealEnergyValue(Meal meal, Meal editedMeal) {
+   public int countMealEnergyValue(Meal meal, Meal editedMeal) {
         meal.getIngredients().addAll(editedMeal.getIngredients());
         return meal.getIngredients()
                 .stream()
@@ -25,7 +25,7 @@ class MealEnergyValueUpdater {
                 .sum();
     }
 
-    void updateMealEnergyValue(Ingredient editedIngredient) {
+    public void updateMealEnergyValue(Ingredient editedIngredient) {
         Meal meal = findById(editedIngredient.getMealId());
         Set<Ingredient> ingredients = meal.getIngredients();
         updateIngredientEnergy(ingredients, editedIngredient);
@@ -40,7 +40,7 @@ class MealEnergyValueUpdater {
         }
     }
 
-    void updateMealEnergyValue(long id) {
+    public void updateMealEnergyValue(long id) {
         Ingredient toDelete = findIngredientById(id);
         Meal meal = findById(toDelete.getMealId());
         Set<Ingredient> ingredients = meal.getIngredients();

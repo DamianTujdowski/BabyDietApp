@@ -2,6 +2,7 @@ package com.dietator.diet.service;
 
 import com.dietator.diet.domain.*;
 import com.dietator.diet.repository.MealRepository;
+import com.dietator.diet.utils.PredefinedIngredientCopier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +31,7 @@ class MealServiceTest {
     @Mock
     private MealRepository mealRepositoryMock;
     @Mock
-    private PredefinedIngredientCopyingService predefinedIngredientCopyingService;
+    private PredefinedIngredientCopier predefinedIngredientCopier;
 
     private Meal noIngredientNoConTimesMealFromDb, potatoCucumberBeforeAfternoonMealFromClient,
             twoIngredientTwoConTimesMealFromDb, fourIngredientFourConTimesMealFromClient,
@@ -76,7 +77,7 @@ class MealServiceTest {
     public void whenEditingMealWithNoIngredients_shouldAddAllIngredients() {
         //given
         when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(noIngredientNoConTimesMealFromDb));
-        when(predefinedIngredientCopyingService.copyPreDefinedIngredients(anySet(), anySet()))
+        when(predefinedIngredientCopier.copyPreDefinedIngredients(anySet(), anySet()))
                 .thenReturn(potatoCucumberBeforeAfternoonMealFromClient.getIngredients());
         //when
         Meal editedMeal = mealService.editMeal(potatoCucumberBeforeAfternoonMealFromClient);
@@ -88,7 +89,7 @@ class MealServiceTest {
     public void whenEditingMealWhichHasIngredientsAlready_shouldAddOnlyNewIngredients() {
         //given
         when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(twoIngredientTwoConTimesMealFromDb));
-        when(predefinedIngredientCopyingService.copyPreDefinedIngredients(anySet(), anySet()))
+        when(predefinedIngredientCopier.copyPreDefinedIngredients(anySet(), anySet()))
                 .thenReturn(fourIngredientFourConTimesMealFromClient.getIngredients());
         //when
         Meal editedMeal = mealService.editMeal(fourIngredientFourConTimesMealFromClient);
@@ -100,7 +101,7 @@ class MealServiceTest {
     public void whenEditingMeal_shouldAddAllIngredients_ifClientAndDatabaseMealHaveNoCommonIngredients() {
         //given
         when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(carrotSugarAfterAfternoonMealFromClient));
-        when(predefinedIngredientCopyingService.copyPreDefinedIngredients(anySet(), anySet()))
+        when(predefinedIngredientCopier.copyPreDefinedIngredients(anySet(), anySet()))
                 .thenReturn(potatoCucumberBeforeAfternoonMealFromClient.getIngredients());
         //when
         Meal editedMeal = mealService.editMeal(potatoCucumberBeforeAfternoonMealFromClient);
@@ -166,7 +167,7 @@ class MealServiceTest {
                 .stream()
                 .map(ingredient -> ingredient.isPreDefined() ? new Ingredient(ingredient) : ingredient)
                 .collect(Collectors.toSet());
-        when(predefinedIngredientCopyingService.copyPreDefinedIngredients(anySet(), anySet()))
+        when(predefinedIngredientCopier.copyPreDefinedIngredients(anySet(), anySet()))
                 .thenReturn(editedIngredients);
         //when
         Meal editedMeal = mealService.editMeal(fourIngredientMealWithTwoPredefinedIngredientsFromClient);
@@ -182,7 +183,7 @@ class MealServiceTest {
                 .stream()
                 .map(ingredient -> ingredient.isPreDefined() ? new Ingredient(ingredient) : ingredient)
                 .collect(Collectors.toSet());
-        when(predefinedIngredientCopyingService.copyPreDefinedIngredients(anySet(), anySet()))
+        when(predefinedIngredientCopier.copyPreDefinedIngredients(anySet(), anySet()))
                 .thenReturn(editedIngredients);
         //when
         Meal editedMeal = mealService.editMeal(fourIngredientMealWithTwoPredefinedIngredientsFromClient);
@@ -214,7 +215,7 @@ class MealServiceTest {
                 .stream()
                 .map(ingredient -> ingredient.isPreDefined() ? new Ingredient(ingredient) : ingredient)
                 .collect(Collectors.toSet());
-        when(predefinedIngredientCopyingService.copyPreDefinedIngredients(anySet(), anySet()))
+        when(predefinedIngredientCopier.copyPreDefinedIngredients(anySet(), anySet()))
                 .thenReturn(mealOneEditedIngredients);
 
         when(mealRepositoryMock.findById(2L)).thenReturn(Optional.of(mealTwoFromDb));
@@ -222,7 +223,7 @@ class MealServiceTest {
                 .stream()
                 .map(ingredient -> ingredient.isPreDefined() ? new Ingredient(ingredient) : ingredient)
                 .collect(Collectors.toSet());
-        when(predefinedIngredientCopyingService.copyPreDefinedIngredients(anySet(), anySet()))
+        when(predefinedIngredientCopier.copyPreDefinedIngredients(anySet(), anySet()))
                 .thenReturn(mealTwoEditedIngredients);
 
         //when

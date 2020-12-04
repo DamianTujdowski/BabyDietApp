@@ -1,9 +1,10 @@
-package com.dietator.diet.service;
+package com.dietator.diet.utils;
 
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.repository.IngredientRepository;
 import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -11,8 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
-public class PredefinedMealCopyingService {
+@Component
+public class PredefinedMealCopier {
 
     private final MealRepository mealRepository;
     private final IngredientRepository ingredientRepository;

@@ -15,17 +15,23 @@ public class StatisticsService {
 
     private final MealRepository mealRepository;
 
-    //TODO secure if number page is smaller than zero
     //TODO repair error while there is no id in DB
 
     public List<MealsConsumptionQuantity> getMealsConsumptionQuantity(long id,
                                                                       int pageNumber,
                                                                       int pageSize,
                                                                       Sort.Direction direction) {
+        if (id < 0) {
+            throw new IllegalArgumentException();
+        }
+
         return mealRepository.countMealsConsumptionQuantity(
                 id,
-                PageRequest.of(pageNumber, pageSize, Sort.by(direction, "consumptionsQuantity"))
-        );
+                PageRequest.of(
+                        pageNumber,
+                        pageSize,
+                        Sort.by(direction, "consumptionsQuantity")
+                ));
     }
 
     public ConsumedMealsNumberAndDailyAverage getConsumedMealsQuantityWithDailyAverage(long id) {
@@ -44,15 +50,27 @@ public class StatisticsService {
                                                                    int pageNumber,
                                                                    int pageSize,
                                                                    Sort.Direction direction) {
-        return mealRepository.countMealsConsumedCalories(id,
-                PageRequest.of(pageNumber, pageSize, Sort.by(direction, "caloriesSum"))
-        );
+        if (id < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        return mealRepository.countMealsConsumedCalories(
+                id,
+                PageRequest.of(
+                        pageNumber,
+                        pageSize,
+                        Sort.by(direction, "caloriesSum")
+                ));
     }
 
     public List<DailyConsumedCalories> getDailyConsumedCalories(long id, int pageNumber, int pageSize) {
-        return mealRepository.countDailyConsumedCalories(id,
-                PageRequest.of(pageNumber, pageSize)
-        );
+
+        if (id < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        return mealRepository.countDailyConsumedCalories(
+                id, PageRequest.of(pageNumber, pageSize));
     }
 
     public ConsumedCaloriesSumWithDailyAverage getConsumedCaloriesSumWithDailyAverage(long id) {
@@ -63,25 +81,41 @@ public class StatisticsService {
                                                              int pageNumber,
                                                              int pageSize,
                                                              Sort.Direction direction) {
-        return mealRepository.countMealsConsumedGrams(id,
-                PageRequest.of(pageNumber, pageSize, Sort.by(direction, "gramsSum"))
-        );
+        if (id < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        return mealRepository.countMealsConsumedGrams(
+                id,
+                PageRequest.of(
+                        pageNumber,
+                        pageSize,
+                        Sort.by(direction, "gramsSum")
+                ));
     }
 
     public ConsumedGramsSumWithDailyAverage getConsumedGramsSumWithDailyAverage(long id) {
-        return mealRepository.countConsumedGramsSumWithDailyAverage(id).orElseThrow();
+        return mealRepository.countConsumedGramsSumWithDailyAverage(id);
     }
 
     public List<DailyConsumedGrams> getDailyConsumedGrams(long id, int pageNumber, int pageSize) {
-        return mealRepository.countDailyConsumedGrams(id,
-                PageRequest.of(pageNumber, pageSize)
-        );
+
+        if (id < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        return mealRepository.countDailyConsumedGrams(
+                id, PageRequest.of(pageNumber, pageSize));
     }
 
     public List<DailyCookingTime> getDailyCookingTime(long id, int pageNumber, int pageSize) {
-        return mealRepository.countDailyCookingTime(id,
-                PageRequest.of(pageNumber, pageSize)
-        );
+
+        if (id < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        return mealRepository.countDailyCookingTime(
+                id, PageRequest.of(pageNumber, pageSize));
     }
 
     public TimeSpentCookingSum getTimeSpentCookingSum(long id) {

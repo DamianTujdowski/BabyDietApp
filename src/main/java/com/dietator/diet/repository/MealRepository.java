@@ -119,7 +119,7 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
             "RIGHT JOIN consumption_time t ON m.id = t.meal_id " +
             "WHERE m.child_id = :id",
             nativeQuery = true)
-    Optional<ConsumedGramsSumWithDailyAverage> countConsumedGramsSumWithDailyAverage(@Param("id") long id);
+    ConsumedGramsSumWithDailyAverage countConsumedGramsSumWithDailyAverage(@Param("id") long id);
 
     @Query(value = "SELECT DATE(t.consumption_time) AS consumptionDate, " +
             "SUM(m.preparation_duration) AS dailyCookingTime " +

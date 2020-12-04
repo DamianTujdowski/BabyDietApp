@@ -1,8 +1,9 @@
-package com.dietator.diet.service;
+package com.dietator.diet.utils;
 
 import com.dietator.diet.domain.Ingredient;
 import com.dietator.diet.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -10,12 +11,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
-class PredefinedIngredientCopyingService {
+@Component
+public class PredefinedIngredientCopier {
 
     private final IngredientRepository ingredientRepository;
 
-    Set<Ingredient> copyPreDefinedIngredients(Set<Ingredient> clientIngredients, Set<Ingredient> dbIngredients) {
+    public Set<Ingredient> copyPreDefinedIngredients(Set<Ingredient> clientIngredients, Set<Ingredient> dbIngredients) {
         return removeCommonIngredients(clientIngredients, dbIngredients)
                 .stream()
                 .map(this::copyAndSaveIngredient)

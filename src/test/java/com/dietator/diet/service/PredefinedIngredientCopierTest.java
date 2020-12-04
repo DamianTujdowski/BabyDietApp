@@ -1,16 +1,13 @@
 package com.dietator.diet.service;
 
 import com.dietator.diet.domain.Ingredient;
-import com.dietator.diet.domain.Meal;
-import com.dietator.diet.domain.MealCategory;
-import com.dietator.diet.domain.PreparationDifficulty;
 import com.dietator.diet.repository.IngredientRepository;
+import com.dietator.diet.utils.PredefinedIngredientCopier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
@@ -22,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class PredefinedIngredientCopyingServiceTest {
+class PredefinedIngredientCopierTest {
 
     @InjectMocks
-    private PredefinedIngredientCopyingService ingredientCopyingService;
+    private PredefinedIngredientCopier ingredientCopyingService;
 
     @Mock
     private IngredientRepository ingredientRepository;

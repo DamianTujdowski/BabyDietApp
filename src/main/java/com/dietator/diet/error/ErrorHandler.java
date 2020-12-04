@@ -13,12 +13,25 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException exception, WebRequest request) {
-        ApiError error = createApiError(exception, request);
-        return new ResponseEntity<>(error, new HttpHeaders(), error.getStatus());
+        ApiException apiException = createEntityNotFoundException(exception, request);
+        return new ResponseEntity<>(apiException, new HttpHeaders(), apiException.getStatus());
     }
 
-    private ApiError createApiError(EntityNotFoundException exception, WebRequest request) {
-        return new ApiError(HttpStatus.NOT_FOUND,
+    private ApiException createEntityNotFoundException(EntityNotFoundException exception, WebRequest request) {
+        return new ApiException(HttpStatus.NOT_FOUND,
+                exception.getClass().getSimpleName(),
+                exception.getMessage(),
+                request.getDescription(false));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleMinusPageNumber(IllegalArgumentException exception, WebRequest request) {
+        ApiException apiException = createMinusPageNumberException(exception, request);
+        return new ResponseEntity<>(apiException, new HttpHeaders(), apiException.getStatus());
+    }
+
+    private ApiException createMinusPageNumberException(IllegalArgumentException exception, WebRequest request) {
+        return new ApiException(HttpStatus.BAD_REQUEST,
                 exception.getClass().getSimpleName(),
                 exception.getMessage(),
                 request.getDescription(false));

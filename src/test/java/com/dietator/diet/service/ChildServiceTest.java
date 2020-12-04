@@ -2,6 +2,8 @@ package com.dietator.diet.service;
 
 import com.dietator.diet.domain.*;
 import com.dietator.diet.repository.ChildRepository;
+import com.dietator.diet.utils.PredefinedIngredientCopier;
+import com.dietator.diet.utils.PredefinedMealCopier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,9 +28,9 @@ class ChildServiceTest {
     @InjectMocks
     private ChildService childService;
     @Mock
-    private PredefinedMealCopyingService mealCopyingService;
+    private PredefinedMealCopier mealCopyingService;
     @Mock
-    private PredefinedIngredientCopyingService ingredientCopyingService;
+    private PredefinedIngredientCopier ingredientCopyingService;
     @Mock
     private ChildRepository childRepository;
 
