@@ -17,7 +17,13 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiException, new HttpHeaders(), apiException.getStatus());
     }
 
-    private ApiException createEntityNotFoundException(EntityNotFoundException exception, WebRequest request) {
+    @ExceptionHandler(ParentEntityNotFoundException.class)
+    public ResponseEntity<Object> handleParentEntityNotFoundException(ParentEntityNotFoundException exception, WebRequest request) {
+        ApiException apiException = createEntityNotFoundException(exception, request);
+        return new ResponseEntity<>(apiException, new HttpHeaders(), apiException.getStatus());
+    }
+
+    private ApiException createEntityNotFoundException(RuntimeException exception, WebRequest request) {
         return new ApiException(HttpStatus.NOT_FOUND,
                 exception.getClass().getSimpleName(),
                 exception.getMessage(),

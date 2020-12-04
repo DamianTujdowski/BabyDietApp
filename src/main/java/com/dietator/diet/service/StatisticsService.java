@@ -1,10 +1,16 @@
 package com.dietator.diet.service;
 
+import com.dietator.diet.domain.Child;
+import com.dietator.diet.domain.Meal;
+import com.dietator.diet.error.EntityNotFoundException;
+import com.dietator.diet.error.ParentEntityNotFoundException;
 import com.dietator.diet.projections.statistics_projections.*;
+import com.dietator.diet.repository.ChildRepository;
 import com.dietator.diet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +20,7 @@ import java.util.List;
 public class StatisticsService {
 
     private final MealRepository mealRepository;
-
-    //TODO repair error while there is no id in DB
+    private final ChildRepository childRepository;
 
     public List<MealsConsumptionQuantity> getMealsConsumptionQuantity(long id,
                                                                       int pageNumber,
@@ -35,14 +40,17 @@ public class StatisticsService {
     }
 
     public ConsumedMealsNumberAndDailyAverage getConsumedMealsQuantityWithDailyAverage(long id) {
+        checkIfExists(id);
         return mealRepository.countConsumedMealsNumberAndDailyAverage(id);
     }
 
     public List<MealsPerDifficultyNumber> getMealsPerDifficultyQuantity(long id) {
+        checkIfExists(id);
         return mealRepository.countMealsPerDifficultyNumber(id);
     }
 
     public List<MealsPerCategoryNumber> getMealsPerCategoryQuantity(long id) {
+        checkIfExists(id);
         return mealRepository.countMealsPerCategoryNumber(id);
     }
 
@@ -74,6 +82,7 @@ public class StatisticsService {
     }
 
     public ConsumedCaloriesSumWithDailyAverage getConsumedCaloriesSumWithDailyAverage(long id) {
+        checkIfExists(id);
         return mealRepository.countConsumedCaloriesSumWithDailyAverage(id);
     }
 
@@ -95,6 +104,7 @@ public class StatisticsService {
     }
 
     public ConsumedGramsSumWithDailyAverage getConsumedGramsSumWithDailyAverage(long id) {
+        checkIfExists(id);
         return mealRepository.countConsumedGramsSumWithDailyAverage(id);
     }
 
@@ -119,8 +129,14 @@ public class StatisticsService {
     }
 
     public TimeSpentCookingSum getTimeSpentCookingSum(long id) {
+        checkIfExists(id);
         return mealRepository.countTimeSpentCookingSum(id);
     }
 
+    private void checkIfExists(long id) {
+        if (!childRepository.existsById(id)) {
+            throw new ParentEntityNotFoundException(Child.class, Meal.class, id);
+        }
+    }
 
 }
