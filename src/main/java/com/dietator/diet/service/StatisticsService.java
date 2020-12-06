@@ -26,9 +26,8 @@ public class StatisticsService {
                                                                       int pageNumber,
                                                                       int pageSize,
                                                                       Sort.Direction direction) {
-        if (id < 0) {
-            throw new IllegalArgumentException();
-        }
+        checkIfExists(id);
+        checkPageNumber(id);
 
         return mealRepository.countMealsConsumptionQuantity(
                 id,
@@ -58,9 +57,8 @@ public class StatisticsService {
                                                                    int pageNumber,
                                                                    int pageSize,
                                                                    Sort.Direction direction) {
-        if (id < 0) {
-            throw new IllegalArgumentException();
-        }
+        checkIfExists(id);
+        checkPageNumber(id);
 
         return mealRepository.countMealsConsumedCalories(
                 id,
@@ -73,9 +71,7 @@ public class StatisticsService {
 
     public List<DailyConsumedCalories> getDailyConsumedCalories(long id, int pageNumber, int pageSize) {
 
-        if (id < 0) {
-            throw new IllegalArgumentException();
-        }
+        checkPageNumber(id);
 
         return mealRepository.countDailyConsumedCalories(
                 id, PageRequest.of(pageNumber, pageSize));
@@ -90,9 +86,8 @@ public class StatisticsService {
                                                              int pageNumber,
                                                              int pageSize,
                                                              Sort.Direction direction) {
-        if (id < 0) {
-            throw new IllegalArgumentException();
-        }
+        checkIfExists(id);
+        checkPageNumber(id);
 
         return mealRepository.countMealsConsumedGrams(
                 id,
@@ -108,21 +103,21 @@ public class StatisticsService {
         return mealRepository.countConsumedGramsSumWithDailyAverage(id);
     }
 
-    public List<DailyConsumedGrams> getDailyConsumedGrams(long id, int pageNumber, int pageSize) {
-
-        if (id < 0) {
-            throw new IllegalArgumentException();
-        }
+    public List<DailyConsumedGrams> getDailyConsumedGrams(long id,
+                                                          int pageNumber,
+                                                          int pageSize) {
+        checkIfExists(id);
+        checkPageNumber(id);
 
         return mealRepository.countDailyConsumedGrams(
                 id, PageRequest.of(pageNumber, pageSize));
     }
 
-    public List<DailyCookingTime> getDailyCookingTime(long id, int pageNumber, int pageSize) {
-
-        if (id < 0) {
-            throw new IllegalArgumentException();
-        }
+    public List<DailyCookingTime> getDailyCookingTime(long id,
+                                                      int pageNumber,
+                                                      int pageSize) {
+        checkIfExists(id);
+        checkPageNumber(id);
 
         return mealRepository.countDailyCookingTime(
                 id, PageRequest.of(pageNumber, pageSize));
@@ -136,6 +131,12 @@ public class StatisticsService {
     private void checkIfExists(long id) {
         if (!childRepository.existsById(id)) {
             throw new ParentEntityNotFoundException(Child.class, Meal.class, id);
+        }
+    }
+
+    private void checkPageNumber(long id) {
+        if (id < 0) {
+            throw new IllegalArgumentException();
         }
     }
 

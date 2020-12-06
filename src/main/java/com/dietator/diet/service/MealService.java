@@ -1,8 +1,11 @@
 package com.dietator.diet.service;
 
+import com.dietator.diet.domain.Child;
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.error.EntityNotFoundException;
+import com.dietator.diet.error.ParentEntityNotFoundException;
 import com.dietator.diet.projections.MealInfo;
+import com.dietator.diet.repository.ChildRepository;
 import com.dietator.diet.repository.MealRepository;
 import com.dietator.diet.utils.MealEnergyValueUpdater;
 import com.dietator.diet.utils.PredefinedIngredientCopier;
@@ -24,11 +27,14 @@ public class MealService {
 
     private final MealEnergyValueUpdater energyValueUpdater;
 
+    private final ChildRepository childRepository;
+
     public Meal findMealById(long id) {
         return mealRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Meal.class, id));
     }
 
     public List<MealInfo> findAllMeals(long id) {
+        checkIfParentEntityExists(id);
         return mealRepository.findAllById(id);
     }
 
@@ -65,4 +71,9 @@ public class MealService {
         }
     }
 
+    private void checkIfParentEntityExists(long id) {
+        if (!childRepository.existsById(id)) {
+            throw new ParentEntityNotFoundException(Child.class, Meal.class, id);
+        }
+    }
 }
