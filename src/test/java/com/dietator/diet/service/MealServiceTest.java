@@ -58,19 +58,19 @@ class MealServiceTest {
         Set<ConsumptionTime> twoTimesAfterAfternoon = Stream.of(evening, lateEvening).collect(Collectors.toSet());
         Set<ConsumptionTime> fourTimes = Stream.of(morning, afternoon, evening, lateEvening).collect(Collectors.toSet());
         noIngredientNoConTimesMealFromDb = new Meal(5L, "burrito", 0, "roll cake",
-                10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         potatoCucumberBeforeAfternoonMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
-                10, twoTimesBeforeAfternoon, potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, twoTimesBeforeAfternoon, potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         carrotSugarAfterAfternoonMealFromClient = new Meal(5L, "burrito", 113, "roll cake",
-                10, twoTimesAfterAfternoon, carrotSugar, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, twoTimesAfterAfternoon, carrotSugar, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         twoIngredientTwoConTimesMealFromDb = new Meal(5L, "burrito", 762, "roll cake",
-                10, twoTimesAfterAfternoon, potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, twoTimesAfterAfternoon, potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         fourIngredientFourConTimesMealFromDb = new Meal(5L, "burrito", 875, "roll cake",
-                10, fourTimes, fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, fourTimes, fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         fourIngredientFourConTimesMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
-                10, fourTimes, fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, fourTimes, fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         fourIngredientMealWithTwoPredefinedIngredientsFromClient = new Meal(5L, "burrito", 800, "roll cake",
-                10, fourTimes, fourIngredientsWithTwoPredefined, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, fourTimes, fourIngredientsWithTwoPredefined, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
     }
 
     @Test
@@ -201,14 +201,14 @@ class MealServiceTest {
         Ingredient carrot = new Ingredient(3L, "carrotPredefined", 98, 70, true, false, true, null);
         Set<Ingredient> mealOneIngredients = Stream.of(carrot).collect(Collectors.toSet());
         Meal mealOne = new Meal(1L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), mealOneIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, new HashSet<>(), mealOneIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         Meal mealOneFromDb = new Meal(1L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         Set<Ingredient> mealTwoIngredients = Stream.of(carrot).collect(Collectors.toSet());
         Meal mealTwo = new Meal(2L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), mealTwoIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, new HashSet<>(), mealTwoIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         Meal mealTwoFromDb = new Meal(2L, "burrito", 800, "roll cake",
-                10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
 
         when(mealRepositoryMock.findById(1L)).thenReturn(Optional.of(mealOneFromDb));
         Set<Ingredient> mealOneEditedIngredients = mealOne.getIngredients()

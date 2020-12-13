@@ -43,9 +43,9 @@ class UpdatingMealEnergyValueFieldTest {
         Set<Ingredient> potatoCucumber = Stream.of(potato, cucumber).collect(Collectors.toSet());
         Set<Ingredient> fourIngredients = Stream.of(potato, cucumber, carrot, sugar).collect(Collectors.toSet());
         potatoCucumberMeal = new Meal(5L, "burrito", 762, "roll cake",
-                10, new HashSet<>(), potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, new HashSet<>(), potatoCucumber, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         fourIngredientsMeal = new Meal(6L, "burrito", 0, "roll cake",
-                10, new HashSet<>(), fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1);
+                10, new HashSet<>(), fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
     }
 
     @Test
