@@ -15,7 +15,8 @@ import java.util.Optional;
 public interface ChildRepository extends JpaRepository<Child, Long> {
 
     @QueryHints(@QueryHint(name = "hibernate.query.passDistinctThrough", value = "false"))
-    @Query("select distinct c from Child c left join fetch c.consumedMeals m")
+    @Query("select distinct c from Child c left join fetch c.consumedMeals " +
+            "left join fetch c.favouriteAndDislikedIngredients")
     List<ChildInfo> findAllBy();
 
     Optional<ChildInfo> findChildById(long id);

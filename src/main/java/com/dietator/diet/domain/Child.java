@@ -24,7 +24,7 @@ public class Child {
     private LocalDate birthDate;
 
     @OneToMany(orphanRemoval = true)
-    @JoinColumn(name = "childId")
+    @JoinColumn(name = "child_id")
     private Set<Meal> consumedMeals;
 
     @OneToMany(orphanRemoval = true)

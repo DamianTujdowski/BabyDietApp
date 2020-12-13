@@ -15,9 +15,9 @@ public interface MealInfo {
 
     int getPreparationDuration();
 
-    Set<IngredientBasicInfo> getIngredients();
-
     Set<ConsumptionTime> getConsumptionTimes();
+
+    Set<IngredientBasicInfo> getIngredients();
 
     MealCategory getMealCategory();
 
@@ -25,5 +25,5 @@ public interface MealInfo {
 
     boolean isPreDefined();
 
-    long getChildId();
+    Long getChildId();
 }

@@ -44,7 +44,8 @@ public class Meal {
 
     private boolean isPreDefined;
 
-    private long childId;
+    @Column(name = "child_id")
+    private Long childId;
 
     public Meal(Meal mealToClone) {
         this.designation = mealToClone.designation;

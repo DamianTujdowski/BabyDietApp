@@ -10,6 +10,7 @@ import com.dietator.diet.repository.MealRepository;
 import com.dietator.diet.utils.MealEnergyValueUpdater;
 import com.dietator.diet.utils.PredefinedIngredientCopier;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -33,9 +34,9 @@ public class MealService {
         return mealRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Meal.class, id));
     }
 
-    public List<MealInfo> findAllMeals(long id) {
+    public List<Meal> findAllMeals(long id, int pageNumber, int pageSize) {
         checkIfParentEntityExists(id);
-        return mealRepository.findAllById(id);
+        return mealRepository.findAllByParentId(id, PageRequest.of(pageNumber, pageSize));
     }
 
     public Meal save(Meal meal) {
