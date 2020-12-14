@@ -20,7 +20,7 @@ public class MealController {
     }
 
     @GetMapping("/meals")
-    public List<Meal> getAllMeals(@RequestParam long id,
+    public List<MealInfo> getAllMeals(@RequestParam long id,
                                   @RequestParam int pageNumber,
                                   @RequestParam(defaultValue = "10") int pageSize) {
         return mealService.findAllMeals(id, pageNumber, pageSize);

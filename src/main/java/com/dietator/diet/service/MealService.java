@@ -34,7 +34,7 @@ public class MealService {
         return mealRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Meal.class, id));
     }
 
-    public List<Meal> findAllMeals(long id, int pageNumber, int pageSize) {
+    public List<MealInfo> findAllMeals(long id, int pageNumber, int pageSize) {
         checkIfParentEntityExists(id);
         return mealRepository.findAllByParentId(id, PageRequest.of(pageNumber, pageSize));
     }

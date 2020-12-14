@@ -24,7 +24,7 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
             "LEFT JOIN FETCH m.ingredients " +
             "RIGHT JOIN FETCH m.consumptionTimes " +
             "WHERE m.childId = :id")
-    List<Meal> findAllByParentId(@Param("id") long id, Pageable pageable);
+    List<MealInfo> findAllByParentId(@Param("id") long id, Pageable pageable);
 
     @Query("SELECT m.designation AS designation," +
             "COUNT(m.id) AS consumptionsQuantity " +
