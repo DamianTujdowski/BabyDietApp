@@ -5,7 +5,10 @@ import com.dietator.diet.error.EntityNotFoundException;
 import com.dietator.diet.projections.IngredientBasicInfo;
 import com.dietator.diet.repository.IngredientRepository;
 import com.dietator.diet.utils.MealEnergyValueUpdater;
+
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,8 +25,8 @@ public class IngredientService {
         return ingredientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Ingredient.class, id));
     }
 
-    public List<IngredientBasicInfo> findAll() {
-        return ingredientRepository.findAllBy();
+    public List<IngredientBasicInfo> findAll(int pageNumber, int pageSize) {
+        return ingredientRepository.findByIsPreDefinedTrue(PageRequest.of(pageNumber, pageSize));
     }
 
     public Ingredient save(Ingredient ingredient) {

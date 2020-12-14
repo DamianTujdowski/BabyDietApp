@@ -18,6 +18,8 @@ import java.util.Optional;
 @Repository
 public interface MealRepository extends JpaRepository<Meal, Long> {
 
+    List<MealInfo> findByIsPreDefinedTrue(Pageable pageable);
+
     @QueryHints(@QueryHint(name = "hibernate.query.passDistinctThrough", value = "false"))
     @Query("SELECT DISTINCT m " +
             "FROM Meal m " +

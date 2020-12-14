@@ -21,9 +21,15 @@ public class MealController {
 
     @GetMapping("/meals")
     public List<MealInfo> getAllMeals(@RequestParam long id,
-                                  @RequestParam int pageNumber,
-                                  @RequestParam(defaultValue = "10") int pageSize) {
+                                      @RequestParam int pageNumber,
+                                      @RequestParam(defaultValue = "10") int pageSize) {
         return mealService.findAllMeals(id, pageNumber, pageSize);
+    }
+
+    @GetMapping("/meals/predefined")
+    public List<MealInfo> getPreDefinedMeals(@RequestParam int pageNumber,
+                                             @RequestParam(defaultValue = "10") int pageSize) {
+        return mealService.findAllPredefined(pageNumber, pageSize);
     }
 
     @PostMapping("/meals")

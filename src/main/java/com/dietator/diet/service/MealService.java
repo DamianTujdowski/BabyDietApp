@@ -39,6 +39,10 @@ public class MealService {
         return mealRepository.findAllByParentId(id, PageRequest.of(pageNumber, pageSize));
     }
 
+    public List<MealInfo> findAllPredefined(int pageNumber, int pageSize) {
+        return mealRepository.findByIsPreDefinedTrue(PageRequest.of(pageNumber, pageSize));
+    }
+
     public Meal save(Meal meal) {
         return mealRepository.save(meal);
     }

@@ -20,8 +20,9 @@ public class IngredientController {
     }
 
     @GetMapping("/ingredients")
-    public List<IngredientBasicInfo> getAllInredients() {
-        return ingredientService.findAll();
+    public List<IngredientBasicInfo> getPreDefinedInredients(@RequestParam int pageNumber,
+                                                             @RequestParam(defaultValue = "10") int pageSize) {
+        return ingredientService.findAll(pageNumber, pageSize);
     }
 
     @PostMapping("/ingredients")
