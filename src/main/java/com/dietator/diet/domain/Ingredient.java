@@ -4,6 +4,10 @@ package com.dietator.diet.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -17,18 +21,24 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Size(min = 10, max = 20, message
+            = "Designation must be between 10 and 20 characters")
     private String designation;
 
+    @Min(value = 0, message = "energy can not be smaller than zero")
     private int energyPer100Grams;
 
+    @Min(value = 0, message = "weight can not be smaller than zero")
     private int weightPerMeal;
 
     private boolean isFavourite;
 
     private boolean isDisliked;
 
+    @AssertFalse
     private boolean isPreDefined;
 
+    @Min(value = 0, message = "meal id can not be smaller than zero")
     @Column(name = "meal_id")
     private Long mealId;
 

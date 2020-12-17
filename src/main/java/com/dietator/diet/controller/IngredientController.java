@@ -6,6 +6,7 @@ import com.dietator.diet.service.IngredientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,12 +27,12 @@ public class IngredientController {
     }
 
     @PostMapping("/ingredients")
-    public Ingredient saveIngredient(@RequestBody Ingredient ingredient) {
+    public Ingredient saveIngredient(@Valid @RequestBody Ingredient ingredient) {
         return ingredientService.save(ingredient);
     }
 
     @PutMapping("/ingredients")
-    public Ingredient editIngredient(@RequestBody Ingredient ingredient) {
+    public Ingredient editIngredient(@Valid @RequestBody Ingredient ingredient) {
         return ingredientService.edit(ingredient);
     }
 
