@@ -2,6 +2,7 @@ package com.dietator.diet.service;
 
 import com.dietator.diet.domain.*;
 import com.dietator.diet.repository.MealRepository;
+import com.dietator.diet.utils.MealEnergyValueUpdater;
 import com.dietator.diet.utils.PredefinedIngredientCopier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,8 +33,10 @@ class MealServiceTest {
     private MealRepository mealRepositoryMock;
     @Mock
     private PredefinedIngredientCopier predefinedIngredientCopier;
+    @Mock
+    private MealEnergyValueUpdater energyUpdater;
 
-    private Meal noIngredientNoConTimesMealFromDb, potatoCucumberBeforeAfternoonMealFromClient,
+    private Meal mealWithIngredientsSetToNull, noIngredientNoConTimesMealFromDb, potatoCucumberBeforeAfternoonMealFromClient,
             twoIngredientTwoConTimesMealFromDb, fourIngredientFourConTimesMealFromClient,
             fourIngredientFourConTimesMealFromDb, carrotSugarAfterAfternoonMealFromClient,
             fourIngredientMealWithTwoPredefinedIngredientsFromClient;
@@ -57,6 +60,8 @@ class MealServiceTest {
         Set<ConsumptionTime> twoTimesBeforeAfternoon = Stream.of(morning, afternoon).collect(Collectors.toSet());
         Set<ConsumptionTime> twoTimesAfterAfternoon = Stream.of(evening, lateEvening).collect(Collectors.toSet());
         Set<ConsumptionTime> fourTimes = Stream.of(morning, afternoon, evening, lateEvening).collect(Collectors.toSet());
+        mealWithIngredientsSetToNull = new Meal(5L, "burrito", 0, "roll cake",
+                10, new HashSet<>(), null, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         noIngredientNoConTimesMealFromDb = new Meal(5L, "burrito", 0, "roll cake",
                 10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         potatoCucumberBeforeAfternoonMealFromClient = new Meal(5L, "burrito", 800, "roll cake",
@@ -71,6 +76,16 @@ class MealServiceTest {
                 10, fourTimes, fourIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
         fourIngredientMealWithTwoPredefinedIngredientsFromClient = new Meal(5L, "burrito", 800, "roll cake",
                 10, fourTimes, fourIngredientsWithTwoPredefined, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
+    }
+
+    @Test
+    public void whenEditingMealWithIngredientsSetToNull_shouldAddAlreadyExistingIngredients() {
+        //given
+        when(mealRepositoryMock.findById(5L)).thenReturn(Optional.of(potatoCucumberBeforeAfternoonMealFromClient));
+        //when
+        Meal editedMeal = mealService.editMeal(mealWithIngredientsSetToNull);
+        //then
+        assertEquals(2, editedMeal.getIngredients().size());
     }
 
     @Test

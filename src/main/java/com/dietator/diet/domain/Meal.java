@@ -3,6 +3,10 @@ package com.dietator.diet.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,12 +22,18 @@ public class Meal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Size(min = 3, max = 20, message
+            = "designation must be between 3 and 20 characters")
     private String designation;
 
+    @Min(value = 0, message = "energy can not be smaller than zero")
     private int energy;
 
+    @Size(min = 20, max = 400, message
+            = "description must be between 20 and 400 characters")
     private String preparationDescription;
 
+    @Min(value = 0, message = "duration can not be smaller than zero")
     private int preparationDuration;
 
     @OneToMany(orphanRemoval = true)
@@ -34,16 +44,20 @@ public class Meal {
     @JoinColumn(name = "meal_id")
     private Set<Ingredient> ingredients;
 
+    @NotNull(message = "meal must be assigned to a category")
     @Enumerated(EnumType.STRING)
     @Column(length = 10)
     private MealCategory mealCategory;
 
+    @NotNull(message = "meal have to be assigned with a difficulty")
     @Enumerated(EnumType.STRING)
     @Column(length = 6)
     private PreparationDifficulty preparationDifficulty;
 
+    @AssertFalse(message = "user can not define predefined meals")
     private boolean isPreDefined;
 
+    @Min(value = 0, message = "child id can not be smaller than zero")
     @Column(name = "child_id")
     private Long childId;
 

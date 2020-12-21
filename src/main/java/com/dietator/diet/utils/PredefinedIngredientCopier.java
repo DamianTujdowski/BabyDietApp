@@ -4,7 +4,6 @@ import com.dietator.diet.domain.Ingredient;
 import com.dietator.diet.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +23,13 @@ public class PredefinedIngredientCopier {
     }
 
     private Set<Ingredient> removeCommonIngredients(Set<Ingredient> clientIngredients, Set<Ingredient> dbIngredients) {
+        if (clientIngredients == null) {
+            clientIngredients = new HashSet<>();
+        }
+        if (dbIngredients == null) {
+            dbIngredients = new HashSet<>();
+        }
+
         Set<Ingredient> newIngredients = new HashSet<>(clientIngredients);
         newIngredients.removeAll(dbIngredients);
         return newIngredients;

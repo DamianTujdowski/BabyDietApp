@@ -21,8 +21,8 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Size(min = 10, max = 20, message
-            = "Designation must be between 10 and 20 characters")
+    @Size(min = 3, max = 20, message
+            = "designation must be between 3 and 20 characters")
     private String designation;
 
     @Min(value = 0, message = "energy can not be smaller than zero")
@@ -35,7 +35,7 @@ public class Ingredient {
 
     private boolean isDisliked;
 
-    @AssertFalse
+    @AssertFalse(message = "user can not define predefined ingredients")
     private boolean isPreDefined;
 
     @Min(value = 0, message = "meal id can not be smaller than zero")

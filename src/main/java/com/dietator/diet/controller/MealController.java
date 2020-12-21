@@ -6,6 +6,7 @@ import com.dietator.diet.service.MealService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,12 +34,12 @@ public class MealController {
     }
 
     @PostMapping("/meals")
-    public Meal saveMeal(@RequestBody Meal meal) {
+    public Meal saveMeal(@Valid @RequestBody Meal meal) {
         return mealService.save(meal);
     }
 
     @PutMapping("/meals")
-    public Meal editMeal(@RequestBody Meal meal) {
+    public Meal editMeal(@Valid @RequestBody Meal meal) {
         return mealService.editMeal(meal);
     }
 
