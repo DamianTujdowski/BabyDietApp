@@ -41,23 +41,6 @@ class MealControllerTest {
 
     @BeforeEach
     public void init() {
-        Ingredient potato = new Ingredient(1L, "potato", 340, 180, false, false, false, 5L);
-        Ingredient cucumber = new Ingredient(2L, "cucumber", 150, 100, true, false, false, 5L);
-        Ingredient carrot = new Ingredient(3L, "carrot", 98, 70, true, false, false, 5L);
-        Ingredient carrotPredefined = new Ingredient(3L, "carrotPredefined", 98, 70, true, false, true, null);
-        Ingredient sugar = new Ingredient(4L, "sugar", 315, 14, false, false, false, 5L);
-        Ingredient sugarPredefined = new Ingredient(4L, "sugarPredefined", 315, 14, false, false, true, null);
-        Set<Ingredient> potatoCucumber = Stream.of(potato, cucumber).collect(Collectors.toSet());
-        Set<Ingredient> carrotSugar = Stream.of(carrot, sugar).collect(Collectors.toSet());
-        Set<Ingredient> fourIngredients = Stream.of(potato, cucumber, carrot, sugar).collect(Collectors.toSet());
-        Set<Ingredient> fourIngredientsWithTwoPredefined = Stream.of(potato, cucumber, carrotPredefined, sugarPredefined).collect(Collectors.toSet());
-        ConsumptionTime morning = new ConsumptionTime(1, LocalDateTime.of(2020, Month.APRIL, 13, 10, 40));
-        ConsumptionTime afternoon = new ConsumptionTime(2, LocalDateTime.of(2020, Month.APRIL, 13, 15, 18));
-        ConsumptionTime evening = new ConsumptionTime(3, LocalDateTime.of(2020, Month.APRIL, 13, 19, 5));
-        ConsumptionTime lateEvening = new ConsumptionTime(3, LocalDateTime.of(2020, Month.APRIL, 13, 21, 15));
-        Set<ConsumptionTime> twoTimesBeforeAfternoon = Stream.of(morning, afternoon).collect(Collectors.toSet());
-        Set<ConsumptionTime> twoTimesAfterAfternoon = Stream.of(evening, lateEvening).collect(Collectors.toSet());
-        Set<ConsumptionTime> fourTimes = Stream.of(morning, afternoon, evening, lateEvening).collect(Collectors.toSet());
         mealWithEmptyDesignation = new Meal(5L, "", 0, "roll cake",
                 10, new HashSet<>(), new HashSet<>(), MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);
     }
