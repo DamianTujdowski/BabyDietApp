@@ -6,6 +6,7 @@ import com.dietator.diet.service.ChildService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,12 +26,12 @@ public class ChildController {
     }
 
     @PostMapping("/children")
-    public Child saveChild(@RequestBody Child child) {
+    public Child saveChild(@Valid @RequestBody Child child) {
         return childService.saveChild(child);
     }
 
     @PutMapping("/children")
-    public Child editChild(@RequestBody Child child) {
+    public Child editChild(@Valid @RequestBody Child child) {
         return childService.editChild(child);
     }
 
