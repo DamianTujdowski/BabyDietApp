@@ -26,6 +26,12 @@ public class PredefinedMealCopier {
     }
 
     private Set<Meal> removeCommonMeals(Set<Meal> consumedMealsFromClient, Set<Meal> consumedMealsFromDb) {
+        if (consumedMealsFromClient == null) {
+            consumedMealsFromClient = new HashSet<>();
+        }
+        if (consumedMealsFromDb == null) {
+            consumedMealsFromDb = new HashSet<>();
+        }
         Set<Meal> newMeals = new HashSet<>(consumedMealsFromClient);
         newMeals.removeAll(consumedMealsFromDb);
         return newMeals;
