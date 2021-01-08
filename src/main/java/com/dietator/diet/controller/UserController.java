@@ -6,6 +6,7 @@ import com.dietator.diet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,12 +26,12 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public User saveUser(@RequestBody User user) {
+    public User saveUser(@Valid @RequestBody User user) {
         return userService.save(user);
     }
 
     @PutMapping("/users")
-    public User editUser(@RequestBody User user) {
+    public User editUser(@Valid @RequestBody User user) {
         return userService.editUser(user);
     }
 
