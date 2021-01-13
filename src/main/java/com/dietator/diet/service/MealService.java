@@ -75,6 +75,7 @@ public class MealService {
         mealRepository.deleteById(id);
     }
 
+    //TODO order meals starting with meals having the biggest number of liked ingredients
     public List<MealInfo> getProbablyLikedMeals(Long id) {
         List<MealInfo> predefinedMeals = mealRepository.findByIsPreDefinedTrue();
 
@@ -98,12 +99,21 @@ public class MealService {
                         .distinct()
                         .collect(Collectors.toList());
 
+        favouriteIngredientsDesignations.forEach(System.out::println);
+
         return predefinedMeals
                 .stream()
-//                .filter(meal -> favouriteIngredientsDesignations.contains(meal.getDesignation()))
-                .filter(meal -> meal.getDesignation().startsWith("b"))
-//                .filter(meal -> !dislikedIngredientsDesignations.contains(meal.getDesignation()))
+                .filter(meal -> checkForIngredients(meal, favouriteIngredientsDesignations))
+                .filter(meal -> !checkForIngredients(meal, dislikedIngredientsDesignations))
                 .collect(Collectors.toList());
+    }
+
+    private boolean checkForIngredients(MealInfo meal, List<String> ingredientDesignation) {
+        return meal
+                .getIngredients()
+                .stream()
+                .map(IngredientBasicInfo::getDesignation)
+                .anyMatch(ingredientDesignation::contains);
     }
 
     private void checkIfExists(long id) {
