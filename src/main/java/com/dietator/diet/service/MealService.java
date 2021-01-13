@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,40 +76,44 @@ public class MealService {
         mealRepository.deleteById(id);
     }
 
-    //TODO order meals starting with meals having the biggest number of liked ingredients
     public List<MealInfo> getProbablyLikedMeals(Long id) {
+        checkIfParentEntityExists(id);
+
         List<MealInfo> predefinedMeals = mealRepository.findByIsPreDefinedTrue();
 
-        List<IngredientBasicInfo> favouriteIngredients =
-                ingredientRepository.findByIsFavouriteTrueAndChildId(id);
+        List<IngredientBasicInfo> dislikedIngredients = ingredientRepository.findByIsDislikedTrueAndChildId(id);
+        List<IngredientBasicInfo> favouriteIngredients = ingredientRepository.findByIsFavouriteTrueAndChildId(id);
 
-        List<IngredientBasicInfo> dislikedIngredients =
-                ingredientRepository.findByIsDislikedTrueAndChildId(id);
-
-        List<String> favouriteIngredientsDesignations =
-                favouriteIngredients
-                        .stream()
-                        .map(IngredientBasicInfo::getDesignation)
-                        .distinct()
-                        .collect(Collectors.toList());
-
-        List<String> dislikedIngredientsDesignations =
-                dislikedIngredients
-                        .stream()
-                        .map(IngredientBasicInfo::getDesignation)
-                        .distinct()
-                        .collect(Collectors.toList());
-
-        favouriteIngredientsDesignations.forEach(System.out::println);
+        List<String> favouriteIngredientsDesignations = getDesignations(favouriteIngredients);
+        List<String> dislikedIngredientsDesignations = getDesignations(dislikedIngredients);
 
         return predefinedMeals
                 .stream()
-                .filter(meal -> checkForIngredients(meal, favouriteIngredientsDesignations))
-                .filter(meal -> !checkForIngredients(meal, dislikedIngredientsDesignations))
+                .filter(meal -> checkForCommonIngredients(meal, favouriteIngredientsDesignations))
+                .filter(meal -> !checkForCommonIngredients(meal, dislikedIngredientsDesignations))
+                .sorted(Comparator
+                        .comparingLong(meal -> filterFavouriteIngredients((MealInfo) meal, favouriteIngredientsDesignations))
+                        .reversed())
                 .collect(Collectors.toList());
     }
 
-    private boolean checkForIngredients(MealInfo meal, List<String> ingredientDesignation) {
+    private long filterFavouriteIngredients(MealInfo meal, List<String> favouriteIngredients) {
+        return meal
+                .getIngredients()
+                .stream()
+                .filter(ingredient -> favouriteIngredients.contains(ingredient.getDesignation()))
+                .count();
+    }
+
+    private List<String> getDesignations(List<IngredientBasicInfo> favouriteIngredients) {
+        return favouriteIngredients
+                .stream()
+                .map(IngredientBasicInfo::getDesignation)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    private boolean checkForCommonIngredients(MealInfo meal, List<String> ingredientDesignation) {
         return meal
                 .getIngredients()
                 .stream()
