@@ -35,8 +35,8 @@ class IngredientControllerTest {
 
     @BeforeEach
     public void init() {
-        emptyDesignationIngredient = new Ingredient(0, "", 340, 180, false, false, false, 5L);
-        nullMealIdIngredient = new Ingredient(0, "broccoli", 340, 180, false, false, false, null);
+        emptyDesignationIngredient = new Ingredient(0, "", 340, 180, false, false, false, 5L, null);
+        nullMealIdIngredient = new Ingredient(0, "broccoli", 340, 180, false, false, false, null, null);
     }
 
     @Test

@@ -33,6 +33,12 @@ public class MealController {
         return mealService.findAllPredefined(pageNumber, pageSize);
     }
 
+    @GetMapping("/meals/preposition/{id}")
+    public List<MealInfo> getProbablyLikedMeals(Long id) {
+        return mealService.getProbablyLikedMeals(id);
+    }
+
+
     @PostMapping("/meals")
     public Meal saveMeal(@Valid @RequestBody Meal meal) {
         return mealService.save(meal);

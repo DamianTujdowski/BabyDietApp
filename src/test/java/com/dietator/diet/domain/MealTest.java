@@ -17,8 +17,8 @@ class MealTest {
 
     @BeforeEach
     public void initIngredientsAndConsumptionTime() {
-        Ingredient potato = new Ingredient(1L, "potato", 340, 180, false, false, false, 1L);
-        Ingredient cucumber = new Ingredient(2L, "cucumber", 150, 100, true, false, false, 1L);
+        Ingredient potato = new Ingredient(1L, "potato", 340, 180, false, false, false, 1L, null);
+        Ingredient cucumber = new Ingredient(2L, "cucumber", 150, 100, true, false, false, 1L, null);
         Set<Ingredient> ingredients = Stream.of(potato, cucumber).collect(Collectors.toSet());
         ConsumptionTime morning = new ConsumptionTime(1, LocalDateTime.of(2020, Month.APRIL, 13, 10, 40));
         ConsumptionTime afternoon = new ConsumptionTime(2, LocalDateTime.of(2020, Month.APRIL, 13, 15, 18));

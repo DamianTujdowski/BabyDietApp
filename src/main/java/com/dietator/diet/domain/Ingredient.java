@@ -22,25 +22,29 @@ public class Ingredient {
     private long id;
 
     @Size(min = 3, max = 20, message
-            = "designation must be between 3 and 20 characters")
+            = " must be between 3 and 20 characters")
     private String designation;
 
-    @Min(value = 0, message = "energy can not be smaller than zero")
+    @Min(value = 0, message = " can not be smaller than zero")
     private int energyPer100Grams;
 
-    @Min(value = 0, message = "weight can not be smaller than zero")
+    @Min(value = 0, message = " can not be smaller than zero")
     private int weightPerMeal;
 
     private boolean isFavourite;
 
     private boolean isDisliked;
 
-    @AssertFalse(message = "user can not define predefined ingredients")
+    @AssertFalse(message = " can not define predefined ingredients")
     private boolean isPreDefined;
 
-    @Min(value = 0, message = "meal id can not be smaller than zero")
+    @Min(value = 0, message = " can not be smaller than zero")
     @Column(name = "meal_id")
     private Long mealId;
+
+    @Min(value = 0, message = " can not be smaller than zero")
+    @Column(name = "child_id")
+    private Long childId;
 
     public Ingredient(Ingredient ingredientToClone) {
         this.designation = ingredientToClone.designation;

@@ -29,7 +29,7 @@ class IngredientServiceTest {
 
     @BeforeEach()
     public void init() {
-        ingredient = new Ingredient(500L, "", 340, 180, false, false, false, 5L);
+        ingredient = new Ingredient(500L, "", 340, 180, false, false, false, 5L, null);
     }
 
     @Test

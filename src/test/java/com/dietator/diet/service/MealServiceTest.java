@@ -43,12 +43,12 @@ class MealServiceTest {
 
     @BeforeEach
     public void init() {
-        Ingredient potato = new Ingredient(1L, "potato", 340, 180, false, false, false, 5L);
-        Ingredient cucumber = new Ingredient(2L, "cucumber", 150, 100, true, false, false, 5L);
-        Ingredient carrot = new Ingredient(3L, "carrot", 98, 70, true, false, false, 5L);
-        Ingredient carrotPredefined = new Ingredient(3L, "carrotPredefined", 98, 70, true, false, true, null);
-        Ingredient sugar = new Ingredient(4L, "sugar", 315, 14, false, false, false, 5L);
-        Ingredient sugarPredefined = new Ingredient(4L, "sugarPredefined", 315, 14, false, false, true, null);
+        Ingredient potato = new Ingredient(1L, "potato", 340, 180, false, false, false, 5L, null);
+        Ingredient cucumber = new Ingredient(2L, "cucumber", 150, 100, true, false, false, 5L, null);
+        Ingredient carrot = new Ingredient(3L, "carrot", 98, 70, true, false, false, 5L, null);
+        Ingredient carrotPredefined = new Ingredient(3L, "carrotPredefined", 98, 70, true, false, true, null, null);
+        Ingredient sugar = new Ingredient(4L, "sugar", 315, 14, false, false, false, 5L, null);
+        Ingredient sugarPredefined = new Ingredient(4L, "sugarPredefined", 315, 14, false, false, true, null, null);
         Set<Ingredient> potatoCucumber = Stream.of(potato, cucumber).collect(Collectors.toSet());
         Set<Ingredient> carrotSugar = Stream.of(carrot, sugar).collect(Collectors.toSet());
         Set<Ingredient> fourIngredients = Stream.of(potato, cucumber, carrot, sugar).collect(Collectors.toSet());
@@ -213,7 +213,7 @@ class MealServiceTest {
     @Test
     public void whenEditingMealsWithAddedPredefinedIngredients_changesInThoseIngredients_shouldNotReflectInOtherMealIngredients() {
         //given
-        Ingredient carrot = new Ingredient(3L, "carrotPredefined", 98, 70, true, false, true, null);
+        Ingredient carrot = new Ingredient(3L, "carrotPredefined", 98, 70, true, false, true, null, null);
         Set<Ingredient> mealOneIngredients = Stream.of(carrot).collect(Collectors.toSet());
         Meal mealOne = new Meal(1L, "burrito", 800, "roll cake",
                 10, new HashSet<>(), mealOneIngredients, MealCategory.DINNER, PreparationDifficulty.EASY, false, 1L);

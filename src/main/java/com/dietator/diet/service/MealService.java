@@ -4,8 +4,10 @@ import com.dietator.diet.domain.Child;
 import com.dietator.diet.domain.Meal;
 import com.dietator.diet.error.EntityNotFoundException;
 import com.dietator.diet.error.ParentEntityNotFoundException;
+import com.dietator.diet.projections.IngredientBasicInfo;
 import com.dietator.diet.projections.MealInfo;
 import com.dietator.diet.repository.ChildRepository;
+import com.dietator.diet.repository.IngredientRepository;
 import com.dietator.diet.repository.MealRepository;
 import com.dietator.diet.utils.MealEnergyValueUpdater;
 import com.dietator.diet.utils.PredefinedIngredientCopier;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
@@ -29,6 +32,8 @@ public class MealService {
     private final MealEnergyValueUpdater energyValueUpdater;
 
     private final ChildRepository childRepository;
+
+    private final IngredientRepository ingredientRepository;
 
     public Meal findMealById(long id) {
         return mealRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Meal.class, id));
@@ -68,6 +73,37 @@ public class MealService {
     public void deleteMeal(long id) {
         checkIfExists(id);
         mealRepository.deleteById(id);
+    }
+
+    public List<MealInfo> getProbablyLikedMeals(Long id) {
+        List<MealInfo> predefinedMeals = mealRepository.findByIsPreDefinedTrue();
+
+        List<IngredientBasicInfo> favouriteIngredients =
+                ingredientRepository.findByIsFavouriteTrueAndChildId(id);
+
+        List<IngredientBasicInfo> dislikedIngredients =
+                ingredientRepository.findByIsDislikedTrueAndChildId(id);
+
+        List<String> favouriteIngredientsDesignations =
+                favouriteIngredients
+                        .stream()
+                        .map(IngredientBasicInfo::getDesignation)
+                        .distinct()
+                        .collect(Collectors.toList());
+
+        List<String> dislikedIngredientsDesignations =
+                dislikedIngredients
+                        .stream()
+                        .map(IngredientBasicInfo::getDesignation)
+                        .distinct()
+                        .collect(Collectors.toList());
+
+        return predefinedMeals
+                .stream()
+//                .filter(meal -> favouriteIngredientsDesignations.contains(meal.getDesignation()))
+                .filter(meal -> meal.getDesignation().startsWith("b"))
+//                .filter(meal -> !dislikedIngredientsDesignations.contains(meal.getDesignation()))
+                .collect(Collectors.toList());
     }
 
     private void checkIfExists(long id) {

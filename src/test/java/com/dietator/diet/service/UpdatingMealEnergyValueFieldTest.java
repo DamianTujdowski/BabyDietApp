@@ -36,10 +36,10 @@ class UpdatingMealEnergyValueFieldTest {
 
     @BeforeEach
     private void init() {
-        potato = new Ingredient(1L, "potato", 340, 180, false, false, false, 5L);
-        Ingredient cucumber = new Ingredient(2L, "cucumber", 150, 100, true, false, false, 5L);
-        Ingredient carrot = new Ingredient(3L, "carrot", 98, 70, true, false, false, 5L);
-        Ingredient sugar = new Ingredient(4L, "sugar", 315, 14, false, false, false, 5L);
+        potato = new Ingredient(1L, "potato", 340, 180, false, false, false, 5L, null);
+        Ingredient cucumber = new Ingredient(2L, "cucumber", 150, 100, true, false, false, 5L, null);
+        Ingredient carrot = new Ingredient(3L, "carrot", 98, 70, true, false, false, 5L, null);
+        Ingredient sugar = new Ingredient(4L, "sugar", 315, 14, false, false, false, 5L, null);
         Set<Ingredient> potatoCucumber = Stream.of(potato, cucumber).collect(Collectors.toSet());
         Set<Ingredient> fourIngredients = Stream.of(potato, cucumber, carrot, sugar).collect(Collectors.toSet());
         potatoCucumberMeal = new Meal(5L, "burrito", 762, "roll cake",

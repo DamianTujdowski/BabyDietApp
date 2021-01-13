@@ -12,4 +12,9 @@ import java.util.List;
 public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
 
     List<IngredientBasicInfo> findByIsPreDefinedTrue(Pageable pageable);
+
+    List<IngredientBasicInfo> findByIsFavouriteTrueAndChildId(long id);
+
+    List<IngredientBasicInfo> findByIsDislikedTrueAndChildId(long id);
+
 }

@@ -18,6 +18,8 @@ import java.util.Optional;
 @Repository
 public interface MealRepository extends JpaRepository<Meal, Long> {
 
+    List<MealInfo> findByIsPreDefinedTrue();
+
     List<MealInfo> findByIsPreDefinedTrue(Pageable pageable);
 
     @QueryHints(@QueryHint(name = "hibernate.query.passDistinctThrough", value = "false"))
@@ -143,4 +145,5 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
             "WHERE m.child_id = :id",
             nativeQuery = true)
     TimeSpentCookingSum countTimeSpentCookingSum(@Param("id") long id);
+
 }
