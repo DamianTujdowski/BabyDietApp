@@ -6,9 +6,6 @@
 <p> 2. Displaying statistics of consumed meals</p>
 <p> 2. Giving propositions of meals based on babies preferences</p>
 
-<h3 align="left">Demo:</h3>
--add short film here
-
 <h3 align="left">Tech stack:</h3>
 <img src ="https://img.shields.io/badge/Spring Boot--green" width="120" height="28"/>
 <img src ="https://img.shields.io/badge/Spring Data--green" width="120" height="28"/>
