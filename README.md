@@ -4,6 +4,7 @@
 Idea of an application came from need to write down amount of milk consumed by my baby to track it's growth.
 Then came the moment of diet extension, which was a second reason to develop application.
 Adding and implementing new features was done simultaneously with developing app structure based on REST architecture.
+Until now ppp works as a REST service.
 
 <h3 align="left">Features:</h3>
 
