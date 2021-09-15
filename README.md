@@ -20,4 +20,3 @@ Until now ppp works as a REST service.
 <img src ="https://img.shields.io/badge/MySQL--green" width="75" height="28"/>
 <img src ="https://img.shields.io/badge/JUnit--green" width="70" height="28"/>
 <img src ="https://img.shields.io/badge/Mockito--green" width="80" height="28"/>
-<img src ="https://img.shields.io/badge/REST--green" width="56" height="28"/>
